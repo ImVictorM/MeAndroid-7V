@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #FFFFFF;
+    --foreground: #09090B;
+
+    --card: #FFFFFF;
+    --card-foreground: #09090B;
+
+    --popover: #FFFFFF;
+    --popover-foreground: #09090B;
+
+    --primary: #17171C;
+    --primary-foreground: #FAFAFA;
+
+    --secondary: #F4F4F5;
+    --secondary-foreground: #17171C;
+
+    --muted: #F4F4F5;
+    --muted-foreground: #707078;
+
+    --accent: #F4F4F5;
+    --accent-foreground: #17171C;
+
+    --destructive: #EE4444;
+    --destructive-foreground: #FAFAFA;
+
+    --border: #E4E4E7;
+    --input: #E4E4E7;
+    --ring: #09090B;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: #09090B;
+    --foreground: #FAFAFA;
+
+    --card: #09090B;
+    --card-foreground: #FAFAFA;
+
+    --popover: #09090B;
+    --popover-foreground: #FAFAFA;
+
+    --primary: #FAFAFA;
+    --primary-foreground: #17171C
+
+    --secondary: #262629;
+    --secondary-foreground: #FAFAFA;
+
+    --muted: #262629;
+    --muted-foreground: #A0A0A7;
+
+    --accent: #262629;
+    --accent-foreground: #FAFAFA;
+
+    --destructive: #7F1D1D;
+    --destructive-foreground: #FAFAFA;
+
+    --border: #262629;
+    --input: #262629;
+    --ring: #D4D4D8; 
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    @apply font-mono bg-nier-light-bg dark:bg-nier-dark-bg text-nier-light-text dark:text-nier-dark-text;
+  }
+}
+
