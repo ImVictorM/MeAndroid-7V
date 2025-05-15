@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { cn } from "@/lib/utils";
+import React, { ReactNode } from "react";
 
 interface SectionContainerProps {
   title?: string;
@@ -8,11 +7,14 @@ interface SectionContainerProps {
 }
 
 // Container for main content sections like Mission Log, Skills, etc.
-export const SectionContainer: React.FC<SectionContainerProps> = ({ title, children, className }) => {
+export const SectionContainer: React.FC<SectionContainerProps> = ({
+  title,
+  children,
+}) => {
   return (
-    <section className={cn("mb-8", className)}>
+    <section className="mb-8">
       {title && (
-        <h2 className="text-lg uppercase mb-4 border-b border-nier-light-border dark:border-nier-dark-border pb-1">
+        <h2 className="border-nier-light-border dark:border-nier-dark-border mb-4 border-b pb-1 text-lg uppercase">
           {title}
         </h2>
       )}
@@ -20,4 +22,3 @@ export const SectionContainer: React.FC<SectionContainerProps> = ({ title, child
     </section>
   );
 };
-

@@ -1,26 +1,57 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: theme("colors.stone.50");
+  --color-foreground: theme("colors.stone.700");
+  --color-card: theme("colors.stone.50");
+  --color-card-foreground: theme("colors.stone.700");
+  --color-popover: theme("colors.stone.50");
+  --color-popover-foreground: theme("colors.stone.700");
+  --color-primary: theme("colors.stone.800");
+  --color-primary-foreground: theme("colors.stone.50");
+  --color-secondary: theme("colors.stone.600");
+  --color-secondary-foreground: theme("colors.stone.50");
+  --color-muted: theme("colors.stone.200");
+  --color-muted-foreground: theme("colors.stone.500");
+  --color-accent: theme("colors.amber.600");
+  --color-accent-foreground: theme("colors.neutral.900");
+  --color-destructive: theme("colors.red.600");
+  --color-destructive-foreground: theme("colors.stone.50");
+  --color-border: theme("colors.stone.300");
+  --color-input: theme("colors.stone.300");
+  --color-ring: theme("colors.amber.500");
+
+  --font-mono: Roboto Mono, monospace;
+}
 
 @layer base {
-  :root {
-    --radius: 0.5rem
-  ;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%
+  @variant dark {
+    --color-background: var(--color-neutral-900);
+    --color-foreground: var(--color-stone-200);
+    --color-card: var(--color-neutral-800);
+    --color-card-foreground: var(--color-stone-200);
+    --color-popover: var(--color-neutral-800);
+    --color-popover-foreground: var(--color-stone-200);
+    --color-primary: var(--color-stone-100);
+    --color-primary-foreground: var(--color-stone-800);
+    --color-secondary: var(--color-neutral-700);
+    --color-secondary-foreground: var(--color-stone-200);
+    --color-muted: var(--color-neutral-700);
+    --color-muted-foreground: var(--color-stone-400);
+    --color-accent: var(--color-amber-500);
+    --color-accent-foreground: var(--color-stone-100);
+    --color-destructive: var(--color-red-700);
+    --color-destructive-foreground: var(--color-stone-100);
+    --color-border: var(--color-neutral-700);
+    --color-input: var(--color-neutral-700);
+    --color-ring: var(--color-amber-400);
+  }
+
+  body {
+    @apply font-mono bg-background text-foreground;
   }
 }
 

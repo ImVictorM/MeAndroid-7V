@@ -1,15 +1,14 @@
-import React, { ButtonHTMLAttributes } from 'react';
-import { cn } from "@/lib/utils"; // Assuming shadcn/ui utils are available from create_react_app template
+import React, { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'outline'; // Add more variants if needed
-  size?: 'default' | 'sm'; // Add size prop
+  variant?: "default" | "outline"; // Add more variants if needed
+  size?: "default" | "sm"; // Add size prop
 }
 
 export const Button: React.FC<ButtonProps> = ({
   className,
-  variant = 'default',
-  size = 'default', // Default size
+  variant = "default",
+  size = "default", // Default size
   children,
   ...props
 }) => {
@@ -19,7 +18,8 @@ export const Button: React.FC<ButtonProps> = ({
     sm: "px-2 py-1 text-xs", // Smaller padding and text for 'sm'
   };
 
-  const baseStyle = "border transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2";
+  const baseStyle =
+    "border transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2";
 
   const variantStyles = {
     default: `
@@ -39,11 +39,10 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={cn(baseStyle, sizeStyles[size], variantStyles[variant], className)}
+      className="baseStyle, sizeStyles[size], variantStyles[variant], className"
       {...props}
     >
       {children}
     </button>
   );
 };
-
