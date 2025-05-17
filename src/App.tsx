@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import LoadingScreen from "@/components/sections/LoadingScreen"; // Changed to default import
+import Booting from "@/features/booting/Booting"; // Changed to default import
 import { SectionContainer } from "@/components/common/SectionContainer";
 import { BorderBox } from "@/components/common/BorderBox";
 import Layout from "@/components/layout/Layout"; // Changed to default import
@@ -67,7 +67,8 @@ function App() {
 
   return (
     <>
-      {isLoading && <LoadingScreen onFinished={handleLoadingFinished} />}
+      {isLoading && <Booting onFinished={handleLoadingFinished} />}
+
       {!isLoading && (
         <Layout currentSection={activeSection} onNavigate={handleNavigate}>
           {renderSectionContent()}

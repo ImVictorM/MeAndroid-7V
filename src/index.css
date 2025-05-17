@@ -25,6 +25,7 @@
   --color-ring: theme("colors.amber.500");
 
   --font-mono: Roboto Mono, monospace;
+  --max-width: 1400px;
 }
 
 @layer base {
@@ -52,6 +53,72 @@
 
   body {
     @apply font-mono bg-background text-foreground;
+    min-height: 100vh;
   }
 }
 
+@layer components {
+  .loading-spinner {
+    --spinner-border: 3px solid;
+    --spinner-border-color: var(--color-foreground) var(--color-foreground) transparent;
+    
+    @apply size-12 rounded-full inline-block relative;
+    border: var(--spinner-border);
+    border-color: var(--spinner-border-color);
+    animation: rotation 1s linear infinite;
+
+    &::after {
+      content: '';
+      @apply size-6 absolute inset-0 m-auto rounded-full;
+      border: var(--spinner-border);
+      border-color: var(--spinner-border-color);
+      animation: rotation-back 0.5s linear infinite;
+      transform-origin: center center;
+    }
+  }
+
+  .loading-ellipsis {
+    @apply relative mr-9;
+  }
+
+  .loading-ellipsis::after {
+    @apply overflow-hidden inline-block align-bottom absolute bottom-0;
+    content: "...";
+    animation: ellipsis-dot 1.5s infinite .5s;
+    animation-fill-mode: forwards;
+  }
+}
+
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+    
+@keyframes rotation-back {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes ellipsis-dot {
+  25% {
+    content: "";
+  }
+  50% {
+    content: ".";
+  }
+  75% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
