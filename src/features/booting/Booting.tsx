@@ -1,6 +1,6 @@
 import { useTypewriter } from "@/hooks/useTypewriter";
 import React from "react";
-import logo from "@/assets/logo.png";
+import { useLogo } from "@/hooks/useLogo";
 
 const bootSequence = [
   "Commencing System Check",
@@ -25,41 +25,46 @@ const bootSequence = [
   "Boot Sequence Complete.",
 ];
 
-interface LoadingScreenProps {
-  onFinished: () => void;
-}
-
-const Booting: React.FC<LoadingScreenProps> = () => {
+const Booting: React.FC = () => {
   const { displayLines } = useTypewriter(bootSequence);
+  const logo = useLogo();
 
   return (
-    <div className="relative container mx-auto min-h-screen max-w-(--max-width) px-(--padding-x) py-5 [--max-width:var(--container-7xl)] [--padding-x:--spacing(7)]">
-      <div className="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
-        <img src={logo} alt="Unit 7V Logo" className="h-64 w-64 opacity-50" />
-      </div>
-
-      <div className="w-full">
-        <div className="my-10 flex items-center justify-between">
-          <h1 className="col-span-5 text-4xl">
-            LOADING{" "}
-            <span className="loading-ellipsis text-xl whitespace-nowrap">
-              - BOOTING SYSTEM
-            </span>
-          </h1>
-
-          <div className="ml-3">
-            <span className="loading-spinner hidden sm:block" />
+    <div className="relative container mx-auto min-h-screen max-w-7xl px-7 py-5">
+      {logo && (
+        <>
+          <div className="absolute inset-0 -z-10 flex items-center justify-center">
+            <img
+              src={logo}
+              alt="unit 7V logo"
+              className="size-64 opacity-5 md:size-86"
+            />
           </div>
-        </div>
 
-        <pre className="pl-2 text-sm/relaxed whitespace-pre-wrap sm:pl-5">
-          <ul>
-            {displayLines.map((line: string, index: number) => (
-              <li key={index}>{line}</li>
-            ))}
-          </ul>
-        </pre>
-      </div>
+          <div className="w-full">
+            <div className="my-10 flex items-center justify-between">
+              <h1 className="text-4xl">
+                LOADING{" "}
+                <span className="loading-ellipsis text-xl whitespace-nowrap">
+                  - BOOTING SYSTEM
+                </span>
+              </h1>
+
+              <div className="ml-3">
+                <span className="loading-spinner hidden sm:block" />
+              </div>
+            </div>
+
+            <ul className="pl-2 text-base/relaxed whitespace-pre-wrap sm:pl-5">
+              {displayLines.map((line: string, index: number) => (
+                <li className="text-cursor-relaxed" key={index}>
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 };

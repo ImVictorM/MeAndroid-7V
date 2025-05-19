@@ -62,14 +62,14 @@
     --spinner-border: 3px solid;
     --spinner-border-color: var(--color-foreground) var(--color-foreground) transparent;
     
-    @apply size-12 rounded-full inline-block relative;
+    @apply size-10 rounded-full inline-block relative;
     border: var(--spinner-border);
     border-color: var(--spinner-border-color);
     animation: rotation 1s linear infinite;
 
     &::after {
       content: '';
-      @apply size-6 absolute inset-0 m-auto rounded-full;
+      @apply size-5 absolute inset-0 m-auto rounded-full;
       border: var(--spinner-border);
       border-color: var(--spinner-border-color);
       animation: rotation-back 0.5s linear infinite;
@@ -86,6 +86,18 @@
     content: "...";
     animation: ellipsis-dot 1.5s infinite .5s;
     animation-fill-mode: forwards;
+  }
+}
+
+@utility text-cursor-* {
+  &:last-child::after {
+    content: '';
+    background-color: var(--color-foreground);
+    width: .1em;
+    height: calc(1em * --value(--leading-*));
+    display: inline-block;
+    animation: cursor-blink 1s steps(1) infinite .7s;
+    vertical-align: bottom;
   }
 }
 
@@ -120,5 +132,15 @@
   }
   100% {
     content: "...";
+  }
+}
+
+@keyframes cursor-blink {
+  from, to {
+    background-color: transparent;
+  }
+
+  50% {
+    background-color: var(--color-foreground);
   }
 }

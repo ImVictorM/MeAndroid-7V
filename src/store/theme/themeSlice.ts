@@ -6,12 +6,12 @@ export const themeKey = "theme";
 
 export const themeSlice = createSlice({
   name: themeKey,
-  initialState: "dark",
+  initialState: "dark" as Theme,
   reducers: {
     setTheme: (_, action: PayloadAction<Theme>) => action.payload,
   },
   selectors: {
-    selectTheme: (state) => state,
+    selectTheme: (state: Theme) => state,
   },
 });
 
