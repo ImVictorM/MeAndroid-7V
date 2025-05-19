@@ -8,14 +8,14 @@ export const useLogo = () => {
 
   useEffect(() => {
     if (theme === "dark") {
-      import("@/assets/logo_light_lg.png").then((module) => {
+      import("@/assets/images/logo_light_lg.png").then((module) => {
         setLogo(module.default);
       });
 
       return;
     }
 
-    import("@/assets/logo_dark_lg.png").then((module) => {
+    import("@/assets/images/logo_dark_lg.png").then((module) => {
       setLogo(module.default);
     });
   }, [theme]);
