@@ -35,12 +35,12 @@ const Booting: React.FC = () => {
 
   useEffect(() => {
     if (isTypingComplete) {
-      navigate("/navigation");
+      navigate("/intro");
     }
   }, [isTypingComplete, navigate]);
 
   return (
-    <div className="relative container mx-auto min-h-screen max-w-7xl px-7 py-5">
+    <div className="max-w-content relative container mx-auto min-h-screen px-7 py-5">
       {logo && (
         <>
           <div className="absolute inset-0 -z-10 flex items-center justify-center">

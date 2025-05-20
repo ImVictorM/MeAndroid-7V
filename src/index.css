@@ -4,51 +4,32 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-background: theme("colors.stone.50");
-  --color-foreground: theme("colors.stone.700");
-  --color-card: theme("colors.stone.50");
-  --color-card-foreground: theme("colors.stone.700");
-  --color-popover: theme("colors.stone.50");
-  --color-popover-foreground: theme("colors.stone.700");
-  --color-primary: theme("colors.stone.800");
-  --color-primary-foreground: theme("colors.stone.50");
-  --color-secondary: theme("colors.stone.600");
-  --color-secondary-foreground: theme("colors.stone.50");
-  --color-muted: theme("colors.stone.200");
-  --color-muted-foreground: theme("colors.stone.500");
-  --color-accent: theme("colors.amber.600");
-  --color-accent-foreground: theme("colors.neutral.900");
-  --color-destructive: theme("colors.red.600");
-  --color-destructive-foreground: theme("colors.stone.50");
-  --color-border: theme("colors.stone.300");
-  --color-input: theme("colors.stone.300");
-  --color-ring: theme("colors.amber.500");
+  --color-primary: #46433a;
+  --color-primary-foreground: #c7c3a6;
+
+  --color-background: #c7c3a6;
+  --color-foreground: #46433a;
+  
+  --color-card: #d6d0ac;
+  --color-card-foreground: #46433a;
+  
+  --color-border: #a39e83;
 
   --font-mono: Roboto Mono, monospace;
-  --max-width: 1400px;
 }
 
 @layer base {
   @variant dark {
-    --color-background: var(--color-neutral-900);
-    --color-foreground: var(--color-stone-200);
-    --color-card: var(--color-neutral-800);
-    --color-card-foreground: var(--color-stone-200);
-    --color-popover: var(--color-neutral-800);
-    --color-popover-foreground: var(--color-stone-200);
-    --color-primary: var(--color-stone-100);
-    --color-primary-foreground: var(--color-stone-800);
-    --color-secondary: var(--color-neutral-700);
-    --color-secondary-foreground: var(--color-stone-200);
-    --color-muted: var(--color-neutral-700);
-    --color-muted-foreground: var(--color-stone-400);
-    --color-accent: var(--color-amber-500);
-    --color-accent-foreground: var(--color-stone-100);
-    --color-destructive: var(--color-red-700);
-    --color-destructive-foreground: var(--color-stone-100);
-    --color-border: var(--color-neutral-700);
-    --color-input: var(--color-neutral-700);
-    --color-ring: var(--color-amber-400);
+    --color-primary: #c7c3a6;
+    --color-primary-foreground: #2a2925;
+
+    --color-background: #2a2925;
+    --color-foreground: #c7c3a6;
+
+    --color-card: #3a3832;
+    --color-card-foreground: #c7c3a6;
+
+    --color-border: #46433a;
   }
 
   body {
@@ -101,6 +82,9 @@
   }
 }
 
+@utility max-w-content {
+  @apply max-w-7xl;
+}
 
 @keyframes rotation {
   0% {
