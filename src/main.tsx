@@ -4,10 +4,11 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 
 import App from "@/App.tsx";
-import { setupStore } from "@/store";
-import { getThemeSavedOrPreferred } from "@/store/theme/themeUtils";
+import { setupStore } from "@/common/store";
+import { getThemeSavedOrPreferred } from "@/common/store/theme/themeUtils";
 
 import "@/index.css";
+import { BrowserRouter } from "react-router";
 
 const theme = getThemeSavedOrPreferred();
 
@@ -20,8 +21,10 @@ const store = setupStore({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
   </StrictMode>,
 );
