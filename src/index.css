@@ -4,13 +4,13 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #46433a;
-  --color-primary-foreground: #c7c3a6;
+  --color-primary: #afa88c;
+  --color-primary-foreground: #46433a;
 
-  --color-background: #c7c3a6;
+  --color-background: #c4c0a3;
   --color-foreground: #46433a;
   
-  --color-card: #d6d0ac;
+  --color-card: #e9e1bd;
   --color-card-foreground: #46433a;
   
   --color-border: #a39e83;
@@ -20,16 +20,16 @@
 
 @layer base {
   @variant dark {
-    --color-primary: #c7c3a6;
-    --color-primary-foreground: #2a2925;
-
-    --color-background: #2a2925;
-    --color-foreground: #c7c3a6;
-
-    --color-card: #3a3832;
-    --color-card-foreground: #c7c3a6;
-
-    --color-border: #46433a;
+    --color-primary: #46433a;
+    --color-primary-foreground: #dedabd;
+    
+    --color-background: #1a1914;
+    --color-foreground: #dedabd;
+    
+    --color-card: #2a2925;
+    --color-card-foreground: #dedabd;
+    
+    --color-border: #131007;
   }
 
   body {
@@ -67,6 +67,26 @@
     content: "...";
     animation: ellipsis-dot 1.5s infinite .5s;
     animation-fill-mode: forwards;
+  }
+
+  .button {
+    @apply flex items-center;
+    @apply bg-primary text-primary-foreground px-3 py-1.5 text-start;
+    @apply border-b-1 border-r-1 border-border shadow-sm;
+    transition: translate .2s ease-in-out;
+
+    &::before {
+      @apply mr-2 content-[""] size-[1em] inline-block bg-primary-foreground;
+    }
+
+    &:hover {
+      @apply bg-primary-foreground text-card cursor-pointer;
+      @apply -translate-x-3;
+
+      &::before {
+        @apply bg-card;
+      }
+    }
   }
 }
 
