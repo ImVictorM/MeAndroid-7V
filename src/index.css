@@ -69,23 +69,40 @@
     animation-fill-mode: forwards;
   }
 
-  .button {
-    @apply flex items-center;
-    @apply bg-primary text-primary-foreground px-3 py-1.5 text-start;
+  .button-square {
+    @apply flex gap-2.5;
+    @apply bg-primary text-primary-foreground px-3 py-1.5 text-start leading-tight;
     @apply border-b-1 border-r-1 border-border shadow-sm;
     transition: translate .2s ease-in-out;
 
-    &::before {
-      @apply mr-2 content-[""] size-[1em] inline-block bg-primary-foreground;
+    & .square {
+      @apply min-w-[1lh] size-[1lh] flex flex-col justify-center;
+
+      &::before {
+        @apply content-[""] min-w-[1em] inline-block bg-primary-foreground self-baseline size-[1em];
+      }
     }
 
     &:hover {
       @apply bg-primary-foreground text-card cursor-pointer;
       @apply -translate-x-3;
 
-      &::before {
+      & .square::before {
         @apply bg-card;
       }
+    }
+  }
+
+  .border-double-accent {
+    @apply border-l-10 relative;
+
+    &::before {
+      @apply bg-foreground absolute block;
+      content: "";
+      width: 2px;
+      height: 100%;
+      left: 5px;
+      top: 0;
     }
   }
 }
