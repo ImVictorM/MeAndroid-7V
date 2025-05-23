@@ -1,0 +1,49 @@
+import { TypewriterOptions, useTypewriter } from "@/common/hooks/useTypewriter";
+import { normalizeWhitespaces } from "@/common/utils/normalization";
+import { useEffect } from "react";
+
+type TypewriterProps = {
+  as?: keyof JSX.IntrinsicElements;
+  content: string[] | string;
+  options?: TypewriterOptions;
+  onComplete?: () => void;
+  showCursor?: boolean;
+};
+
+const Typewriter: React.FC<TypewriterProps> = ({
+  as: Tag = "p",
+  content,
+  options,
+  onComplete,
+  showCursor = true,
+}) => {
+  const { displayLines, isTypingComplete } = useTypewriter(
+    Array.isArray(content)
+      ? content.map(normalizeWhitespaces)
+      : [normalizeWhitespaces(content)],
+    options,
+  );
+
+  useEffect(() => {
+    if (isTypingComplete && onComplete) {
+      onComplete();
+    }
+  }, [isTypingComplete, onComplete]);
+
+  return displayLines.map((line, index) => (
+    <Tag
+      key={index}
+      className={
+        showCursor
+          ? `last:after:content-[''] last:after:bg-foreground last:after:w-[0.1em]
+            last:after:h-[1lh] last:after:inline-block last:after:align-bottom
+            last:after:animate-cursor-blink`
+          : ""
+      }
+    >
+      {line}
+    </Tag>
+  ));
+};
+
+export default Typewriter;

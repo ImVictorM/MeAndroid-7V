@@ -1,7 +1,8 @@
-import { useTypewriter } from "@/common/hooks/useTypewriter";
-import React, { useEffect } from "react";
+import React from "react";
 import { useLogo } from "@/common/hooks/useLogo";
 import { useNavigate } from "react-router";
+import { Typewriter } from "@/common/components/effects/Typewriter";
+import { LoadingSpinner } from "@/common/components/feedback/LoadingSpinner";
 
 const bootSequence = [
   "Commencing System Check",
@@ -29,15 +30,10 @@ const bootSequence = [
 const Booting: React.FC = () => {
   const navigate = useNavigate();
   const logo = useLogo();
-  const { displayLines, isTypingComplete } = useTypewriter(bootSequence, {
-    delayToComplete: 2000,
-  });
 
-  useEffect(() => {
-    if (isTypingComplete) {
-      navigate("/intro");
-    }
-  }, [isTypingComplete, navigate]);
+  const handleTypingComplete = () => {
+    navigate("/intro");
+  };
 
   return (
     <div className="max-w-content relative container mx-auto min-h-screen px-7 py-5">
@@ -55,22 +51,23 @@ const Booting: React.FC = () => {
             <div className="my-10 flex items-center justify-between">
               <h1 className="text-4xl">
                 LOADING{" "}
-                <span className="loading-ellipsis text-xl whitespace-nowrap">
+                <span className="text-loading-ellipsis text-xl">
                   - BOOTING SYSTEM
                 </span>
               </h1>
 
               <div className="ml-3">
-                <span className="loading-spinner hidden sm:block" />
+                <LoadingSpinner className="hidden sm:block" />
               </div>
             </div>
 
             <ul className="pl-2 text-base/relaxed whitespace-pre-wrap sm:pl-5">
-              {displayLines.map((line: string, index: number) => (
-                <li className="text-cursor-relaxed" key={index}>
-                  {line}
-                </li>
-              ))}
+              <Typewriter
+                content={bootSequence}
+                onComplete={handleTypingComplete}
+                options={{ delayToComplete: 2000 }}
+                as="li"
+              />
             </ul>
           </div>
         </>

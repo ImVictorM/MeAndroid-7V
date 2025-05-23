@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
 
-import Booting from "@/features/booting/pages/Booting";
 import useThemeSynchronization from "@/common/hooks/useThemeSynchronization";
-import Introduction from "./features/introduction/pages/Introduction";
+import { Booting } from "@/features/booting/pages/Booting";
+import { Introduction } from "@/features/introduction/pages/Introduction";
 
 function App() {
   useThemeSynchronization();

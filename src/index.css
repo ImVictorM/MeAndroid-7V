@@ -16,6 +16,64 @@
   --color-border: #a39e83;
 
   --font-mono: Roboto Mono, monospace;
+
+  --animate-cursor-blink: cursor-blink 1s steps(1) infinite .7s;
+  --animate-rotate: rotation 1s linear infinite;
+  --animate-rotate-back-half: rotation-back 0.5s linear infinite;
+  --animate-fade-in: fade-in 0.25s linear;
+
+  @keyframes ellipsis-dot {
+    25% {
+      content: "";
+    }
+    50% {
+      content: ".";
+    }
+    75% {
+      content: "..";
+    }
+    100% {
+      content: "...";
+    }
+  }
+  
+  @keyframes cursor-blink {
+    from, to {
+      background-color: transparent;
+    }
+
+    50% {
+      background-color: var(--color-foreground);
+    }
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
+    
+  @keyframes rotation-back {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0.25;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {
@@ -38,130 +96,32 @@
   }
 }
 
-@layer components {
-  .loading-spinner {
-    --spinner-border: 3px solid;
-    --spinner-border-color: var(--color-foreground) var(--color-foreground) transparent;
-    
-    @apply size-10 rounded-full inline-block relative;
-    border: var(--spinner-border);
-    border-color: var(--spinner-border-color);
-    animation: rotation 1s linear infinite;
+@utility border-double-accent-* {
+  --border-outer-size: --value(integer)px;
+  border-left: var(--border-outer-size) solid;
+  position: relative;
 
-    &::after {
-      content: '';
-      @apply size-5 absolute inset-0 m-auto rounded-full;
-      border: var(--spinner-border);
-      border-color: var(--spinner-border-color);
-      animation: rotation-back 0.5s linear infinite;
-      transform-origin: center center;
-    }
+  &::before {
+    @apply bg-foreground absolute block;
+    content: "";
+    width: calc(var(--border-outer-size)/3);
+    height: 100%;
+    left: 5px;
+    top: 0;
   }
+}
 
-  .loading-ellipsis {
-    @apply relative mr-9;
-  }
-
-  .loading-ellipsis::after {
+@utility text-loading-ellipsis {
+  @apply whitespace-nowrap relative mr-9;
+  
+  &::after {
     @apply overflow-hidden inline-block align-bottom absolute bottom-0;
     content: "...";
     animation: ellipsis-dot 1.5s infinite .5s;
     animation-fill-mode: forwards;
   }
-
-  .button-square {
-    @apply flex gap-2.5;
-    @apply bg-primary text-primary-foreground px-3 py-1.5 text-start leading-tight;
-    @apply border-b-1 border-r-1 border-border shadow-sm;
-    transition: translate .2s ease-in-out;
-
-    & .square {
-      @apply min-w-[1lh] size-[1lh] flex flex-col justify-center;
-
-      &::before {
-        @apply content-[""] min-w-[1em] inline-block bg-primary-foreground self-baseline size-[1em];
-      }
-    }
-
-    &:hover {
-      @apply bg-primary-foreground text-card cursor-pointer;
-      @apply -translate-x-3;
-
-      & .square::before {
-        @apply bg-card;
-      }
-    }
-  }
-
-  .border-double-accent {
-    @apply border-l-10 relative;
-
-    &::before {
-      @apply bg-foreground absolute block;
-      content: "";
-      width: 2px;
-      height: 100%;
-      left: 5px;
-      top: 0;
-    }
-  }
-}
-
-@utility text-cursor-* {
-  &:last-child::after {
-    content: '';
-    background-color: var(--color-foreground);
-    width: .1em;
-    height: calc(1em * --value(--leading-*));
-    display: inline-block;
-    animation: cursor-blink 1s steps(1) infinite .7s;
-    vertical-align: bottom;
-  }
 }
 
 @utility max-w-content {
   @apply max-w-7xl;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
-    
-@keyframes rotation-back {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
-@keyframes ellipsis-dot {
-  25% {
-    content: "";
-  }
-  50% {
-    content: ".";
-  }
-  75% {
-    content: "..";
-  }
-  100% {
-    content: "...";
-  }
-}
-
-@keyframes cursor-blink {
-  from, to {
-    background-color: transparent;
-  }
-
-  50% {
-    background-color: var(--color-foreground);
-  }
 }

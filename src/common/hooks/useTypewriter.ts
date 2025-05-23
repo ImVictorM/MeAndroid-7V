@@ -9,7 +9,7 @@ export type TypewriterOptions = {
 const defaultOptions: TypewriterOptions = {
   typingDelay: 10,
   changeLineDelay: 5,
-  delayToComplete: 500,
+  delayToComplete: 0,
 };
 
 export const useTypewriter = (
@@ -33,23 +33,24 @@ export const useTypewriter = (
     const currentLine = lines[currentLineIndex];
 
     if (currentCharIndex < currentLine.length) {
-      const typingInterval = setInterval(() => {
+      const typingTimeout = setInterval(() => {
         setDisplayLines((prev) => {
-          if (!prev[currentLineIndex]) {
-            return [...prev, currentLine[currentCharIndex]];
-          }
+          const updatedDisplayLines = [...prev];
 
-          return prev.map((line, index) =>
-            index === currentLineIndex
-              ? currentLine.substring(0, currentCharIndex + 1)
-              : line,
+          const currentLineContent = lines[currentLineIndex].substring(
+            0,
+            currentCharIndex + 1,
           );
+
+          updatedDisplayLines[currentLineIndex] = currentLineContent;
+
+          return updatedDisplayLines;
         });
 
         setCurrentCharIndex((prev) => prev + 1);
       }, typingDelay);
 
-      return () => clearInterval(typingInterval);
+      return () => clearInterval(typingTimeout);
     }
 
     const nextLineTimeout = setTimeout(() => {
