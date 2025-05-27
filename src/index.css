@@ -5,15 +5,15 @@
 
 @theme {
   --color-primary: #afa88c;
+  --color-primary-subtle: #968F73;
   --color-primary-foreground: #46433a;
-
+  --color-primary-foreground-subtle: #605D54;
+  
   --color-background: #c4c0a3;
   --color-foreground: #46433a;
   
   --color-card: #e9e1bd;
   --color-card-foreground: #46433a;
-  
-  --color-border: #a39e83;
 
   --font-mono: Roboto Mono, monospace;
 
@@ -79,15 +79,15 @@
 @layer base {
   @variant dark {
     --color-primary: #46433a;
+    --color-primary-subtle: #605D54;
     --color-primary-foreground: #dedabd;
+    --color-primary-foreground-subtle: #C5C1A4;
     
     --color-background: #1a1914;
     --color-foreground: #dedabd;
     
     --color-card: #2a2925;
     --color-card-foreground: #dedabd;
-    
-    --color-border: #131007;
   }
 
   body {
@@ -96,18 +96,71 @@
   }
 }
 
-@utility border-double-accent-* {
-  --border-outer-size: --value(integer)px;
-  border-left: var(--border-outer-size) solid;
+@layer components {
+  .button {
+    --button-border-size: 1px;
+    --button-border-size-negative: calc(var(--button-border-size)*-1);
+    --button-action-outline-offset: 3px;
+    --button-action-outline-offset-negative: calc(var(--button-action-outline-offset) * -1);
+    --transition-duration: 120ms;
+
+    @apply bg-linear-to-l from-primary from-50% to-primary-foreground to-50% bg-right bg-size-[200%];
+    @apply text-primary-foreground px-3 py-1.5 text-start;
+    @apply border-b-1 border-r-1 border-primary-subtle shadow-sm;
+    @apply transition-all duration-(--transition-duration);
+    @apply hover:bg-left hover:text-card hover:cursor-pointer hover:border-primary-foreground-subtle;
+
+    &.button-action {
+      @apply relative my-(--button-action-outline-offset);
+      @apply hover:before:scale-x-100;
+      
+      &::before {
+        @apply transition-transform duration-(--transition-duration);
+        @apply absolute content-[""] bg-transparent;
+        @apply top-(--button-action-outline-offset-negative);
+        @apply right-(--button-border-size-negative);
+        @apply bottom-[calc(var(--button-action-outline-offset-negative)-var(--button-border-size))];
+        @apply left-0;
+        @apply origin-left scale-x-0;
+        @apply border-y-[1px] border-primary-foreground;
+      }
+    }
+
+    &.button-option {
+      @apply transition-transform duration-200 ease-in-out hover:-translate-x-3;
+    }
+  }
+}
+
+@utility border-l-double-* {
+  --border-size: --value(integer)px;
+  --border-outer-size: calc((4/7) * var(--border-size));
+  --border-space-between: calc((2/7) * var(--border-size));
+  --border-inner-size: calc((1/7) * var(--border-size));
+
+  border-left: var(--border-size) solid transparent;
   position: relative;
 
+  &::before, &::after {
+    @apply bg-foreground absolute inline-block h-full content-[""] top-0;
+  }
+
   &::before {
-    @apply bg-foreground absolute block;
-    content: "";
-    width: calc(var(--border-outer-size)/3);
-    height: 100%;
-    left: 5px;
-    top: 0;
+    width: var(--border-outer-size);
+    left: calc(var(--border-size) * -1);
+  }
+
+  &::after {
+    width: var(--border-inner-size);
+    left: calc(var(--border-inner-size) * -1);
+  }
+}
+
+@utility border-l-double-color-* {
+  --border-color: --value(--color-*);
+
+  &::before, &::after {
+    @apply bg-(--border-color);
   }
 }
 

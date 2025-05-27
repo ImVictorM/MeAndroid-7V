@@ -8,11 +8,7 @@ export const ButtonSquare: React.FC<ButtonSquareProps> = (props) => {
   return (
     <button
       {...props}
-      className={`button-square flex gap-2.5 bg-primary text-primary-foreground px-3 py-1.5
-        text-start leading-tight border-b-1 border-r-1 border-border shadow-sm
-        transition-transform duration-200 ease-in-out hover:bg-primary-foreground
-        hover:text-card hover:cursor-pointer hover:-translate-x-3 group
-        ${props.className}`}
+      className={`flex gap-2.5 group button button-option ${props.className}`}
     >
       <span
         className="min-w-[1lh] size-[1lh] flex flex-col justify-center before:content-['']
