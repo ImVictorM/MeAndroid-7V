@@ -5,12 +5,14 @@
 
 @theme {
   --color-primary: #afa88c;
+
   --color-primary-subtle: #968F73;
   --color-primary-foreground: #46433a;
   --color-primary-foreground-subtle: #605D54;
   
   --color-background: #c4c0a3;
   --color-foreground: #46433a;
+  --color-foreground-muted: #79766D;
   
   --color-card: #e9e1bd;
   --color-card-foreground: #46433a;
@@ -85,6 +87,7 @@
     
     --color-background: #1a1914;
     --color-foreground: #dedabd;
+    --color-foreground-muted: #928E71;
     
     --color-card: #2a2925;
     --color-card-foreground: #dedabd;
@@ -154,6 +157,10 @@
     width: var(--border-inner-size);
     left: calc(var(--border-inner-size) * -1);
   }
+}
+
+@utility blur-content {
+  @apply blur-xs pointer-events-none select-none;
 }
 
 @utility border-l-double-color-* {
