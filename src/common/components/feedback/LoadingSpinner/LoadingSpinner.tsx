@@ -12,7 +12,7 @@ export const LoadingSpinner: React.FC<
         after:border-(--spinner-border-color) after:m-auto after:rounded-full
         after:animate-rotate-back-half after:origin-center
         [--spinner-size:--spacing(10)] [--spinner-border-color:var(--color-foreground)]
-        [--spinner-border-size:3.5px] ${className}`}
+        [--spinner-border-size:2px] ${className}`}
     />
   );
 };

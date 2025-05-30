@@ -28,8 +28,8 @@ export const LayoutMain: React.FC = () => {
 
   return (
     <div
-      className="flex relative [--header-items-size:35px] [--header-padding-y:--spacing(3)]
-        [--layout-padding-x:--spacing(5)]
+      className="flex relative min-h-screen [--header-items-size:35px]
+        [--header-padding-y:--spacing(3)] [--layout-padding-x:--spacing(5)]
         [--header-height:calc(var(--header-items-size)+(var(--header-padding-y)*2))]
         [--back-brightness:90%]"
     >
@@ -67,11 +67,10 @@ export const LayoutMain: React.FC = () => {
       </div>
 
       <aside
-        className={`py-10 px-(--layout-padding-x) border-r-1 border-primary min-h-screen
-          bg-background fixed min-w-[min(80vw,250px)] top-0 left-0 transition-transform
-          overflow-hidden shadow-2xl z-250
-          ${menuOpen ? "translate-x-0" : "-translate-x-full"} sm:sticky sm:shadow-none
-          sm:translate-x-0 sm:p-5`}
+        className={`py-10 px-(--layout-padding-x) border-r-1 border-primary h-screen bg-background
+          fixed min-w-[min(80vw,250px)] top-0 left-0 transition-transform overflow-hidden
+          shadow-2xl z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"} sm:sticky
+          sm:shadow-none sm:translate-x-0 sm:p-5`}
       >
         <div className="flex flex-col p-4 mb-4 text-end sm:text-start">
           <span className="text-lg">Unit: 7V</span>
@@ -97,7 +96,7 @@ export const LayoutMain: React.FC = () => {
       </aside>
 
       <main
-        className={`mt-(--header-height) p-5 transition-all
+        className={`mt-(--header-height) p-5 transition-all w-full
           ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : "backdrop-brightness-100"}
           sm:p-10 sm:mt-0 sm:blur-none sm:backdrop-brightness-100`}
       >
