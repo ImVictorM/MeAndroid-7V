@@ -9,8 +9,9 @@ export const LayoutMain: React.FC = () => {
   const { width } = useWindowDimensions();
   const docStyles = getComputedStyle(document.documentElement);
   const remSize = parseInt(docStyles.fontSize);
+  const layoutShiftBreakpoint = "md";
   const remSmallWindowSize = parseInt(
-    docStyles.getPropertyValue("--breakpoint-sm"),
+    docStyles.getPropertyValue(`--breakpoint-${layoutShiftBreakpoint}`),
   );
 
   const toggleMenu = () => {
@@ -37,8 +38,8 @@ export const LayoutMain: React.FC = () => {
         className={`fixed flex justify-end top-0 inset-x-0 py-(--header-padding-y)
           px-(--layout-padding-x) bg-background border-b-primary border-b-[1px] z-200
           shadow-xs h-(--header-height)
-          ${menuOpen ? "brightness-(--back-brightness)" : "brightness-100"} sm:hidden
-          transition-all`}
+          ${menuOpen ? "brightness-(--back-brightness)" : "brightness-100"}
+          ${layoutShiftBreakpoint}:hidden transition-all`}
       >
         <img
           src={logo}
@@ -49,8 +50,8 @@ export const LayoutMain: React.FC = () => {
 
       {/* The button is positioned as if it were part of both the header and sidebar */}
       <div
-        className="size-(--header-items-size) fixed z-300 left-(--layout-padding-x)
-          top-(--header-padding-y) sm:hidden"
+        className={`size-(--header-items-size) fixed z-300 left-(--layout-padding-x)
+          top-(--header-padding-y) ${layoutShiftBreakpoint}:hidden`}
       >
         <button
           className={`group size-full cursor-pointer border-[1px] flex justify-center items-center
@@ -69,10 +70,13 @@ export const LayoutMain: React.FC = () => {
       <aside
         className={`py-10 px-(--layout-padding-x) border-r-1 border-primary h-screen bg-background
           fixed min-w-[min(80vw,250px)] top-0 left-0 transition-transform overflow-hidden
-          shadow-2xl z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"} sm:sticky
-          sm:shadow-none sm:translate-x-0 sm:p-5`}
+          shadow-2xl z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"}
+          ${layoutShiftBreakpoint}:sticky ${layoutShiftBreakpoint}:shadow-none
+          ${layoutShiftBreakpoint}:translate-x-0 ${layoutShiftBreakpoint}:p-5`}
       >
-        <div className="flex flex-col p-4 mb-4 text-end sm:text-start">
+        <div
+          className={`flex flex-col p-4 mb-4 text-end ${layoutShiftBreakpoint}:text-start`}
+        >
           <span className="text-lg">Unit: 7V</span>
           <span className="text-xs text-foreground-muted">
             Victor Figueiredo Mendes
@@ -98,7 +102,9 @@ export const LayoutMain: React.FC = () => {
       <main
         className={`mt-(--header-height) p-5 transition-all w-full
           ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : "backdrop-brightness-100"}
-          sm:p-10 sm:mt-0 sm:blur-none sm:backdrop-brightness-100`}
+          ${layoutShiftBreakpoint}:p-10 ${layoutShiftBreakpoint}:mt-0
+          ${layoutShiftBreakpoint}:blur-none
+          ${layoutShiftBreakpoint}:backdrop-brightness-100`}
       >
         <Outlet />
       </main>
