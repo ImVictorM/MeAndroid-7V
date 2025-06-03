@@ -165,7 +165,7 @@
     }
 
     & .card-content {
-      @apply px-7 py-5;
+      @apply  p-5 sm:px-7 sm:py-5;
     }
   }
 
