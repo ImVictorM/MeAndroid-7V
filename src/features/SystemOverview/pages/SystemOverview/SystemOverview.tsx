@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import resume from "@/common/assets/files/resume.pdf";
 
 export const SystemOverview: React.FC = () => {
   return (
@@ -21,61 +22,77 @@ export const SystemOverview: React.FC = () => {
                 aria-label="unit 7V profile picture"
               />
 
-              <div className="flex flex-col gap-3 mr-auto">
-                <dl className="flex flex-col">
+              <dl className="flex flex-col gap-3 mr-auto">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">Codename</dt>
                   <dd className="leading-4">7V</dd>
-                </dl>
+                </div>
 
-                <dl className="flex flex-col">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">Designation</dt>
                   <dd className="leading-4">Victor Figueiredo Mendes</dd>
-                </dl>
+                </div>
 
-                <dl className="flex flex-col">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">
                     Operational Since
                   </dt>
                   <dd className="leading-4">2001</dd>
-                </dl>
+                </div>
 
-                <dl className="flex flex-col">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">
                     Primary Function
                   </dt>
                   <dd className="leading-4">Software Development</dd>
-                </dl>
+                </div>
 
-                <dl className="flex flex-col">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">Location</dt>
                   <dd className="leading-4">Limeira/SP - Brazil</dd>
-                </dl>
+                </div>
 
-                <dl className="flex flex-col">
+                <div className="flex flex-col">
                   <dt className="text-foreground-muted text-xs">
                     Current Status
                   </dt>
-                  <dd className="leading-4">Operational</dd>
-                </dl>
-              </div>
+                  <dd className="leading-4">Active</dd>
+                </div>
+              </dl>
             </div>
 
-            <button className="button button-action mt-auto ml-auto">
+            <NavLink
+              to={resume}
+              target="_blank"
+              className="button button-action mt-auto ml-auto"
+            >
               Download Resume Data File (PDF)
-            </button>
+            </NavLink>
           </div>
         </section>
 
         <section className="card order-3 2xl:order-2">
           <h3 className="card-heading">External Network Links</h3>
           <nav className="card-content flex flex-col gap-2">
-            <NavLink className="link" to="">
+            <NavLink
+              className="link"
+              target="_blank"
+              to="https://www.linkedin.com/in/victor-figueiredo-mendes/"
+            >
               LinkedIn Profile
             </NavLink>
-            <NavLink className="link" to="">
+            <NavLink
+              className="link"
+              target="_blank"
+              to="https://github.com/ImVictorM"
+            >
               GitHub Repository Access
             </NavLink>
-            <NavLink className="link" to="">
+            <NavLink
+              className="link"
+              target="_blank"
+              to="mailto:victor.fmendes7@gmail.com"
+            >
               Email
             </NavLink>
           </nav>
@@ -84,15 +101,18 @@ export const SystemOverview: React.FC = () => {
         <section className="card order-2 2xl:order-3 2xl:col-span-2">
           <h3 className="card-heading">File</h3>
           <p className="card-content">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            Unit 7V: Software Development model, operational since 2001.
+            Optimized for collaborative environments and the creation of
+            effective technological solutions. Core competencies include
+            full-stack development utilizing JavaScript/TypeScript (React,
+            Node.js) and C# (ASP.NET Core, EF Core), alongside database
+            proficiency (Postgres, MSSQL) and adherence to modern design
+            paradigms (Clean Architecture, DDD, SOLID). Knowledge acquisition
+            modules completed via Anhanguera (bachelor in Systems Analysis &
+            Development) and Trybe (1500+ hr Full Stack Development course).
+            Unit exhibits high motivation for continuous capability enhancement
+            and collaborative problem-solving to convert strategic objectives
+            into functional, innovative system outputs.
           </p>
         </section>
       </section>
