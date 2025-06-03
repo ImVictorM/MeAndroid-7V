@@ -158,7 +158,7 @@
   }
 
   .card {
-    @apply bg-card;
+    @apply bg-card shadow-sm;
 
     & .card-heading {
       @apply text-lg font-medium bg-card-foreground px-5 py-2 text-card;
@@ -204,6 +204,12 @@
         background-color: var(--color-card);
       }
     }
+  }
+
+  .link {
+    @apply underline underline-offset-2 text-foreground-muted;
+    @apply transition-colors duration-100;
+    @apply hover:text-foreground;
   }
 }
 

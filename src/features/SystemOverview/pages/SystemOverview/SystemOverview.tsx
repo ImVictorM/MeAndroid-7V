@@ -10,68 +10,78 @@ export const SystemOverview: React.FC = () => {
         </span>
       </h1>
 
-      <section className="flex flex-col gap-5">
-        <section className="card">
+      <section className="grid grid-cols-[_1fr] gap-5 2xl:grid-cols-[4fr_minmax(300px,_1fr)]">
+        <section className="card order-1">
           <h3 className="card-heading">Unit Identification</h3>
-          <div className="card-content flex justify-between gap-5">
-            <div className="flex flex-col gap-10">
-              <div className="flex flex-col gap-3">
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
-                    Codename
-                  </span>
-                  <span className="leading-4">7V</span>
-                </div>
+          <div className="card-content flex flex-col gap-10">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-5">
+              <div
+                className="profile self-center sm:self-start"
+                role="img"
+                aria-label="unit 7V profile picture"
+              />
 
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
-                    Designation
-                  </span>
-                  <span className="leading-4">Victor Figueiredo Mendes</span>
-                </div>
+              <div className="flex flex-col gap-3 mr-auto">
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">Codename</dt>
+                  <dd className="leading-4">7V</dd>
+                </dl>
 
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">Designation</dt>
+                  <dd className="leading-4">Victor Figueiredo Mendes</dd>
+                </dl>
+
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">
                     Operational Since
-                  </span>
-                  <span className="leading-4">2001</span>
-                </div>
+                  </dt>
+                  <dd className="leading-4">2001</dd>
+                </dl>
 
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">
                     Primary Function
-                  </span>
-                  <span className="leading-4">Software Development</span>
-                </div>
+                  </dt>
+                  <dd className="leading-4">Software Development</dd>
+                </dl>
 
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
-                    Location
-                  </span>
-                  <span className="leading-4">Limeira/SP - Brazil</span>
-                </div>
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">Location</dt>
+                  <dd className="leading-4">Limeira/SP - Brazil</dd>
+                </dl>
 
-                <div className="flex flex-col">
-                  <span className="text-foreground-muted text-xs">
+                <dl className="flex flex-col">
+                  <dt className="text-foreground-muted text-xs">
                     Current Status
-                  </span>
-                  <span className="leading-4">Operational</span>
-                </div>
+                  </dt>
+                  <dd className="leading-4">Operational</dd>
+                </dl>
               </div>
-
-              <button className="button button-action mt-auto">
-                Download Resume Data File (PDF)
-              </button>
             </div>
-            <div
-              className="profile"
-              role="img"
-              aria-label="unit 7V profile picture"
-            />
+
+            <button className="button button-action mt-auto ml-auto">
+              Download Resume Data File (PDF)
+            </button>
           </div>
         </section>
 
-        <section className="card">
+        <section className="card order-3 2xl:order-2">
+          <h3 className="card-heading">External Network Links</h3>
+          <nav className="card-content flex flex-col gap-2">
+            <NavLink className="link" to="">
+              LinkedIn Profile
+            </NavLink>
+            <NavLink className="link" to="">
+              GitHub Repository Access
+            </NavLink>
+            <NavLink className="link" to="">
+              Email
+            </NavLink>
+          </nav>
+        </section>
+
+        <section className="card order-2 2xl:order-3 2xl:col-span-2">
           <h3 className="card-heading">File</h3>
           <p className="card-content">
             Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -84,15 +94,6 @@ export const SystemOverview: React.FC = () => {
             and more recently with desktop publishing software like Aldus
             PageMaker including versions of Lorem Ipsum.
           </p>
-        </section>
-
-        <section className="card">
-          <h3 className="card-heading">External Network Links & Data Files</h3>
-          <nav className="card-content flex flex-col gap-2">
-            <NavLink to="">LinkedIn Profile</NavLink>
-            <NavLink to="">GitHub Repository Access</NavLink>
-            <NavLink to="">Email</NavLink>
-          </nav>
         </section>
       </section>
     </section>
