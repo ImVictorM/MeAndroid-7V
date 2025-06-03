@@ -14,7 +14,7 @@ function App() {
       <Route path="/" element={<Booting />} />
       <Route path="/intro" element={<Introduction />} />
       <Route element={<LayoutMain />}>
-        <Route path="/overview" element={<SystemOverview />} />
+        <Route path="/system-overview" element={<SystemOverview />} />
       </Route>
     </Routes>
   );

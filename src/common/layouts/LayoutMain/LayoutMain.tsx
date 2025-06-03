@@ -84,26 +84,26 @@ export const LayoutMain: React.FC = () => {
         </div>
 
         <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
-          <NavLink className="button button-action" to="/overview">
+          <NavLink className="button button-action" to="/system-overview">
             System Overview
           </NavLink>
-          <NavLink className="button button-action" to="">
+          <NavLink className="button button-action" to="/mission-log">
             Mission Log
           </NavLink>
-          <NavLink className="button button-action" to="">
+          <NavLink className="button button-action" to="/skills">
             Skills
           </NavLink>
-          <NavLink className="button button-action" to="">
+          <NavLink className="button button-action" to="/settings">
             Settings
           </NavLink>
         </nav>
       </aside>
 
       <main
-        className={`mt-(--header-height) p-5 transition-all w-full
+        className={`mt-(--header-height) p-3 transition-all w-full
           ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : "backdrop-brightness-100"}
-          ${layoutShiftBreakpoint}:p-10 ${layoutShiftBreakpoint}:mt-0
-          ${layoutShiftBreakpoint}:blur-none
+          ${layoutShiftBreakpoint}:p-5 ${layoutShiftBreakpoint}:p-10
+          ${layoutShiftBreakpoint}:mt-0 ${layoutShiftBreakpoint}:blur-none
           ${layoutShiftBreakpoint}:backdrop-brightness-100`}
       >
         <Outlet />
