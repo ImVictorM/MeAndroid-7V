@@ -1,3 +1,4 @@
+import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 type AccordionItemProps = PropsWithChildren & {
@@ -29,12 +30,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 }) => {
   const [contentHeight, setContentHeight] = useState<number>(0);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (contentRef.current) {
       setContentHeight(isOpen ? contentRef.current.scrollHeight : 0);
     }
-  }, [isOpen]);
+  }, [isOpen, width]);
 
   return (
     <div
