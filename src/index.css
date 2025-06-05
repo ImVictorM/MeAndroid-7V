@@ -211,6 +211,10 @@
     @apply transition-colors duration-100;
     @apply hover:text-foreground;
   }
+
+  .badge {
+    @apply border px-2 py-1 text-xs;
+  }
 }
 
 @utility border-l-double-* {
@@ -266,4 +270,8 @@
 
 @utility text-shadow-heading {
   @apply text-shadow-[2px_2px_var(--color-foreground-shadow)];
+}
+
+@utility absolute-center {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
 }

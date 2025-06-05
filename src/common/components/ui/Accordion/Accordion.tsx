@@ -8,16 +8,18 @@ type AccordionItemProps = PropsWithChildren & {
   titleAs?: keyof JSX.IntrinsicElements;
 };
 
-type Item = {
-  id: string | number;
+type AccordionSectionId = string | number;
+
+type AccordionSection = {
+  id: AccordionSectionId;
   title: string;
   content: React.ReactNode | React.ReactNode[];
   titleAs?: keyof JSX.IntrinsicElements;
 };
 
 export type AccordionProps = {
-  items: Item[];
-  defaultActiveId?: Item["id"] | null;
+  items: AccordionSection[];
+  defaultActiveId?: AccordionSectionId | null;
   className?: string;
 };
 
@@ -71,8 +73,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
       <div
         ref={contentRef}
-        className={`transition-[max-height] overflow-hidden ease-in-out bg-card text-card-foreground
-          border-x border-b border-primary-subtle`}
+        className={`transition-[max-height] duration-300 overflow-hidden ease-in-out bg-card
+          text-card-foreground border-x border-b border-primary-subtle`}
         style={{
           maxHeight: `${contentHeight}px`,
         }}
@@ -89,16 +91,15 @@ export const Accordion: React.FC<AccordionProps> = ({
   items,
   className = "",
 }) => {
-  const [activeId, setActiveId] = useState<number | string | null>(
-    defaultActiveId,
-  );
+  const [activeId, setActiveId] =
+    useState<AccordionProps["defaultActiveId"]>(defaultActiveId);
 
-  const handleToggle = (id: number | string) => {
+  const handleToggle = (id: AccordionSectionId) => {
     setActiveId((prev) => (prev === id ? null : id));
   };
 
   return (
-    <div className={className}>
+    <div className={`${className} bg-amber-700`}>
       {items.map(({ content, title, id, titleAs }) => (
         <AccordionItem
           key={id}
