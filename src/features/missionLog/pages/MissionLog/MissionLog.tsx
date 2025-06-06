@@ -15,10 +15,11 @@ export const MissionLog: React.FC = () => {
         </span>
       </h1>
 
-      <div className="card grow-1 relative">
+      <div className="flex flex-col card grow-1 relative">
         <Accordion
           className="[&_*]:z-10"
           defaultActiveId={2}
+          flexFill={true}
           items={[
             {
               id: 1,
@@ -68,15 +69,15 @@ export const MissionLog: React.FC = () => {
 
                         <div className="flex flex-col">
                           <h4 className="text-lg">{company}</h4>
-                          <ul className="list-[square] list-inside px-4">
+                          <ul className="list-[square] sm:list-inside px-4">
                             {activities.map((activity, index) => (
                               <li key={index}>{activity}</li>
                             ))}
                           </ul>
                         </div>
-                        <div className="flex flex-row justify-between gap-4">
+                        <div className="flex flex-row flex-wrap justify-between gap-4">
                           {techs && (
-                            <ul className="flex flex-row gap-2">
+                            <ul className="flex flex-row flex-wrap gap-2">
                               {techs.map((tech, index) => {
                                 return (
                                   <li className="badge" key={index}>

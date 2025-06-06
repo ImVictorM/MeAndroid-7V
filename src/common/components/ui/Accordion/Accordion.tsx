@@ -1,11 +1,12 @@
 import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
 
 type AccordionItemProps = PropsWithChildren & {
   title: string;
   onToggle: () => void;
   isOpen: boolean;
   titleAs?: keyof JSX.IntrinsicElements;
+  flexFill: boolean;
 };
 
 type AccordionSectionId = string | number;
@@ -21,6 +22,7 @@ export type AccordionProps = {
   items: AccordionSection[];
   defaultActiveId?: AccordionSectionId | null;
   className?: string;
+  flexFill?: boolean;
 };
 
 const AccordionItem: React.FC<AccordionItemProps> = ({
@@ -29,10 +31,16 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
   isOpen,
   onToggle,
   titleAs: TitleTag = "h2",
+  flexFill,
 }) => {
   const [contentHeight, setContentHeight] = useState<number>(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
+
+  const shouldFill = useMemo<boolean>(
+    () => isOpen && flexFill,
+    [flexFill, isOpen],
+  );
 
   useEffect(() => {
     if (contentRef.current) {
@@ -42,8 +50,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
   return (
     <div
-      className={`flex flex-col overflow-y-hidden -mt-[1px] first:mt-0 [--padding-y:--spacing(4)]
-        [--padding-x:--spacing(5)]`}
+      className={`flex flex-col ${shouldFill ? "grow-1" : ""} overflow-y-hidden -mt-[1px]
+        first:mt-0 [--padding-y:--spacing(4)] [--padding-x:--spacing(5)]`}
     >
       <TitleTag>
         <button
@@ -73,14 +81,19 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
 
       <div
         ref={contentRef}
-        className={`transition-[max-height] duration-300 overflow-hidden ease-in-out bg-card
-          text-card-foreground border-x border-b border-primary-subtle`}
+        className={`flex flex-col ${shouldFill ? "grow-1" : ""} transition-[max-height] duration-300
+          overflow-hidden ease-in-out bg-card text-card-foreground border-x border-b
+          border-primary-subtle`}
         style={{
-          maxHeight: `${contentHeight}px`,
+          maxHeight: shouldFill ? "none" : `${contentHeight}px`,
         }}
         aria-hidden={!isOpen}
       >
-        <div className="py-(--padding-y) px-(--padding-x)">{children}</div>
+        <div
+          className={`${shouldFill ? "grow-1" : ""} py-(--padding-y) px-(--padding-x)`}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -90,6 +103,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   defaultActiveId = null,
   items,
   className = "",
+  flexFill = false,
 }) => {
   const [activeId, setActiveId] =
     useState<AccordionProps["defaultActiveId"]>(defaultActiveId);
@@ -99,7 +113,7 @@ export const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <div className={`${className} bg-amber-700`}>
+    <div className={`flex flex-col ${flexFill ? "grow-1" : ""} ${className}`}>
       {items.map(({ content, title, id, titleAs }) => (
         <AccordionItem
           key={id}
@@ -107,6 +121,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           title={title}
           titleAs={titleAs}
           isOpen={activeId === id}
+          flexFill={flexFill}
         >
           {content}
         </AccordionItem>

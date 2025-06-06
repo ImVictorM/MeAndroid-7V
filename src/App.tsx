@@ -16,7 +16,7 @@ function App() {
       <Route path="/intro" element={<Introduction />} />
       <Route element={<LayoutMain />}>
         <Route path="/system-overview" element={<SystemOverview />} />
-        <Route path="mission-log" element={<MissionLog />} />
+        <Route path="/mission-log" element={<MissionLog />} />
       </Route>
     </Routes>
   );
