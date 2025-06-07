@@ -1,6 +1,6 @@
 import { TypewriterOptions, useTypewriter } from "@/common/hooks/useTypewriter";
 import { normalizeWhitespaces } from "@/common/utils/normalization";
-import { useEffect } from "react";
+import { useEffect, type JSX } from "react";
 
 type TypewriterProps = {
   as?: keyof JSX.IntrinsicElements;
