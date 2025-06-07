@@ -1,16 +1,16 @@
+import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 import React, {
   forwardRef,
   JSX,
   PropsWithChildren,
-  useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 
 type AccordionItemRef = {
-  getContentHeight: () => number;
+  getHeaderHeight: () => number;
 };
 
 type AccordionItemProps = PropsWithChildren<{
@@ -18,7 +18,8 @@ type AccordionItemProps = PropsWithChildren<{
   onToggle: () => void;
   isOpen: boolean;
   titleAs?: keyof JSX.IntrinsicElements;
-  openHeight?: number;
+  minOpenHeight?: number;
+  headerRef?: React.Ref<HTMLButtonElement>;
 }>;
 
 type AccordionSectionId = string | number;
@@ -31,43 +32,58 @@ type AccordionSection = {
 };
 
 export type AccordionRef = HTMLDivElement & {
-  getOpenItemHeight: () => number;
+  getHeaderTotalHeight: () => number;
 };
 
 export type AccordionProps = {
   items: AccordionSection[];
   defaultOpenId?: AccordionSectionId | null;
-  openHeight?: number;
+  minOpenHeight?: number;
   className?: string;
 };
 
 const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
   (
-    { title, children, isOpen, openHeight, onToggle, titleAs: TitleTag = "h2" },
+    {
+      title,
+      children,
+      isOpen,
+      minOpenHeight,
+      onToggle,
+      titleAs: TitleTag = "h2",
+    },
     ref,
   ) => {
     const [contentHeight, setContentHeight] = useState<number>(0);
+    const [minContentHeight, setMinContentHeight] = useState<number>(0);
     const contentRef = useRef<HTMLDivElement>(null);
+    const headerRef = useRef<HTMLButtonElement>(null);
     const { width } = useWindowDimensions();
 
-    useEffect(() => {
-      if (!contentRef.current) {
-        return;
-      }
+    useLayoutEffect(() => {
+      if (!contentRef.current) return;
 
-      if (isOpen) {
-        setContentHeight(openHeight ?? contentRef.current.scrollHeight);
-      } else {
-        setContentHeight(0);
-      }
-    }, [width, isOpen, openHeight]);
+      const naturalHeight = contentRef.current.offsetHeight;
+      const min =
+        minOpenHeight && minOpenHeight > naturalHeight
+          ? minOpenHeight
+          : naturalHeight;
+
+      setMinContentHeight(min);
+    }, [minOpenHeight]);
+
+    useLayoutEffect(() => {
+      if (!contentRef.current) return;
+
+      setContentHeight(contentRef.current.offsetHeight);
+    }, [width]);
 
     useImperativeHandle(
       ref,
       () => ({
-        getContentHeight: () => contentHeight,
+        getHeaderHeight: () => headerRef.current?.offsetHeight || 0,
       }),
-      [contentHeight],
+      [],
     );
 
     return (
@@ -77,6 +93,7 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
       >
         <TitleTag>
           <button
+            ref={headerRef}
             className={`bg-card w-full flex items-center justify-start gap-2 border-[1px]
               border-primary-subtle cursor-pointer text-card-foreground px-(--padding-x)
               py-(--padding-y) ${isOpen ? "" : "border-b-0"}`}
@@ -101,13 +118,17 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
         </TitleTag>
 
         <div
-          ref={contentRef}
-          className={`flex flex-col transition-[height] duration-300 overflow-hidden ease-in-out
-            bg-card text-card-foreground border-x border-b border-primary-subtle`}
-          style={{ height: `${contentHeight}px` }}
+          className={`flex flex-col transition-all duration-300 ease-in-out bg-card
+            text-card-foreground border-x border-b border-primary-subtle`}
+          style={{
+            minHeight: isOpen ? `${minContentHeight}px` : "0px",
+            height: isOpen ? `${contentHeight}px` : "0px",
+          }}
           aria-hidden={!isOpen}
         >
-          <div className="py-(--padding-y) px-(--padding-x)">{children}</div>
+          <div ref={contentRef} className="py-(--padding-y) px-(--padding-x)">
+            {children}
+          </div>
         </div>
       </div>
     );
@@ -115,7 +136,7 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
 );
 
 const Accordion = forwardRef<AccordionRef, AccordionProps>(
-  ({ defaultOpenId = null, items, openHeight, className = "" }, ref) => {
+  ({ defaultOpenId = null, items, minOpenHeight, className = "" }, ref) => {
     const [openId, setOpenId] = useState<AccordionSectionId | null>(
       defaultOpenId,
     );
@@ -126,13 +147,15 @@ const Accordion = forwardRef<AccordionRef, AccordionProps>(
 
     useImperativeHandle(ref, () => {
       return Object.assign(containerRef.current ?? ({} as HTMLDivElement), {
-        getOpenItemHeight: () => {
-          if (!openId) return 0;
-          const itemRef = itemRefs.current.get(openId);
-          return itemRef?.getContentHeight() ?? 0;
+        getHeaderTotalHeight: () => {
+          let total = 0;
+          itemRefs.current.forEach((item) => {
+            total += item.getHeaderHeight();
+          });
+          return total;
         },
       });
-    }, [openId]);
+    }, []);
 
     const handleToggle = (id: AccordionSectionId) => {
       setOpenId((prev) => (prev === id ? null : id));
@@ -146,7 +169,7 @@ const Accordion = forwardRef<AccordionRef, AccordionProps>(
             title={title}
             titleAs={titleAs}
             isOpen={openId === id}
-            openHeight={openHeight}
+            minOpenHeight={minOpenHeight}
             onToggle={() => handleToggle(id)}
             ref={(el) => {
               if (el) {

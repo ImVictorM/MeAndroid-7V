@@ -2,32 +2,23 @@ import { Accordion, AccordionRef } from "@/common/components/ui/Accordion";
 import { workingExperiences } from "../../data/workingExperience";
 import { toShortDate } from "@/common/utils/date";
 import { useLogo } from "@/common/hooks/useLogo";
-import { useEffect, useRef, useState } from "react";
-import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
+import { useLayoutEffect, useRef, useState } from "react";
 
 export const MissionLog: React.FC = () => {
   const logo = useLogo();
-  const accordionContainerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const accordionRef = useRef<AccordionRef>(null);
-  const [openItemHeight, setOpenItemHeight] = useState<number>(0);
-  const { width } = useWindowDimensions();
+  const [minOpenHeight, setMinOpenHeight] = useState(0);
 
-  useEffect(() => {
-    if (!accordionRef.current || !accordionContainerRef.current) {
-      return;
-    }
-    const openHeight = accordionRef.current.getOpenItemHeight();
+  useLayoutEffect(() => {
+    if (!cardRef.current || !accordionRef.current) return;
 
-    const containerHeight =
-      accordionContainerRef.current.getBoundingClientRect().height;
-    const accordionHeight = accordionRef.current.getBoundingClientRect().height;
+    const cardHeight = cardRef.current.offsetHeight;
+    const headerTotalHeight = accordionRef.current.getHeaderTotalHeight();
+    const availableSpace = cardHeight - headerTotalHeight;
 
-    if (openHeight === 0) {
-      setOpenItemHeight(containerHeight - accordionHeight);
-    } else {
-      setOpenItemHeight(containerHeight - openHeight);
-    }
-  }, [width]);
+    setMinOpenHeight(availableSpace);
+  }, []);
 
   return (
     <section className="flex flex-col gap-10 min-h-full">
@@ -38,21 +29,18 @@ export const MissionLog: React.FC = () => {
         </span>
       </h1>
 
-      <div
-        ref={accordionContainerRef}
-        className="flex flex-col grow-1 bg-card relative"
-      >
+      <div ref={cardRef} className="flex flex-col grow-1 card relative">
         <Accordion
           ref={accordionRef}
           className="[&_*]:z-10"
-          openHeight={openItemHeight}
+          minOpenHeight={minOpenHeight}
           defaultOpenId={2}
           items={[
             {
               id: 1,
               title: "Projects",
               content: (
-                <p>
+                <p className="flex flex-col">
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s, when an unknown
