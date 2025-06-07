@@ -213,7 +213,7 @@
   }
 
   .badge {
-    @apply border px-2 py-1 text-xs;
+    @apply border px-2 py-1 text-xs whitespace-nowrap;
   }
 }
 

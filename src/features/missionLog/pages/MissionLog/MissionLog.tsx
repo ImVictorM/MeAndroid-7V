@@ -1,10 +1,33 @@
-import { Accordion } from "@/common/components/ui/Accordion";
+import { Accordion, AccordionRef } from "@/common/components/ui/Accordion";
 import { workingExperiences } from "../../data/workingExperience";
 import { toShortDate } from "@/common/utils/date";
 import { useLogo } from "@/common/hooks/useLogo";
+import { useEffect, useRef, useState } from "react";
+import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 
 export const MissionLog: React.FC = () => {
   const logo = useLogo();
+  const accordionContainerRef = useRef<HTMLDivElement>(null);
+  const accordionRef = useRef<AccordionRef>(null);
+  const [openItemHeight, setOpenItemHeight] = useState<number>(0);
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (!accordionRef.current || !accordionContainerRef.current) {
+      return;
+    }
+    const openHeight = accordionRef.current.getOpenItemHeight();
+
+    const containerHeight =
+      accordionContainerRef.current.getBoundingClientRect().height;
+    const accordionHeight = accordionRef.current.getBoundingClientRect().height;
+
+    if (openHeight === 0) {
+      setOpenItemHeight(containerHeight - accordionHeight);
+    } else {
+      setOpenItemHeight(containerHeight - openHeight);
+    }
+  }, [width]);
 
   return (
     <section className="flex flex-col gap-10 min-h-full">
@@ -15,11 +38,15 @@ export const MissionLog: React.FC = () => {
         </span>
       </h1>
 
-      <div className="flex flex-col card grow-1 relative">
+      <div
+        ref={accordionContainerRef}
+        className="flex flex-col grow-1 bg-card relative"
+      >
         <Accordion
+          ref={accordionRef}
           className="[&_*]:z-10"
-          defaultActiveId={2}
-          flexFill={true}
+          openHeight={openItemHeight}
+          defaultOpenId={2}
           items={[
             {
               id: 1,
