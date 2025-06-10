@@ -1,8 +1,8 @@
-import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 import React, {
   forwardRef,
   JSX,
   PropsWithChildren,
+  useEffect,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
@@ -58,12 +58,12 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
     const [minContentHeight, setMinContentHeight] = useState<number>(0);
     const contentRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLButtonElement>(null);
-    const { width } = useWindowDimensions();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       if (!contentRef.current) return;
 
       const naturalHeight = contentRef.current.offsetHeight;
+
       const min =
         minOpenHeight && minOpenHeight > naturalHeight
           ? minOpenHeight
@@ -75,8 +75,15 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
     useLayoutEffect(() => {
       if (!contentRef.current) return;
 
-      setContentHeight(contentRef.current.offsetHeight);
-    }, [width]);
+      const observer = new ResizeObserver(() => {
+        const element = contentRef.current as HTMLDivElement;
+        setContentHeight(element.offsetHeight);
+      });
+
+      observer.observe(contentRef.current);
+
+      return () => observer.disconnect();
+    }, []);
 
     useImperativeHandle(
       ref,
@@ -126,7 +133,7 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
           }}
           aria-hidden={!isOpen}
         >
-          <div ref={contentRef} className="py-(--padding-y) px-(--padding-x)">
+          <div className="py-(--padding-y) px-(--padding-x)" ref={contentRef}>
             {children}
           </div>
         </div>

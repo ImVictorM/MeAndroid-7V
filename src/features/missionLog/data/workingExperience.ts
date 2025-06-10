@@ -1,4 +1,4 @@
-type WorkingExperience = {
+export type WorkingExperienceData = {
   id: string;
   company: string;
   position: string;
@@ -9,7 +9,7 @@ type WorkingExperience = {
   techs?: string[];
 };
 
-export const workingExperiences: WorkingExperience[] = [
+export const workingExperienceData: WorkingExperienceData[] = [
   {
     id: "1",
     company: "ACX Technologies",

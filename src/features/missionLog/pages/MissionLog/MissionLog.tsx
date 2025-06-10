@@ -1,22 +1,25 @@
 import { Accordion, AccordionRef } from "@/common/components/ui/Accordion";
-import { workingExperiences } from "../../data/workingExperience";
-import { toShortDate } from "@/common/utils/date";
+import { workingExperienceData } from "../../data/workingExperience";
 import { useLogo } from "@/common/hooks/useLogo";
-import { useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { WorkingExperience } from "../../components/cards/WorkingExperience";
+import { projects } from "../../data/projects";
+import { Project } from "../../components/cards/Project";
 
 export const MissionLog: React.FC = () => {
   const logo = useLogo();
   const cardRef = useRef<HTMLDivElement>(null);
   const accordionRef = useRef<AccordionRef>(null);
   const [minOpenHeight, setMinOpenHeight] = useState(0);
+  const [logoTop, setLogoTop] = useState<number>(0);
 
   useLayoutEffect(() => {
     if (!cardRef.current || !accordionRef.current) return;
 
-    const cardHeight = cardRef.current.offsetHeight;
     const headerTotalHeight = accordionRef.current.getHeaderTotalHeight();
-    const availableSpace = cardHeight - headerTotalHeight;
+    const availableSpace = cardRef.current.offsetHeight - headerTotalHeight;
 
+    setLogoTop(availableSpace / 2 + headerTotalHeight);
     setMinOpenHeight(availableSpace);
   }, []);
 
@@ -40,18 +43,11 @@ export const MissionLog: React.FC = () => {
               id: 1,
               title: "Projects",
               content: (
-                <p className="flex flex-col">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </p>
+                <section className="flex flex-col gap-4">
+                  {projects.map((project) => (
+                    <Project key={project.id} {...project} />
+                  ))}
+                </section>
               ),
             },
             {
@@ -59,58 +55,9 @@ export const MissionLog: React.FC = () => {
               title: "Working Experience",
               content: (
                 <section className="flex flex-col gap-4">
-                  {workingExperiences.map(
-                    ({
-                      company,
-                      position,
-                      activities,
-                      id,
-                      techs,
-                      endDate,
-                      startDate,
-                      status,
-                    }) => (
-                      <div key={id} className="flex flex-col gap-2 border p-3">
-                        <div className="flex flex-row justify-between gap-4">
-                          <h3 className="text-lg font-bold">{position}</h3>
-
-                          <span className="text-sm text-foreground-muted self-baseline">
-                            {toShortDate(new Date(startDate))} -{" "}
-                            {endDate
-                              ? toShortDate(new Date(endDate))
-                              : "Present"}
-                          </span>
-                        </div>
-
-                        <div className="flex flex-col">
-                          <h4 className="text-lg">{company}</h4>
-                          <ul className="list-[square] sm:list-inside px-4">
-                            {activities.map((activity, index) => (
-                              <li key={index}>{activity}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="flex flex-row flex-wrap justify-between gap-4">
-                          {techs && (
-                            <ul className="flex flex-row flex-wrap gap-2">
-                              {techs.map((tech, index) => {
-                                return (
-                                  <li className="badge" key={index}>
-                                    {tech}
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                          )}
-
-                          <span className="text-sm self-end ml-auto text-foreground-muted">
-                            Status:{" "}
-                            {status.charAt(0).toUpperCase() + status.slice(1)}
-                          </span>
-                        </div>
-                      </div>
-                    ),
-                  )}
+                  {workingExperienceData.map((xp) => (
+                    <WorkingExperience key={xp.id} {...xp} />
+                  ))}
                 </section>
               ),
             },
@@ -119,8 +66,10 @@ export const MissionLog: React.FC = () => {
 
         <img
           alt="unit 7V logo"
+          style={{ top: `${logoTop}px` }}
           src={logo}
-          className="size-60 opacity-10 absolute-center z-1"
+          className="size-60 2xl:size-70 absolute left-1/2 -translate-x-1/2 -translate-y-1/2
+            opacity-10 z-1"
         />
       </div>
     </section>
