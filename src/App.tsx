@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router";
 
 import useThemeSynchronization from "@/common/hooks/useThemeSynchronization";
+import { LayoutMain } from "@/common/layouts/LayoutMain";
 import { Booting } from "@/features/booting/pages/Booting";
 import { Introduction } from "@/features/introduction/pages/Introduction";
-import { LayoutMain } from "@/common/layouts/LayoutMain";
-import { SystemOverview } from "./features/systemOverview/pages/SystemOverview";
-import { MissionLog } from "./features/missionLog/pages/MissionLog";
+import { SystemOverview } from "@/features/systemOverview/pages/SystemOverview";
+import { MissionLog } from "@/features/missionLog/pages/MissionLog";
+import { Training } from "@/features/training/pages/Training";
 
 function App() {
   useThemeSynchronization();
@@ -17,6 +18,7 @@ function App() {
       <Route element={<LayoutMain />}>
         <Route path="/system-overview" element={<SystemOverview />} />
         <Route path="/mission-log" element={<MissionLog />} />
+        <Route path="/training" element={<Training />} />
       </Route>
     </Routes>
   );
