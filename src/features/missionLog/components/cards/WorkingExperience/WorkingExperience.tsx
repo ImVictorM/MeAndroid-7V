@@ -31,7 +31,7 @@ export const WorkingExperience: React.FC<WorkingExperienceProps> = ({
       </div>
 
       <div className="flex flex-col">
-        <h4 className="text-lg">{company}</h4>
+        <h4 className="font-medium">{company}</h4>
         <ul className="list-[square] sm:list-inside px-4">
           {activities.map((activity, index) => (
             <li key={index}>{activity}</li>

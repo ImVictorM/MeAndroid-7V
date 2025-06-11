@@ -5,6 +5,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { WorkingExperience } from "../../components/cards/WorkingExperience";
 import { projects } from "../../data/projects";
 import { Project } from "../../components/cards/Project";
+import { SectionHeader } from "@/common/components/ui/SectionHeader";
 
 export const MissionLog: React.FC = () => {
   const logo = useLogo();
@@ -25,12 +26,7 @@ export const MissionLog: React.FC = () => {
 
   return (
     <section className="flex flex-col gap-10 min-h-full">
-      <h1 className="text-3xl text-shadow-heading">
-        Mission Log{" "}
-        <span className="text-lg whitespace-nowrap text-shadow-none">
-          - Projects & Working XP
-        </span>
-      </h1>
+      <SectionHeader title="Mission Log" subtitle="Projects & Working XP" />
 
       <div ref={cardRef} className="flex flex-col grow-1 card relative">
         <Accordion

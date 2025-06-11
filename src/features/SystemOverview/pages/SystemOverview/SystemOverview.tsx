@@ -1,15 +1,11 @@
 import { NavLink } from "react-router";
 import resume from "@/common/assets/files/resume.pdf";
+import { SectionHeader } from "@/common/components/ui/SectionHeader";
 
 export const SystemOverview: React.FC = () => {
   return (
     <section className="flex flex-col gap-10">
-      <h1 className="text-3xl text-shadow-heading">
-        System Overview{" "}
-        <span className="text-lg whitespace-nowrap text-shadow-none">
-          - About
-        </span>
-      </h1>
+      <SectionHeader title="System Overview" subtitle="About" />
 
       <section className="grid grid-cols-[_1fr] gap-5 2xl:grid-cols-[4fr_minmax(300px,_1fr)]">
         <section className="card order-1">
