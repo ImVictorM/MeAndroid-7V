@@ -1,7 +1,7 @@
 import React from "react";
 import { SectionHeader } from "@/common/components/ui/SectionHeader";
 import { educationData } from "../../data/education";
-import { File } from "../../components/cards/File";
+import { Folder } from "../../components/cards/Folder";
 import { toShortDate } from "@/common/utils/date";
 import { useLogo } from "@/common/hooks/useLogo";
 
@@ -39,12 +39,12 @@ export const Training: React.FC = () => {
           </div>
         </header>
 
-        <section className="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] auto-rows-max gap-3">
+        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-5">
           {educationData.degrees.map((degree, index) => {
             const id = `EDU-${(index + 1).toString().padStart(3, "0")}`;
 
             return (
-              <File
+              <Folder
                 key={id}
                 id={id}
                 type="degree"
@@ -60,7 +60,7 @@ export const Training: React.FC = () => {
             const id = `CRS-${(index + 1).toString().padStart(3, "0")}`;
 
             return (
-              <File
+              <Folder
                 key={id}
                 id={id}
                 type="course"
@@ -77,7 +77,7 @@ export const Training: React.FC = () => {
             const id = `CRT-${(index + 1).toString().padStart(3, "0")}`;
 
             return (
-              <File
+              <Folder
                 key={id}
                 id={id}
                 type="certification"

@@ -161,7 +161,7 @@
     @apply bg-card shadow-sm;
 
     & .card-heading {
-      @apply text-lg font-medium bg-card-foreground px-5 py-2 text-card;
+      @apply text-lg font-medium bg-primary px-5 py-2;
     }
 
     & .card-content {
