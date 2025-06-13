@@ -39,7 +39,7 @@ export const Training: React.FC = () => {
           </div>
         </header>
 
-        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-5">
+        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-y-5 gap-x-2">
           {educationData.degrees.map((degree, index) => {
             const id = `EDU-${(index + 1).toString().padStart(3, "0")}`;
 
