@@ -1,12 +1,45 @@
 import React from "react";
 import { SectionHeader } from "@/common/components/ui/SectionHeader";
-import { educationData } from "../../data/education";
-import { Folder } from "../../components/cards/Folder";
+import {
+  AcademicProgram,
+  educationData,
+  Certificate,
+} from "../../data/education";
+import {
+  EducationFile,
+  EducationFolder,
+} from "../../components/cards/EducationFolder";
 import { toShortDate } from "@/common/utils/date";
 import { useLogo } from "@/common/hooks/useLogo";
 
 export const Training: React.FC = () => {
   const logo = useLogo();
+
+  const toEducationFile = (
+    education: AcademicProgram | Certificate,
+  ): EducationFile => {
+    switch (education.type) {
+      case "certificate":
+        return {
+          ...education,
+          provider: {
+            type: "issuer",
+            name: education.issuer,
+          },
+          date: toShortDate(education.issueDate),
+        };
+      default:
+        return {
+          ...education,
+          provider: {
+            type: "institution",
+            name: education.institution,
+          },
+          date: `${education.startDate.getFullYear()} - ${education.endDate.getFullYear()}`,
+          subject: education.fieldOfStudy,
+        };
+    }
+  };
 
   return (
     <section className="flex flex-col gap-10 min-h-full">
@@ -40,54 +73,11 @@ export const Training: React.FC = () => {
         </header>
 
         <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-y-5 gap-x-2">
-          {educationData.degrees.map((degree, index) => {
-            const id = `EDU-${(index + 1).toString().padStart(3, "0")}`;
-
-            return (
-              <Folder
-                key={id}
-                id={id}
-                type="degree"
-                status={degree.status}
-                date={`${degree.startDate.getFullYear()} - ${degree.endDate.getFullYear()}`}
-                issuer={degree.institution}
-                title={degree.degree}
-                subject={degree.fieldOfStudy}
-              />
-            );
-          })}
-          {educationData.courses.map((course, index) => {
-            const id = `CRS-${(index + 1).toString().padStart(3, "0")}`;
-
-            return (
-              <Folder
-                key={id}
-                id={id}
-                type="course"
-                status={course.status}
-                date={`${course.startDate.getFullYear()} - ${course.endDate.getFullYear()}`}
-                issuer={course.institution}
-                title={course.course}
-                subject={course.fieldOfStudy}
-              />
-            );
-          })}
-
-          {educationData.certifications.map((certification, index) => {
-            const id = `CRT-${(index + 1).toString().padStart(3, "0")}`;
-
-            return (
-              <Folder
-                key={id}
-                id={id}
-                type="certification"
-                status={certification.status}
-                date={toShortDate(certification.issueDate)}
-                issuer={certification.issuer}
-                title={certification.certification}
-              />
-            );
-          })}
+          {Object.values(educationData)
+            .flat()
+            .map((ed) => (
+              <EducationFolder key={ed.id} file={toEducationFile(ed)} />
+            ))}
         </section>
       </div>
     </section>

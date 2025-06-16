@@ -1,13 +1,16 @@
-type EducationBase = {
-  note?: string;
+export type EducationBase = {
+  type: string;
+  id: string;
+  title: string;
   description?: string;
+  note?: string;
   skills: string[];
   credentialURL?: string;
   credentialCode?: string;
 };
 
-type Degree = EducationBase & {
-  degree: string;
+export type AcademicProgram = EducationBase & {
+  type: "degree" | "course";
   institution: string;
   startDate: Date;
   endDate: Date;
@@ -15,32 +18,33 @@ type Degree = EducationBase & {
   status: "completed" | "in-progress";
 };
 
-type Course = EducationBase & {
-  course: string;
-  institution: string;
-  startDate: Date;
-  endDate: Date;
-  fieldOfStudy: string;
-  status: "completed" | "in-progress";
+export type Degree = AcademicProgram & {
+  type: "degree";
 };
 
-type Certification = EducationBase & {
+export type Course = AcademicProgram & {
+  type: "course";
+};
+
+export type Certificate = EducationBase & {
+  type: "certificate";
   status: "verified" | "expired";
-  certification: string;
   issuer: string;
   issueDate: Date;
 };
 
 export type Education = {
   degrees: Degree[];
-  certifications: Certification[];
+  certificates: Certificate[];
   courses: Course[];
 };
 
 export const educationData: Education = {
   degrees: [
     {
-      degree: "Bachelor of Technology in Systems Analysis and Development",
+      id: "EDU-001",
+      type: "degree",
+      title: "Bachelor of Technology in Systems Analysis and Development",
       institution: "Faculdade Anhanguera de Limeira",
       fieldOfStudy: "Information Technology and Information Systems",
       startDate: new Date("2021-01-05"),
@@ -69,7 +73,9 @@ export const educationData: Education = {
   ],
   courses: [
     {
-      course: "FullStack Web Development",
+      id: "CRS-001",
+      type: "course",
+      title: "FullStack Web Development",
       fieldOfStudy: "Web Development",
       institution: "Trybe",
       startDate: new Date("2022-05-20"),
@@ -104,7 +110,9 @@ export const educationData: Education = {
       credentialCode: "79608850",
     },
     {
-      course: "Machining Mechanics",
+      id: "CRS-002",
+      title: "Machining Mechanics",
+      type: "course",
       institution: 'Escola SENAI "Luiz Varga"',
       fieldOfStudy: "Machining Workshop Technology",
       description: `The Industrial Learning Course in Machining Mechanics aims to provide professional 
@@ -122,9 +130,11 @@ export const educationData: Education = {
       ],
     },
   ],
-  certifications: [
+  certificates: [
     {
-      certification: "C# Bootcamp Certificate",
+      id: "CRT-001",
+      type: "certificate",
+      title: "C# Bootcamp Certificate",
       issuer: "Trybe",
       credentialURL:
         "https://www.credential.net/efeafe4b-c179-4fd9-a298-81b43610a421",
@@ -141,7 +151,9 @@ export const educationData: Education = {
       status: "verified",
     },
     {
-      certification: "Computer Science Module",
+      id: "CRT-002",
+      title: "Computer Science Module",
+      type: "certificate",
       issuer: "Trybe",
       issueDate: new Date("2023-07-05"),
       status: "verified",
@@ -158,7 +170,9 @@ export const educationData: Education = {
       ],
     },
     {
-      certification: "Back-End Development Module",
+      id: "CRT-003",
+      title: "Back-End Development Module",
+      type: "certificate",
       issuer: "Trybe",
       issueDate: new Date("2023-05-05"),
       credentialCode: "c599be05-d8a9-437a-b4b4-dd6a92a2f07c",
@@ -176,7 +190,9 @@ export const educationData: Education = {
       ],
     },
     {
-      certification: "Front-End Development Module",
+      id: "CRT-004",
+      title: "Front-End Development Module",
+      type: "certificate",
       issuer: "Trybe",
       issueDate: new Date("2022-12-05"),
       credentialCode: "f24665b4-57b8-445e-8bc9-6f262301d53b",
@@ -194,7 +210,9 @@ export const educationData: Education = {
       ],
     },
     {
-      certification: "Web Development Fundamentals Module",
+      id: "CRT-005",
+      title: "Web Development Fundamentals Module",
+      type: "certificate",
       issuer: "Trybe",
       issueDate: new Date("2022-08-05"),
       credentialCode: "ffeb48a3-2c36-48b4-a74e-eb2eb9386ef6",
@@ -204,7 +222,9 @@ export const educationData: Education = {
       skills: ["JavaScript", "Bootstrap", "CSS3", "HTML5", "Git", "Linux"],
     },
     {
-      certification: "Microsoft SQL Server Masterclass: Beginner to Expert",
+      id: "CRT-006",
+      title: "Microsoft SQL Server Masterclass: Beginner to Expert",
+      type: "certificate",
       issuer: "Udemy",
       credentialURL:
         "https://www.udemy.com/certificate/UC-0c687c49-eb70-4329-8852-174b3dcc032d/",
@@ -214,7 +234,9 @@ export const educationData: Education = {
       skills: ["Microsoft SQL Server", "SQL Server Management Studio"],
     },
     {
-      certification: "The Ultimate ServiceNow Bootcamp - Cask Camp",
+      id: "CRT-007",
+      title: "The Ultimate ServiceNow Bootcamp - Cask Camp",
+      type: "certificate",
       issuer: "Cask Brasil",
       issueDate: new Date("2024-07-05"),
       skills: ["ServiceNow"],
