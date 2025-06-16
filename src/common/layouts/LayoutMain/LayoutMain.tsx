@@ -28,15 +28,14 @@ export const LayoutMain: React.FC = () => {
 
   return (
     <div
-      className="flex relative min-h-screen [--header-items-size:35px]
+      className="flex flex-col relative min-h-screen md:flex-row [--header-items-size:35px]
         [--header-padding-y:--spacing(3)] [--layout-padding-x:--spacing(5)]
         [--header-height:calc(var(--header-items-size)+(var(--header-padding-y)*2))]
         [--back-brightness:90%]"
     >
       <header
-        className={`fixed flex justify-end top-0 inset-x-0 py-(--header-padding-y)
-          px-(--layout-padding-x) bg-background border-b-primary border-b-[1px] z-200
-          shadow-xs h-(--header-height)
+        className={`sticky top-0 flex justify-end py-(--header-padding-y) px-(--layout-padding-x)
+          bg-background border-b-primary border-b z-200 shadow-xs h-(--header-height)
           ${menuOpen ? "brightness-(--back-brightness)" : "brightness-100"} md:hidden
           transition-all`}
       >
@@ -67,10 +66,11 @@ export const LayoutMain: React.FC = () => {
       </div>
 
       <aside
-        className={`py-10 px-(--layout-padding-x) border-r-1 border-primary h-screen bg-background
-          fixed min-w-[min(80vw,250px)] top-0 left-0 transition-transform overflow-hidden
-          shadow-2xl z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky
-          md:shadow-none md:translate-x-0 md:p-5`}
+        className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
+          fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 transition-transform
+          overflow-hidden shadow-2xl z-250
+          ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
+          md:translate-x-0 md:p-5`}
       >
         <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
           <span className="text-lg">Unit: 7V</span>
@@ -99,9 +99,9 @@ export const LayoutMain: React.FC = () => {
       </aside>
 
       <main
-        className={`mt-(--header-height) p-3 transition-all w-full min-h-full
-          ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : "backdrop-brightness-100"}
-          md:p-10 md:mt-0 md:blur-none md:backdrop-brightness-100`}
+        className={`p-3 transition-all w-full min-h-full
+          ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : ""}
+          md:p-10`}
       >
         <Outlet />
       </main>
