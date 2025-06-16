@@ -116,15 +116,18 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
       >
         {/* Folder tab */}
         <div
-          className="absolute flex flex-row transform-3d origin-top z-20 h-(--tab-height)
+          className={`absolute flex flex-row transform-3d origin-top h-(--tab-height)
             border-(length:--folder-border) border-primary-subtle w-[40%] transition-all
-            delay-(--close-delay) duration-(--open-duration) group-hover:rotate-x-180
-            group-hover:z-0 group-hover:delay-0 [--tab-color:var(--color-primary)]
-            [--tab-color-hover:var(--color-primary-subtle)]"
+            duration-(--open-duration) group-hover:rotate-x-180 group-hover:z-0
+            group-hover:delay-0
+            ${isFolderOpen ? "rotate-x-180 z-0 delay-0" : "z-20 delay-(--close-delay)"}
+            [--tab-color:var(--color-primary)]
+            [--tab-color-hover:var(--color-primary-subtle)]`}
         >
           <div
-            className="relative transition-all size-full delay-(--close-delay) transform-3d
-              group-hover:delay-0 bg-(--tab-color) group-hover:bg-(--tab-color-hover)"
+            className={`relative transition-all size-full transform-3d group-hover:delay-0
+              group-hover:bg-(--tab-color-hover)
+              ${isFolderOpen ? "delay-0 bg-(--tab-color-hover)" : "delay-(--close-delay) bg-(--tab-color)"}`}
           >
             <span
               className="absolute inset-0 flex items-center justify-center text-xs font-bold
@@ -138,14 +141,16 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
         <div className="flex flex-col grow-1 transform-3d">
           {/* File inside the folder */}
           <div
-            className="absolute p-2 bg-card self-center w-[90%] h-full border border-primary-subtle
-              delay-(--open-duration) transition-transform group-hover:-translate-y-5"
+            className={`absolute p-2 bg-card self-center w-[90%] h-full border border-primary-subtle
+              delay-(--open-duration) transition-transform group-hover:-translate-y-5
+              ${isFolderOpen ? "-translate-y-5" : ""}`}
           ></div>
 
           <div
-            className="flex flex-col grow-1 transform-3d origin-bottom duration-(--open-duration)
+            className={`flex flex-col grow-1 transform-3d origin-bottom duration-(--open-duration)
               delay-(--open-duration) border-(length:--folder-border) border-primary-subtle
-              shadow-md transition-transform group-hover:-rotate-x-15"
+              shadow-md transition-transform group-hover:-rotate-x-15
+              ${isFolderOpen ? "-rotate-x-15" : ""}`}
           >
             <header
               className="uppercase flex flex-row justify-end text-xs font-bold px-4 py-2 bg-primary
