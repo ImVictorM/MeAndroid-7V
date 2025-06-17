@@ -1,15 +1,21 @@
 import { useLogo } from "@/common/hooks/useLogo";
+import { useScrollLock } from "@/common/hooks/useScrollLock";
+import { toTitleCase } from "@/common/utils/text";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { NavLink } from "react-router";
 
 export type EducationFile = {
   id: string;
   type: string;
   title: string;
   provider: { type: string; name: string };
-  date: string;
+  date: {
+    title: string;
+    value: string;
+  };
   status: string;
   skills: string[];
-  subject?: string;
+  fieldOfStudy?: string;
   credentialCode?: string;
   credentialURL?: string;
   description?: string;
@@ -28,20 +34,26 @@ const EducationFile: React.FC<EducationFileProps> = ({
   onClose,
   title,
   provider,
-  subject,
+  fieldOfStudy,
   status,
   skills,
   date,
   credentialCode,
   credentialURL,
   description,
+  id,
+  type,
+  note,
 }) => {
   const logo = useLogo();
   const [fileAnimation, setFileAnimation] = useState<string>("");
+  const [overlayAnimation, setOverlayAnimation] = useState<string>("");
   const closeTimeoutRef = useRef<NodeJS.Timeout>(null);
+  useScrollLock();
 
   useLayoutEffect(() => {
     setFileAnimation("animate-[fade-in-down_300ms_ease-out_forwards_200ms]");
+    setOverlayAnimation("animate-fade-in");
   }, []);
 
   useEffect(() => {
@@ -56,6 +68,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
     if (closeTimeoutRef.current) return;
 
     setFileAnimation("animate-[fade-out-up_150ms_ease-in]");
+    setOverlayAnimation("animate-fade-out");
 
     closeTimeoutRef.current = setTimeout(() => {
       onClose();
@@ -65,23 +78,30 @@ const EducationFile: React.FC<EducationFileProps> = ({
   return (
     <div
       onClick={handleClose}
-      className="flex items-center justify-center fixed z-500 bg-black/20 inset-0"
+      className={`flex items-center justify-center fixed z-500 bg-black/70 inset-0
+        ${overlayAnimation}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`flex opacity-0 flex-col w-[95%] min-h-[70vh] max-w-[700px] bg-card shadow-2xl
-          border border-primary-subtle ${fileAnimation}`}
+        className={`flex opacity-0 flex-col w-[95%] h-[80vh] max-w-[700px] bg-card shadow-2xl border
+          border-primary-subtle ${fileAnimation}`}
       >
         <header
           className="sticky top-0 bg-primary w-full flex flex-row items-center justify-between p-4
             gap-5 shadow-xs"
         >
-          <h1
-            title={title}
-            className="text-lg font-bold text-nowrap overflow-hidden text-ellipsis"
-          >
-            {title}
-          </h1>
+          <div>
+            <h1
+              title={title}
+              className="text-lg font-bold text-nowrap overflow-hidden text-ellipsis"
+            >
+              {title}
+            </h1>
+            <h2>
+              <span className="uppercase">{id}</span> -{" "}
+              <span>{toTitleCase(type)}</span>
+            </h2>
+          </div>
 
           <button
             type="button"
@@ -92,28 +112,104 @@ const EducationFile: React.FC<EducationFileProps> = ({
           </button>
         </header>
 
-        <div className="relative px-5 py-4 overflow-y-auto grow-1">
-          <div className="flex flex-col">
-            <span>{title}</span>
-            <span>{provider.name}</span>
-            <span>{provider.type}</span>
-            <span>{subject}</span>
-            <span>{status}</span>
-            <span>{date}</span>
+        <div
+          className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1
+            [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
+        >
+          <dl className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">Title</dt>
+              <dd>{title}</dd>
+            </div>
 
-            <span>{credentialCode}</span>
-            <span>{credentialURL}</span>
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">
+                {toTitleCase(provider.type)}
+              </dt>
+              <dd>{provider.name}</dd>
+            </div>
 
-            <span>{description}</span>
+            {fieldOfStudy && (
+              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+                <dt className="text-foreground-muted text-sm font-bold">
+                  Field of Study
+                </dt>
+                <dd>{fieldOfStudy}</dd>
+              </div>
+            )}
 
-            <ul className="flex flex-row flex-wrap">
-              {skills.map((skill) => (
-                <li key={skill}>{skill}</li>
-              ))}
-            </ul>
-          </div>
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">
+                {toTitleCase(date.title)}
+              </dt>
+              <dd>{date.value}</dd>
+            </div>
 
-          <img className="absolute-center size-50 opacity-10" src={logo} />
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">
+                Status
+              </dt>
+              <dd>{toTitleCase(status)}</dd>
+            </div>
+
+            {description && (
+              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+                <dt className="text-foreground-muted text-sm font-bold">
+                  Description
+                </dt>
+                <dd>{description}</dd>
+              </div>
+            )}
+
+            {note && (
+              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+                <dt className="text-foreground-muted text-sm font-bold">
+                  Note
+                </dt>
+                <dd>{note}</dd>
+              </div>
+            )}
+
+            {credentialCode && (
+              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+                <dt className="text-foreground-muted text-sm font-bold">
+                  Credential Code
+                </dt>
+                <dd>{credentialCode}</dd>
+              </div>
+            )}
+
+            {credentialURL && (
+              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+                <dt className="text-foreground-muted text-sm font-bold">
+                  Credential URL
+                </dt>
+                <dd className="link">
+                  <NavLink target="_blank" to={credentialURL}>
+                    {credentialURL}
+                  </NavLink>
+                </dd>
+              </div>
+            )}
+
+            <dl className="flex flex-col gap-1 flex-wrap pb-2">
+              <dt className="text-foreground-muted text-sm font-bold">
+                Skills Acquired
+              </dt>
+              <div className="flex flex-row flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <dd className="badge" key={skill}>
+                    {skill}
+                  </dd>
+                ))}
+              </div>
+            </dl>
+          </dl>
+
+          <img
+            className="absolute right-(--padding-x) top-(--padding-y) size-40 opacity-10"
+            src={logo}
+          />
         </div>
       </div>
     </div>
@@ -122,9 +218,18 @@ const EducationFile: React.FC<EducationFileProps> = ({
 
 export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
   const [isFolderOpen, setIsFolderOpen] = useState<boolean>(false);
+  const [innerFileAnimation, setInnerFileAnimation] = useState<string>("");
 
   const toggleFolderOpen = () => {
-    setIsFolderOpen((prev) => !prev);
+    const isOpen = !isFolderOpen;
+
+    if (isOpen) {
+      setInnerFileAnimation("animate-[fade-out-up_300ms_ease-in]");
+    } else {
+      setInnerFileAnimation("animate-[fade-in-down_200ms_ease-out]");
+    }
+
+    setIsFolderOpen(isOpen);
   };
 
   return (
@@ -170,7 +275,7 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
               className={`absolute p-2 bg-card self-center w-[90%] h-full border border-primary-subtle
                 transition-transform duration-(--open-duration)
                 group-hover:delay-(--open-duration) group-hover:-translate-y-5
-                ${isFolderOpen ? "animate-[fade-out-up_300ms_ease-in]" : "animate-[fade-in-down_300ms_ease-out]"}`}
+                ${innerFileAnimation}`}
             ></div>
 
             <div
@@ -191,7 +296,7 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
                   <h4 className="font-bold text-lg">{file.title}</h4>
                   <span className="text-sm mb-2">{file.provider.name}</span>
                   <span className="text-xs text-foreground-muted italic">
-                    {file.date}
+                    {file.date.value}
                   </span>
                 </div>
               </div>

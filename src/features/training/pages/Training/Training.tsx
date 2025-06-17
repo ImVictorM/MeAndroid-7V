@@ -26,7 +26,10 @@ export const Training: React.FC = () => {
             type: "issuer",
             name: education.issuer,
           },
-          date: toShortDate(education.issueDate),
+          date: {
+            title: "issue date",
+            value: toShortDate(education.issueDate),
+          },
         };
       default:
         return {
@@ -35,8 +38,11 @@ export const Training: React.FC = () => {
             type: "institution",
             name: education.institution,
           },
-          date: `${education.startDate.getFullYear()} - ${education.endDate.getFullYear()}`,
-          subject: education.fieldOfStudy,
+          date: {
+            title: "period",
+            value: `${education.startDate.getFullYear()} - ${education.endDate.getFullYear()}`,
+          },
+          fieldOfStudy: education.fieldOfStudy,
         };
     }
   };
@@ -57,8 +63,8 @@ export const Training: React.FC = () => {
           </div>
 
           <div
-            className="flex items-center justify-center border-2 border-foreground-muted py-3 px-4
-              -rotate-5 opacity-50 relative"
+            className="items-center justify-center border-2 border-foreground-muted py-3 px-4 -rotate-5
+              opacity-50 relative size-fit hidden md:flex"
           >
             <span className="text-2xl uppercase text-foreground-muted font-bold">
               Approved
@@ -72,7 +78,7 @@ export const Training: React.FC = () => {
           </div>
         </header>
 
-        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-y-5 gap-x-2">
+        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-2">
           {Object.values(educationData)
             .flat()
             .map((ed) => (

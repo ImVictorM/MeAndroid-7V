@@ -23,7 +23,8 @@
   --animate-cursor-blink: cursor-blink 1s steps(1) infinite .7s;
   --animate-rotate: rotation 1s linear infinite;
   --animate-rotate-back-half: rotation-back 0.5s linear infinite;
-  --animate-fade-in: fade-in 0.25s linear;
+  --animate-fade-in: fade-in 0.25s linear forwards;
+  --animate-fade-out: fade-out 0.25s linear forwards;
 
   @keyframes ellipsis-dot {
     25% {
@@ -78,23 +79,13 @@
     }
   }
 
-  @keyframes profile-glitch {
-    0%, 100% {
-      background-image: url("src/common/assets/images/profile.png");
-      transform: scaleX(-1);
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
     }
 
-    92.5% {
-      background-image: url("src/common/assets/images/profile-glitch-1.png");
-    }
-
-    95% {
-      background-image: url("src/common/assets/images/profile-glitch-2.png");
-      transform: scaleX(-1);
-    }
-
-    97.5% {
-      background-image: url("src/common/assets/images/profile-glitch-3.png");
+    100% {
+      opacity: 0;
     }
   }
 
@@ -119,6 +110,26 @@
     to {
       transform: translateY(-10vh);
       opacity: 0;
+    }
+  }
+
+  @keyframes profile-glitch {
+    0%, 100% {
+      background-image: url("src/common/assets/images/profile.png");
+      transform: scaleX(-1);
+    }
+
+    92.5% {
+      background-image: url("src/common/assets/images/profile-glitch-1.png");
+    }
+
+    95% {
+      background-image: url("src/common/assets/images/profile-glitch-2.png");
+      transform: scaleX(-1);
+    }
+
+    97.5% {
+      background-image: url("src/common/assets/images/profile-glitch-3.png");
     }
   }
 }
@@ -237,7 +248,7 @@
   }
 
   .badge {
-    @apply border px-2 py-1 text-xs whitespace-nowrap;
+    @apply border border-primary-subtle px-2 py-1 text-xs whitespace-nowrap;
   }
 }
 
