@@ -97,6 +97,30 @@
       background-image: url("src/common/assets/images/profile-glitch-3.png");
     }
   }
+
+  @keyframes fade-in-down {
+    from {
+      transform: translateY(-10vh);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out-up {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-10vh);
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {

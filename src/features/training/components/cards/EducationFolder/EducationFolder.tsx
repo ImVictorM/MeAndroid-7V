@@ -1,5 +1,5 @@
 import { useLogo } from "@/common/hooks/useLogo";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export type EducationFile = {
   id: string;
@@ -37,16 +37,40 @@ const EducationFile: React.FC<EducationFileProps> = ({
   description,
 }) => {
   const logo = useLogo();
+  const [fileAnimation, setFileAnimation] = useState<string>("");
+  const closeTimeoutRef = useRef<NodeJS.Timeout>(null);
+
+  useLayoutEffect(() => {
+    setFileAnimation("animate-[fade-in-down_300ms_ease-out_forwards_200ms]");
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) {
+        clearTimeout(closeTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleClose = () => {
+    if (closeTimeoutRef.current) return;
+
+    setFileAnimation("animate-[fade-out-up_150ms_ease-in]");
+
+    closeTimeoutRef.current = setTimeout(() => {
+      onClose();
+    }, 300);
+  };
 
   return (
     <div
-      onClick={onClose}
+      onClick={handleClose}
       className="flex items-center justify-center fixed z-500 bg-black/20 inset-0"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col w-[95%] min-h-[70vh] max-w-[700px] bg-card shadow-2xl border
-          border-primary-subtle"
+        className={`flex opacity-0 flex-col w-[95%] min-h-[70vh] max-w-[700px] bg-card shadow-2xl
+          border border-primary-subtle ${fileAnimation}`}
       >
         <header
           className="sticky top-0 bg-primary w-full flex flex-row items-center justify-between p-4
@@ -61,7 +85,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
 
           <button
             type="button"
-            onClick={onClose}
+            onClick={handleClose}
             className="text-xl cursor-pointer px-2 self-baseline"
           >
             x
@@ -105,72 +129,76 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={toggleFolderOpen}
-        className="relative flex flex-col bg-primary-subtle cursor-pointer group
-          perspective-midrange mx-3 mt-(--tab-height)
+      <div
+        className="flex perspective-midrange size-full
           [--tab-height:calc(--spacing(8)+var(--folder-border))] [--folder-border:2px]
-          [--open-duration:200ms] [--close-delay:calc(var(--open-duration)*2)]
-          [--transition]"
+          [--open-duration:200ms] [--close-delay:calc(var(--open-duration)*2)]"
       >
-        {/* Folder tab */}
-        <div
-          className={`absolute flex flex-row transform-3d origin-top h-(--tab-height)
-            border-(length:--folder-border) border-primary-subtle w-[40%] transition-all
-            duration-(--open-duration) group-hover:rotate-x-180 group-hover:z-0
-            group-hover:delay-0
-            ${isFolderOpen ? "rotate-x-180 z-0 delay-0" : "z-20 delay-(--close-delay)"}
-            [--tab-color:var(--color-primary)]
-            [--tab-color-hover:var(--color-primary-subtle)]`}
+        <button
+          type="button"
+          onClick={toggleFolderOpen}
+          className="relative mx-3 mt-(--tab-height) w-full grow-1 flex flex-col bg-primary-subtle
+            cursor-pointer group transform-3d"
         >
+          {/* Folder tab */}
           <div
-            className={`relative transition-all size-full transform-3d group-hover:delay-0
-              group-hover:bg-(--tab-color-hover)
-              ${isFolderOpen ? "delay-0 bg-(--tab-color-hover)" : "delay-(--close-delay) bg-(--tab-color)"}`}
+            className={`absolute flex flex-row transform-3d origin-top h-(--tab-height)
+              border-(length:--folder-border) border-primary-subtle w-[40%] transition-all
+              duration-(--open-duration) group-hover:rotate-x-180 group-hover:z-0
+              group-hover:delay-0
+              ${isFolderOpen ? "rotate-x-180 z-0 delay-0" : "z-20 delay-(--close-delay)"}
+              [--tab-color:var(--color-primary)]
+              [--tab-color-hover:var(--color-primary-subtle)]`}
           >
-            <span
-              className="absolute inset-0 flex items-center justify-center text-xs font-bold
-                backface-hidden"
+            <div
+              className={`relative transition-all size-full transform-3d group-hover:delay-0
+                group-hover:bg-(--tab-color-hover)
+                ${isFolderOpen ? "delay-0 bg-(--tab-color-hover)" : "delay-(--close-delay) bg-(--tab-color)"}`}
             >
-              {file.id}
-            </span>
+              <span
+                className="absolute inset-0 flex items-center justify-center text-xs font-bold
+                  backface-hidden"
+              >
+                {file.id}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-col grow-1 transform-3d">
-          {/* File inside the folder */}
-          <div
-            className={`absolute p-2 bg-card self-center w-[90%] h-full border border-primary-subtle
-              delay-(--open-duration) transition-transform group-hover:-translate-y-5
-              ${isFolderOpen ? "-translate-y-5" : ""}`}
-          ></div>
+          <div className="flex flex-col grow-1 transform-3d">
+            {/* File inside the folder */}
+            <div
+              className={`absolute p-2 bg-card self-center w-[90%] h-full border border-primary-subtle
+                transition-transform duration-(--open-duration)
+                group-hover:delay-(--open-duration) group-hover:-translate-y-5
+                ${isFolderOpen ? "animate-[fade-out-up_300ms_ease-in]" : "animate-[fade-in-down_300ms_ease-out]"}`}
+            ></div>
 
-          <div
-            className={`flex flex-col grow-1 transform-3d origin-bottom duration-(--open-duration)
-              delay-(--open-duration) border-(length:--folder-border) border-primary-subtle
-              shadow-md transition-transform group-hover:-rotate-x-15
-              ${isFolderOpen ? "-rotate-x-15" : ""}`}
-          >
-            <header
-              className="uppercase flex flex-row justify-end text-xs font-bold px-4 py-2 bg-primary
-                transform-3d"
+            <div
+              className={`flex flex-col grow-1 transform-3d origin-bottom duration-(--open-duration)
+                delay-(--open-duration) border-(length:--folder-border) border-primary-subtle
+                shadow-md transition-transform group-hover:-rotate-x-15
+                ${isFolderOpen ? "-rotate-x-15" : ""}`}
             >
-              <span>{file.type}</span>
-            </header>
+              <header
+                className="uppercase flex flex-row justify-end text-xs font-bold px-4 py-2 bg-primary
+                  transform-3d"
+              >
+                <span>{file.type}</span>
+              </header>
 
-            <div className="flex flex-col gap-5 p-5 bg-card grow-1 justify-center text-center transform-3d">
-              <div className="flex flex-col transform-3d">
-                <h4 className="font-bold text-lg">{file.title}</h4>
-                <span className="text-sm mb-2">{file.provider.name}</span>
-                <span className="text-xs text-foreground-muted italic">
-                  {file.date}
-                </span>
+              <div className="flex flex-col gap-5 p-5 bg-card grow-1 justify-center text-center transform-3d">
+                <div className="flex flex-col transform-3d">
+                  <h4 className="font-bold text-lg">{file.title}</h4>
+                  <span className="text-sm mb-2">{file.provider.name}</span>
+                  <span className="text-xs text-foreground-muted italic">
+                    {file.date}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </button>
+        </button>
+      </div>
 
       {isFolderOpen && <EducationFile onClose={toggleFolderOpen} {...file} />}
     </>
