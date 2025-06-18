@@ -1,5 +1,4 @@
 import React from "react";
-import { SectionHeader } from "@/common/components/ui/SectionHeader";
 import {
   AcademicProgram,
   educationData,
@@ -11,6 +10,7 @@ import {
 } from "../../components/cards/EducationFolder";
 import { toShortDate } from "@/common/utils/date";
 import { useLogo } from "@/common/hooks/useLogo";
+import { SectionContent } from "@/common/components/ui/SectionContent";
 
 export const Training: React.FC = () => {
   const logo = useLogo();
@@ -48,9 +48,7 @@ export const Training: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col gap-10 min-h-full">
-      <SectionHeader title="Training" subtitle="Education" />
-
+    <SectionContent title="Training" subtitle="Education">
       <div className="flex flex-col border border-primary-subtle grow-1 card p-5 gap-4">
         <header className="flex flex-row justify-between pb-6 border-b border-primary-subtle gap-4">
           <div>
@@ -86,7 +84,7 @@ export const Training: React.FC = () => {
             ))}
         </section>
       </div>
-    </section>
+    </SectionContent>
   );
 };
 

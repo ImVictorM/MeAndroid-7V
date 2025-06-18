@@ -1,12 +1,10 @@
 import { NavLink } from "react-router";
 import resume from "@/common/assets/files/resume.pdf";
-import { SectionHeader } from "@/common/components/ui/SectionHeader";
+import { SectionContent } from "@/common/components/ui/SectionContent";
 
 export const SystemOverview: React.FC = () => {
   return (
-    <section className="flex flex-col gap-10">
-      <SectionHeader title="System Overview" subtitle="About" />
-
+    <SectionContent title="System Overview" subtitle="About">
       <section className="grid grid-cols-[_1fr] gap-5 2xl:grid-cols-[4fr_minmax(300px,_1fr)]">
         <section className="card order-1">
           <h3 className="card-heading">Unit Identification</h3>
@@ -112,7 +110,7 @@ export const SystemOverview: React.FC = () => {
           </p>
         </section>
       </section>
-    </section>
+    </SectionContent>
   );
 };
 

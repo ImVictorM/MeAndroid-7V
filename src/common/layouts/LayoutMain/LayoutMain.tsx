@@ -129,7 +129,7 @@ export const LayoutMain: React.FC = () => {
       </aside>
 
       <main
-        className={`p-3 transition-all w-full min-h-full
+        className={`flex flex-col p-3 transition-all w-full grow-1
           ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : ""}
           md:p-10`}
       >

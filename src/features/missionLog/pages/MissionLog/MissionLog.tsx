@@ -5,7 +5,7 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { WorkingExperience } from "../../components/cards/WorkingExperience";
 import { projects } from "../../data/projects";
 import { Project } from "../../components/cards/Project";
-import { SectionHeader } from "@/common/components/ui/SectionHeader";
+import { SectionContent } from "@/common/components/ui/SectionContent";
 
 export const MissionLog: React.FC = () => {
   const logo = useLogo();
@@ -25,9 +25,7 @@ export const MissionLog: React.FC = () => {
   }, []);
 
   return (
-    <section className="flex flex-col gap-10 min-h-full">
-      <SectionHeader title="Mission Log" subtitle="Projects & Working XP" />
-
+    <SectionContent title="Mission Log" subtitle="Projects & Working XP">
       <div ref={cardRef} className="flex flex-col grow-1 card relative">
         <Accordion
           ref={accordionRef}
@@ -68,7 +66,7 @@ export const MissionLog: React.FC = () => {
             opacity-10 z-1"
         />
       </div>
-    </section>
+    </SectionContent>
   );
 };
 
