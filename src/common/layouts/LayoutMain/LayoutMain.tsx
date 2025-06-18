@@ -1,34 +1,45 @@
 import { useLogo } from "@/common/hooks/useLogo";
-import { useWindowDimensions } from "@/common/hooks/useWindowDimensions";
 import { useEffect, useState } from "react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useLocation } from "react-router";
 
 export const LayoutMain: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const logo = useLogo();
-  const { width } = useWindowDimensions();
-  const docStyles = getComputedStyle(document.documentElement);
-  const remSize = parseInt(docStyles.fontSize);
-  const remSmallWindowSize = parseInt(
-    docStyles.getPropertyValue("--breakpoint-md"),
-  );
+  const { pathname } = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  const closeMenu = () => {
+  const handleNavigation = () => {
     setMenuOpen(false);
   };
 
   useEffect(() => {
-    const remWindowSize = width / remSize;
+    const docStyles = getComputedStyle(document.documentElement);
+    const remSize = parseInt(docStyles.fontSize);
+    const remSmallWindowSize = parseInt(
+      docStyles.getPropertyValue("--breakpoint-md"),
+    );
 
-    // Close menu when resizing small windows
-    if (remWindowSize <= remSmallWindowSize) {
-      closeMenu();
-    }
-  }, [remSize, remSmallWindowSize, width]);
+    const handleResize = () => {
+      const { innerWidth: width } = window;
+      const remWindowSize = width / remSize;
+
+      // Close menu when resizing small windows
+      if (remWindowSize <= remSmallWindowSize) {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    window.scroll({ top: 0, behavior: "instant" });
+  }, [pathname]);
 
   return (
     <div
@@ -71,7 +82,7 @@ export const LayoutMain: React.FC = () => {
 
       {/* Sidebar open content overlay */}
       <div
-        onClick={closeMenu}
+        onClick={handleNavigation}
         className={`fixed inset-0 bg-transparent z-225 ${menuOpen ? "block" : "hidden"} md:hidden`}
       ></div>
 
@@ -91,35 +102,35 @@ export const LayoutMain: React.FC = () => {
 
         <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
           <NavLink
-            onClick={closeMenu}
+            onClick={handleNavigation}
             className="button button-action"
             to="/system-overview"
           >
             System Overview
           </NavLink>
           <NavLink
-            onClick={closeMenu}
+            onClick={handleNavigation}
             className="button button-action"
             to="/mission-log"
           >
             Mission Log
           </NavLink>
           <NavLink
-            onClick={closeMenu}
+            onClick={handleNavigation}
             className="button button-action"
             to="/training"
           >
             Training
           </NavLink>
           <NavLink
-            onClick={closeMenu}
+            onClick={handleNavigation}
             className="button button-action"
             to="/skills"
           >
             Skills
           </NavLink>
           <NavLink
-            onClick={closeMenu}
+            onClick={handleNavigation}
             className="button button-action"
             to="/settings"
           >
