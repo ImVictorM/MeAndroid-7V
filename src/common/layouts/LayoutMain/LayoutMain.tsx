@@ -17,12 +17,16 @@ export const LayoutMain: React.FC = () => {
     setMenuOpen((prev) => !prev);
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   useEffect(() => {
     const remWindowSize = width / remSize;
 
     // Close menu when resizing small windows
     if (remWindowSize <= remSmallWindowSize) {
-      setMenuOpen(false);
+      closeMenu();
     }
   }, [remSize, remSmallWindowSize, width]);
 
@@ -65,6 +69,12 @@ export const LayoutMain: React.FC = () => {
         </button>
       </div>
 
+      {/* Sidebar open content overlay */}
+      <div
+        onClick={closeMenu}
+        className={`fixed inset-0 bg-transparent z-225 ${menuOpen ? "block" : "hidden"} md:hidden`}
+      ></div>
+
       <aside
         className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
           fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 transition-transform
@@ -80,19 +90,39 @@ export const LayoutMain: React.FC = () => {
         </div>
 
         <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
-          <NavLink className="button button-action" to="/system-overview">
+          <NavLink
+            onClick={closeMenu}
+            className="button button-action"
+            to="/system-overview"
+          >
             System Overview
           </NavLink>
-          <NavLink className="button button-action" to="/mission-log">
+          <NavLink
+            onClick={closeMenu}
+            className="button button-action"
+            to="/mission-log"
+          >
             Mission Log
           </NavLink>
-          <NavLink className="button button-action" to="/training">
+          <NavLink
+            onClick={closeMenu}
+            className="button button-action"
+            to="/training"
+          >
             Training
           </NavLink>
-          <NavLink className="button button-action" to="/skills">
+          <NavLink
+            onClick={closeMenu}
+            className="button button-action"
+            to="/skills"
+          >
             Skills
           </NavLink>
-          <NavLink className="button button-action" to="/settings">
+          <NavLink
+            onClick={closeMenu}
+            className="button button-action"
+            to="/settings"
+          >
             Settings
           </NavLink>
         </nav>
