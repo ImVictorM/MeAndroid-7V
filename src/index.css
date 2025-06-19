@@ -149,10 +149,13 @@
     --color-card: #2a2925;
     --color-card-foreground: #dedabd;
   }
+  
+  html, body, #root {
+    @apply h-full;
+  }
 
   body {
-    @apply font-mono bg-background text-foreground;
-    min-height: 100vh;
+    @apply min-h-[100vh] font-mono bg-background text-foreground;
   }
 }
 
@@ -309,4 +312,8 @@
 
 @utility absolute-center {
   @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+}
+
+@utility scrollbar-hidden {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }

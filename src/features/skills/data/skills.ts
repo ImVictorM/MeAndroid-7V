@@ -44,7 +44,7 @@ export const skillData: Record<SkillCategory, SkillRecord[]> = {
       proficiencyLevel: 3,
     },
     {
-      name: "redux",
+      name: "Redux",
       proficiencyLevel: 2,
     },
   ],

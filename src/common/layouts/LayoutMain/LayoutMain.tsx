@@ -43,7 +43,7 @@ export const LayoutMain: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col relative min-h-screen md:flex-row [--header-items-size:35px]
+      className="flex flex-col min-h-screen relative md:flex-row [--header-items-size:35px]
         [--header-padding-y:--spacing(3)] [--layout-padding-x:--spacing(5)]
         [--header-height:calc(var(--header-items-size)+(var(--header-padding-y)*2))]
         [--back-brightness:90%]"
@@ -140,7 +140,7 @@ export const LayoutMain: React.FC = () => {
       </aside>
 
       <main
-        className={`flex flex-col p-3 transition-all w-full grow-1
+        className={`flex flex-col grow p-3 transition-all w-full
           ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : ""}
           md:p-10`}
       >

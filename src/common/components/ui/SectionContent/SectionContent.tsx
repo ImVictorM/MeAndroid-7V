@@ -26,7 +26,7 @@ export const SectionContent: React.FC<SectionContentProps> = ({
   ...rest
 }) => {
   return (
-    <section className="flex flex-col gap-10 grow-1">
+    <section className="flex flex-col gap-10 grow">
       <SectionContentTitle {...rest} />
       {children}
     </section>
