@@ -317,3 +317,31 @@
 @utility scrollbar-hidden {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
+
+@utility list-connected {
+  li {
+    @apply relative;
+
+    & > * {
+      @apply ml-5;
+    }
+
+    &::before, &::after {
+      @apply absolute content-[""] bg-foreground;
+    }
+
+    &::after {
+      @apply h-[2px] w-[12px];
+    }
+
+    &::before {
+      @apply w-[2px] inset-y-0;
+    }
+  }
+
+  li:last-child {
+    &::before {
+      @apply bottom-[50%];
+    }
+  }
+}

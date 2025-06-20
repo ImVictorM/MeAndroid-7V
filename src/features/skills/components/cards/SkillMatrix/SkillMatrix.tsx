@@ -24,13 +24,18 @@ export const SkillMatrix: React.FC<SkillMatrixProps> = ({
     <div className="flex flex-col gap-1">
       <h2 className="text-lg font-bold">{categoryTitle}</h2>
       <div>
-        <ul className="flex flex-col gap-2 pl-2">
+        <ul className="flex flex-col pl-2 list-connected">
           {skills.map(({ name, proficiencyLevel }) => (
             <li
               className="flex flex-row items-center justify-between gap-2 w-full"
               key={name}
             >
-              <span>{name}</span>
+              <span
+                title={name}
+                className="text-nowrap overflow-x-hidden text-ellipsis"
+              >
+                {name}
+              </span>
 
               <div className="flex flex-row gap-1">
                 {levelsIterable.map((level) => (
