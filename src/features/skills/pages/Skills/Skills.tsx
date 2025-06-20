@@ -1,18 +1,16 @@
 import { SectionContent } from "@/common/components/ui/SectionContent";
 import { SkillCategory, skillData, SkillRecord } from "../../data/skills";
 import { SkillMatrix } from "../../components/cards/SkillMatrix";
+import { SkillMatrixChart } from "../../components/charts/SkillMatrixChart";
 
-type CategoryTitleColor = { title: string; color: string };
+type CategoryMetadata = { title: string; color: string };
 
-type SkillByCategory = Record<
-  SkillCategory,
-  CategoryTitleColor & {
-    proficiencyTotal: number;
-    skills: SkillRecord[];
-  }
->;
+type SkillByCategory = CategoryMetadata & {
+  category: SkillCategory;
+  skills: SkillRecord[];
+};
 
-const categoryTitleColorMap: Record<SkillCategory, CategoryTitleColor> = {
+const categoryTitleColorMap: Record<SkillCategory, CategoryMetadata> = {
   backEnd: { color: "#c9a68a", title: "BackEnd Development" },
   database: { color: "#8d8568", title: "Databases" },
   frontEnd: { color: "#fff4b8", title: "FrontEnd Development" },
@@ -21,22 +19,20 @@ const categoryTitleColorMap: Record<SkillCategory, CategoryTitleColor> = {
   tool: { color: "#c6b98f", title: "Tools & Platforms" },
 };
 
-const skillByCategory: SkillByCategory = Object.entries(skillData).reduce(
-  (acc, [category, skills]) => {
+const skillCategories: SkillByCategory[] = Object.entries(skillData).reduce(
+  (acc, [category, skills]): SkillByCategory[] => {
     const currCategory = category as SkillCategory;
 
-    acc[currCategory] = {
-      ...categoryTitleColorMap[currCategory],
-      skills,
-      proficiencyTotal: skills.reduce(
-        (acc, skill) => skill.proficiencyLevel + acc,
-        0,
-      ),
-    };
-
-    return acc;
+    return [
+      ...acc,
+      {
+        ...categoryTitleColorMap[currCategory],
+        category: currCategory,
+        skills,
+      },
+    ];
   },
-  {} as SkillByCategory,
+  [] as SkillByCategory[],
 );
 
 export const Skills: React.FC = () => {
@@ -45,45 +41,18 @@ export const Skills: React.FC = () => {
       <div className="relative flex flex-col border border-primary-subtle card grow">
         <div className="absolute inset-0 grid grid-cols-[max(20rem)_minmax(20rem,1fr)] p-5">
           <div className="flex flex-col overflow-y-auto scrollbar-hidden gap-4 h-full min-h-0">
-            {Object.entries(skillByCategory).map(
-              ([category, { skills, title }]) => (
-                <SkillMatrix
-                  key={category}
-                  categoryTitle={title}
-                  skills={skills}
-                  levels={4}
-                />
-              ),
-            )}
+            {skillCategories.map(({ category, skills, title }) => (
+              <SkillMatrix
+                key={category}
+                categoryTitle={title}
+                skills={skills}
+                levels={4}
+              />
+            ))}
           </div>
 
           <aside className="flex justify-center ml-5 pl-5 border-l border-primary-subtle">
-            <div className="flex flex-col max-w-[20rem] w-full border-2 p-1">
-              <div className="flex flex-col grow justify-between border">
-                {Object.entries(skillByCategory).map(
-                  ([category, { color, skills, proficiencyTotal }]) => {
-                    return (
-                      <div
-                        className="flex flex-col grow border-b last:border-b-0"
-                        key={category}
-                      >
-                        {skills.map(({ proficiencyLevel, name }, index) => (
-                          <span
-                            style={{
-                              backgroundColor: color,
-                              height: `${(proficiencyLevel * 100) / proficiencyTotal}%`,
-                            }}
-                            key={index}
-                            className="border-b grow last:border-b-0"
-                            title={name}
-                          ></span>
-                        ))}
-                      </div>
-                    );
-                  },
-                )}
-              </div>
-            </div>
+            <SkillMatrixChart skillCategories={skillCategories} />
           </aside>
         </div>
       </div>
