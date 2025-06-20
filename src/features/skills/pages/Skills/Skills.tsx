@@ -43,7 +43,7 @@ export const Skills: React.FC = () => {
   return (
     <SectionContent title="Skills" subtitle="Tech Knowledge & Proficiency">
       <div className="relative flex flex-col border border-primary-subtle card grow">
-        <div className="absolute inset-0 grid grid-cols-[minmax(0,20rem)_1fr] p-5">
+        <div className="absolute inset-0 grid grid-cols-[max(20rem)_minmax(20rem,1fr)] p-5">
           <div className="flex flex-col overflow-y-auto scrollbar-hidden gap-4 h-full min-h-0">
             {Object.entries(skillByCategory).map(
               ([category, { skills, title }]) => (
@@ -61,12 +61,11 @@ export const Skills: React.FC = () => {
             <div className="flex flex-col max-w-[20rem] w-full border-2 p-1">
               <div className="flex flex-col grow justify-between border">
                 {Object.entries(skillByCategory).map(
-                  ([title, { color, skills, proficiencyTotal }]) => {
+                  ([category, { color, skills, proficiencyTotal }]) => {
                     return (
                       <div
                         className="flex flex-col grow border-b last:border-b-0"
-                        title={title}
-                        key={title}
+                        key={category}
                       >
                         {skills.map(({ proficiencyLevel, name }, index) => (
                           <span
@@ -75,7 +74,7 @@ export const Skills: React.FC = () => {
                               height: `${(proficiencyLevel * 100) / proficiencyTotal}%`,
                             }}
                             key={index}
-                            className="border-b last:border-b-0"
+                            className="border-b grow last:border-b-0"
                             title={name}
                           ></span>
                         ))}
