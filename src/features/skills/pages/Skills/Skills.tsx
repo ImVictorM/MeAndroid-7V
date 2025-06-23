@@ -51,7 +51,7 @@ export const Skills: React.FC = () => {
             ))}
           </div>
 
-          <aside className="flex justify-center ml-5 pl-5 border-l border-primary-subtle">
+          <aside className="flex ml-10 pl-10 border-l border-primary-subtle">
             <SkillMatrixChart skillCategories={skillCategories} />
           </aside>
         </div>
