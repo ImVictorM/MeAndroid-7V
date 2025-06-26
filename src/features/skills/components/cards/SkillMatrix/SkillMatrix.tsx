@@ -21,7 +21,7 @@ export const SkillMatrix: React.FC<SkillMatrixProps> = ({
   }, [levels]);
 
   return (
-    <div className="flex flex-col gap-1 max-w-[20rem] w-full">
+    <div className="flex flex-col gap-1 w-full">
       <h2 className="text-lg font-bold">{categoryTitle}</h2>
       <div>
         <ul className="flex flex-col pl-2 list-connected">

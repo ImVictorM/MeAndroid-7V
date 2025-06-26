@@ -14,13 +14,13 @@ type SkillByCategory = {
 
 type SkillMatrixChartProps = {
   skillCategories: SkillByCategory[];
-  className?: string;
+  showTitle?: boolean;
   ref?: Ref<HTMLDivElement>;
 };
 
 export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
   skillCategories,
-  className,
+  showTitle = true,
   ref,
 }) => {
   const proficiencyTotal: number = useMemo(() => {
@@ -37,13 +37,15 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
   }, [skillCategories]);
 
   return (
-    <div
-      ref={ref}
-      className={`flex flex-row grow gap-2 w-full relative ${className ? className : ""}`}
-    >
-      <div className="flex flex-col grow max-w-[20rem] min-w-[16rem] w-full">
-        <h3 className="text-sm">Skill Matrix - Proficiency</h3>
-        <div className="flex flex-col grow border-2 p-1">
+    <div ref={ref} className="flex flex-col grow w-full gap-4 relative">
+      {showTitle && <h3 className="text-lg">Skill Matrix - Proficiency</h3>}
+
+      <div className="flex flex-col sm:flex-row h-full grow gap-4 justify-center items-center">
+        {/* Chart */}
+        <div
+          className="flex flex-col grow self-center border-2 p-1 max-w-[20rem] min-w-[16rem] w-full
+            sm:self-stretch"
+        >
           <div className="flex flex-col grow justify-between border">
             {skillCategories.map(({ category, color, skills }) => {
               const categoryProficiencyTotal = skills.reduce(
@@ -77,23 +79,24 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
             })}
           </div>
         </div>
-      </div>
 
-      <div className="self-end text-sm text-foreground-muted">
-        <dl className="flex flex-col gap-1">
-          {skillCategories.map(({ title, color }) => (
-            <div key={title} className="flex flex-row gap-2">
-              <div className="flex items-center h-[1lh]">
-                <dt
-                  className="size-4 shrink-0 border border-primary-subtle"
-                  style={{ backgroundColor: color }}
-                ></dt>
+        {/* Legends */}
+        <div className="text-sm text-foreground-muted self-start sm:self-end">
+          <dl className="flex flex-col gap-1">
+            {skillCategories.map(({ title, color }) => (
+              <div key={title} className="flex flex-row gap-2">
+                <div className="flex items-center h-[1lh]">
+                  <dt
+                    className="size-4 shrink-0 border border-primary-subtle"
+                    style={{ backgroundColor: color }}
+                  ></dt>
+                </div>
+
+                <dd>{title}</dd>
               </div>
-
-              <dd>{title}</dd>
-            </div>
-          ))}
-        </dl>
+            ))}
+          </dl>
+        </div>
       </div>
     </div>
   );
