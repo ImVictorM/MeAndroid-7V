@@ -2,8 +2,8 @@ import { SectionContent } from "@/common/components/ui/SectionContent";
 import { SkillCategory, skillData, SkillRecord } from "../../data/skills";
 import { SkillMatrix } from "../../components/cards/SkillMatrix";
 import { SkillMatrixChart } from "../../components/charts/SkillMatrixChart";
-import eyeIcon from "@/common/assets/icons/eye.png";
 import { useState } from "react";
+import { Modal } from "@/common/components/ui/Modal";
 
 type CategoryMetadata = { title: string; color: string };
 
@@ -41,18 +41,15 @@ export const Skills: React.FC = () => {
   const [showSkillMatrixChartModal, setShowSkillMatrixChartModal] =
     useState<boolean>(false);
 
-  const toggleShowSkillMatrixChartModal = () => {
-    setShowSkillMatrixChartModal((prev) => !prev);
-  };
-
   return (
     <SectionContent title="Skills" subtitle="Tech Knowledge & Proficiency">
-      <div className="relative flex flex-col border border-primary-subtle card grow">
+      <div className="relative flex flex-col border border-primary-subtle card grow xl:max-h-[900px]">
         <div
-          className="inset-0 p-5 grid grid-cols-1 xl:absolute
-            xl:grid-cols-[minmax(0,20rem)_minmax(20rem,1fr)]"
+          className="grid grid-cols-1 p-5 xl:absolute xl:inset-0
+            xl:grid-cols-[minmax(0,var(--max-skill-width))_minmax(20rem,1fr)]
+            [--max-skill-width:25rem]"
         >
-          <div className="flex flex-col overflow-y-auto scrollbar-hidden gap-4 h-full min-h-0">
+          <div className="max-w-(--max-skill-width) flex flex-col overflow-y-auto scrollbar-hidden gap-4">
             {skillCategories.map(({ category, skills, title }) => (
               <SkillMatrix
                 key={category}
@@ -63,36 +60,55 @@ export const Skills: React.FC = () => {
             ))}
           </div>
 
-          <aside className="hidden ml-10 pl-10 border-l border-primary-subtle grow xl:flex">
+          <aside
+            className="hidden ml-(--vr-spacing) pl-(--vr-spacing) border-l border-primary-subtle grow
+              xl:flex [--vr-spacing:--spacing(10)]"
+          >
             <SkillMatrixChart skillCategories={skillCategories} />
           </aside>
 
-          {showSkillMatrixChartModal && (
-            <div
-              className="flex items-center justify-center fixed z-500 bg-black/70 inset-0"
-              onClick={() => setShowSkillMatrixChartModal(false)}
-            >
-              <div
-                className="flex w-[95%] max-w-fit bg-card shadow-2xl border border-primary-subtle p-4
-                  h-[70vh] justify-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <SkillMatrixChart skillCategories={skillCategories} />
-              </div>
+          <Modal
+            show={showSkillMatrixChartModal}
+            onHide={() => setShowSkillMatrixChartModal(false)}
+            title="Skill Matrix - Proficiency"
+            className="h-[90vh] max-h-[50rem] overflow-y-auto"
+          >
+            <div className="flex min-h-[700px] p-4 grow">
+              <SkillMatrixChart
+                showTitle={false}
+                skillCategories={skillCategories}
+              />
             </div>
-          )}
+          </Modal>
 
           <div
-            className="flex items-center sticky bottom-2 opacity-20 border ml-auto p-1 transition-all
-              mt-4 sm:-mt-10 r self-end w-fit border-primary-subtle shadow-md cursor-pointer
-              hover:opacity-100"
+            className="flex items-center sticky bottom-2 ml-auto mt-4 sm:-mt-10 self-end w-fit
+              xl:hidden"
           >
             <button
               type="button"
-              onClick={toggleShowSkillMatrixChartModal}
-              className="size-full cursor-pointer"
+              onClick={() => setShowSkillMatrixChartModal(true)}
+              className="transition-all px-2 py-1 opacity-15 size-full cursor-pointer border
+                border-primary-subtle shadow-md hover:opacity-100"
             >
-              <img alt="eye" src={eyeIcon} />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.0"
+                width="24.000000pt"
+                height="24.000000pt"
+                viewBox="0 0 24.000000 24.000000"
+                preserveAspectRatio="xMidYMid meet"
+              >
+                <g
+                  transform="translate(0.000000,24.000000) scale(0.100000,-0.100000)"
+                  fill="currentColor"
+                  stroke="none"
+                  className="fill-foreground"
+                >
+                  <path d="M55 172 c-16 -11 -36 -26 -44 -36 -12 -14 -11 -19 5 -37 58 -64 150 -64 208 0 19 21 19 21 0 42 -45 50 -116 63 -169 31z m99 -18 c31 -30 9 -84 -34 -84 -10 0 -26 7 -34 16 -31 30 -9 84 34 84 10 0 26 -7 34 -16z" />
+                  <path d="M100 134 c-11 -12 -10 -18 3 -32 16 -15 18 -15 34 0 13 14 14 20 3 32 -16 20 -24 20 -40 0z" />
+                </g>
+              </svg>
             </button>
           </div>
         </div>

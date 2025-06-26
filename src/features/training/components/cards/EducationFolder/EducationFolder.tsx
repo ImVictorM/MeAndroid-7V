@@ -1,8 +1,8 @@
-import { useLogo } from "@/common/hooks/useLogo";
-import { useScrollLock } from "@/common/hooks/useScrollLock";
-import { toTitleCase } from "@/common/utils/text";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router";
+import { Modal } from "@/common/components/ui/Modal";
+import { useLogo } from "@/common/hooks/useLogo";
+import { toTitleCase } from "@/common/utils/text";
 
 export type EducationFile = {
   id: string;
@@ -24,6 +24,7 @@ export type EducationFile = {
 
 type EducationFileProps = EducationFile & {
   onClose: () => void;
+  show: boolean;
 };
 
 type EducationFolderProps = {
@@ -44,175 +45,115 @@ const EducationFile: React.FC<EducationFileProps> = ({
   id,
   type,
   note,
+  show,
 }) => {
   const logo = useLogo();
-  const [fileAnimation, setFileAnimation] = useState<string>("");
-  const [overlayAnimation, setOverlayAnimation] = useState<string>("");
-  const closeTimeoutRef = useRef<NodeJS.Timeout>(null);
-  useScrollLock();
-
-  useLayoutEffect(() => {
-    setFileAnimation("animate-[fade-in-down_300ms_ease-out_forwards_200ms]");
-    setOverlayAnimation("animate-fade-in");
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const handleClose = () => {
-    if (closeTimeoutRef.current) return;
-
-    setFileAnimation("animate-[fade-out-up_150ms_ease-in]");
-    setOverlayAnimation("animate-fade-out");
-
-    closeTimeoutRef.current = setTimeout(() => {
-      onClose();
-    }, 300);
-  };
 
   return (
-    <div
-      onClick={handleClose}
-      className={`flex items-center justify-center fixed z-500 bg-black/70 inset-0
-        ${overlayAnimation}`}
+    <Modal
+      show={show}
+      onHide={onClose}
+      title={title}
+      subtitle={`${id.toUpperCase()} - ${toTitleCase(type)}`}
+      animationType="slide"
+      animationBackdropType="fade"
     >
       <div
-        onClick={(e) => e.stopPropagation()}
-        className={`flex opacity-0 flex-col w-[95%] h-[80vh] max-w-[700px] bg-card shadow-2xl border
-          border-primary-subtle ${fileAnimation}`}
+        className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1 h-[90vh]
+          max-h-[50rem] [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
       >
-        <header
-          className="sticky top-0 bg-primary w-full flex flex-row items-center justify-between p-4
-            gap-5 shadow-xs"
-        >
-          <div>
-            <h1
-              title={title}
-              className="text-lg font-bold text-nowrap overflow-hidden text-ellipsis"
-            >
-              {title}
-            </h1>
-            <h2>
-              <span className="uppercase">{id}</span> -{" "}
-              <span>{toTitleCase(type)}</span>
-            </h2>
+        <dl className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+            <dt className="text-foreground-muted text-sm font-bold">Title</dt>
+            <dd>{title}</dd>
           </div>
 
-          <button
-            type="button"
-            onClick={handleClose}
-            className="text-xl cursor-pointer px-2 self-baseline"
-          >
-            x
-          </button>
-        </header>
+          <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+            <dt className="text-foreground-muted text-sm font-bold">
+              {toTitleCase(provider.type)}
+            </dt>
+            <dd>{provider.name}</dd>
+          </div>
 
-        <div
-          className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1
-            [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
-        >
-          <dl className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-              <dt className="text-foreground-muted text-sm font-bold">Title</dt>
-              <dd>{title}</dd>
-            </div>
-
+          {fieldOfStudy && (
             <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
               <dt className="text-foreground-muted text-sm font-bold">
-                {toTitleCase(provider.type)}
+                Field of Study
               </dt>
-              <dd>{provider.name}</dd>
+              <dd>{fieldOfStudy}</dd>
             </div>
+          )}
 
-            {fieldOfStudy && (
-              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-                <dt className="text-foreground-muted text-sm font-bold">
-                  Field of Study
-                </dt>
-                <dd>{fieldOfStudy}</dd>
-              </div>
-            )}
+          <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+            <dt className="text-foreground-muted text-sm font-bold">
+              {toTitleCase(date.title)}
+            </dt>
+            <dd>{date.value}</dd>
+          </div>
 
+          <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+            <dt className="text-foreground-muted text-sm font-bold">Status</dt>
+            <dd>{toTitleCase(status)}</dd>
+          </div>
+
+          {description && (
             <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
               <dt className="text-foreground-muted text-sm font-bold">
-                {toTitleCase(date.title)}
+                Description
               </dt>
-              <dd>{date.value}</dd>
+              <dd>{description}</dd>
             </div>
+          )}
 
+          {note && (
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">Note</dt>
+              <dd>{note}</dd>
+            </div>
+          )}
+
+          {credentialCode && (
             <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
               <dt className="text-foreground-muted text-sm font-bold">
-                Status
+                Credential Code
               </dt>
-              <dd>{toTitleCase(status)}</dd>
+              <dd>{credentialCode}</dd>
             </div>
+          )}
 
-            {description && (
-              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-                <dt className="text-foreground-muted text-sm font-bold">
-                  Description
-                </dt>
-                <dd>{description}</dd>
-              </div>
-            )}
+          {credentialURL && (
+            <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
+              <dt className="text-foreground-muted text-sm font-bold">
+                Credential URL
+              </dt>
+              <dd className="link">
+                <NavLink target="_blank" to={credentialURL}>
+                  {credentialURL}
+                </NavLink>
+              </dd>
+            </div>
+          )}
 
-            {note && (
-              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-                <dt className="text-foreground-muted text-sm font-bold">
-                  Note
-                </dt>
-                <dd>{note}</dd>
-              </div>
-            )}
-
-            {credentialCode && (
-              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-                <dt className="text-foreground-muted text-sm font-bold">
-                  Credential Code
-                </dt>
-                <dd>{credentialCode}</dd>
-              </div>
-            )}
-
-            {credentialURL && (
-              <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
-                <dt className="text-foreground-muted text-sm font-bold">
-                  Credential URL
-                </dt>
-                <dd className="link">
-                  <NavLink target="_blank" to={credentialURL}>
-                    {credentialURL}
-                  </NavLink>
+          <dl className="flex flex-col gap-1 flex-wrap pb-2">
+            <dt className="text-foreground-muted text-sm font-bold">
+              Skills Acquired
+            </dt>
+            <div className="flex flex-row flex-wrap gap-2">
+              {skills.map((skill) => (
+                <dd className="badge" key={skill}>
+                  {skill}
                 </dd>
-              </div>
-            )}
-
-            <dl className="flex flex-col gap-1 flex-wrap pb-2">
-              <dt className="text-foreground-muted text-sm font-bold">
-                Skills Acquired
-              </dt>
-              <div className="flex flex-row flex-wrap gap-2">
-                {skills.map((skill) => (
-                  <dd className="badge" key={skill}>
-                    {skill}
-                  </dd>
-                ))}
-              </div>
-            </dl>
+              ))}
+            </div>
           </dl>
+        </dl>
 
-          <img
-            className="absolute right-(--padding-x) top-(--padding-y) size-40 opacity-10"
-            src={logo}
-          />
-        </div>
+        <img
+          className="absolute right-(--padding-x) top-(--padding-y) size-40 opacity-10"
+          src={logo}
+        />
       </div>
-    </div>
+    </Modal>
   );
 };
 
@@ -224,9 +165,9 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
     const isOpen = !isFolderOpen;
 
     if (isOpen) {
-      setInnerFileAnimation("animate-[fade-out-up_300ms_ease-in]");
+      setInnerFileAnimation("animate-[fade-out-up_300ms_ease-in_forwards]");
     } else {
-      setInnerFileAnimation("animate-[fade-in-down_200ms_ease-out]");
+      setInnerFileAnimation("animate-[fade-in-down_300ms_ease-out_forwards]");
     }
 
     setIsFolderOpen(isOpen);
@@ -305,7 +246,7 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
         </button>
       </div>
 
-      {isFolderOpen && <EducationFile onClose={toggleFolderOpen} {...file} />}
+      <EducationFile {...file} onClose={toggleFolderOpen} show={isFolderOpen} />
     </>
   );
 };

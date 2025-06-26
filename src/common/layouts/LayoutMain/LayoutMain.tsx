@@ -129,13 +129,6 @@ export const LayoutMain: React.FC = () => {
           >
             Skills
           </NavLink>
-          <NavLink
-            onClick={handleNavigation}
-            className="button button-action"
-            to="/settings"
-          >
-            Settings
-          </NavLink>
         </nav>
       </aside>
 

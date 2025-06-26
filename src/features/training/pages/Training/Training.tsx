@@ -76,7 +76,10 @@ export const Training: React.FC = () => {
           </div>
         </header>
 
-        <section className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-2">
+        <section
+          className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]
+            grid-rows-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-2"
+        >
           {Object.values(educationData)
             .flat()
             .map((ed) => (
