@@ -59,8 +59,8 @@ const EducationFile: React.FC<EducationFileProps> = ({
       animationBackdropType="fade"
     >
       <div
-        className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1 h-[90vh]
-          max-h-[50rem] [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
+        className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1 h-[80vh]
+          [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
       >
         <dl className="flex flex-col gap-4">
           <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">

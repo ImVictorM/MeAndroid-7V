@@ -71,13 +71,14 @@ export const Skills: React.FC = () => {
             show={showSkillMatrixChartModal}
             onHide={() => setShowSkillMatrixChartModal(false)}
             title="Skill Matrix - Proficiency"
-            className="h-[90vh] max-h-[50rem] overflow-y-auto"
           >
-            <div className="flex min-h-[700px] p-4 grow">
-              <SkillMatrixChart
-                showTitle={false}
-                skillCategories={skillCategories}
-              />
+            <div className="relative h-[80vh] max-h-[700px] overflow-y-auto">
+              <div className="absolute h-[700px] inset-0 flex flex-col p-4">
+                <SkillMatrixChart
+                  showTitle={false}
+                  skillCategories={skillCategories}
+                />
+              </div>
             </div>
           </Modal>
 

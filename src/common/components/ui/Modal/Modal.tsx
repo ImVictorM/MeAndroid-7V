@@ -38,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
   animationBackdropType = "fade",
   title,
   subtitle,
-  className,
+  className = "",
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null);
@@ -106,10 +106,13 @@ export const Modal: React.FC<ModalProps> = ({
       ref={dialogRef}
       onClick={handleHide}
       className={`fixed-center w-[95%] max-w-[700px] border border-primary-subtle shadow-2xl
-        bg-card backdrop:bg-black/70 overflow-hidden ${dialogAnimation}
+        bg-card overflow-y-hidden backdrop:bg-black/70 ${dialogAnimation}
         ${backdropAnimation} ${className}`}
     >
-      <div onClick={(e) => e.stopPropagation()} className="flex flex-col">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex flex-col size-full"
+      >
         <header
           className="sticky top-0 bg-primary w-full flex flex-row items-center justify-between p-4
             gap-5 shadow-xs z-10"
@@ -135,7 +138,7 @@ export const Modal: React.FC<ModalProps> = ({
             x
           </button>
         </header>
-        <div>{children}</div>
+        <div className="flex flex-col grow">{children}</div>
       </div>
     </dialog>
   );
