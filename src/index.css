@@ -18,6 +18,8 @@
   --color-card: #e9e1bd;
   --color-card-foreground: #46433a;
 
+  --color-accent-focus: #d19847;
+
   --font-mono: Roboto Mono, monospace;
 
   --animate-cursor-blink: cursor-blink 1s steps(1) infinite .7s;
@@ -148,6 +150,8 @@
     
     --color-card: #2a2925;
     --color-card-foreground: #dedabd;
+
+    --color-accent-focus: #d19847;
   }
   
   html, body, #root {
@@ -156,6 +160,16 @@
 
   body {
     @apply min-h-[100vh] font-mono bg-background text-foreground;
+  } 
+  
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus,
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus-visible {
+    @apply outline-focus;
+  }
+
+  /* Remove outline for mouse users */
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus:not(:focus-visible) {
+    outline: none;
   }
 }
 
@@ -320,6 +334,15 @@
 
 @utility scrollbar-hidden {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility outline-focus {
+  --outline-size: max(2px,0.08em);
+  --outline-style: solid; 
+  --outline-color: var(--color-accent-focus);
+
+  outline: var(--outline-size) var(--outline-style) var(--outline-color);
+  outline-offset: var(--outline-size);
 }
 
 @utility list-connected {

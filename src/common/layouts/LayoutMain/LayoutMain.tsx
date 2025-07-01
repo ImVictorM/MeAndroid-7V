@@ -1,9 +1,13 @@
+import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router";
 
 export const LayoutMain: React.FC = () => {
+  const containerSidebarRef = useRef<HTMLDivElement>(null);
+  const sidebarControllerRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMd, setIsMd] = useState<boolean>(false);
   const logo = useLogo();
   const { pathname } = useLocation();
 
@@ -11,31 +15,48 @@ export const LayoutMain: React.FC = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleNavigation = () => {
+  const handleClose = () => {
     setMenuOpen(false);
   };
+
+  const handleEscape = (e: KeyboardEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+    sidebarControllerRef.current?.focus();
+  };
+
+  useFocusTrap({
+    containerRef: containerSidebarRef,
+    active: menuOpen && !isMd,
+    onEscape: handleEscape,
+  });
 
   useEffect(() => {
     const docStyles = getComputedStyle(document.documentElement);
     const remSize = parseInt(docStyles.fontSize);
-    const remSmallWindowSize = parseInt(
+    const remMediumWindowSize = parseInt(
       docStyles.getPropertyValue("--breakpoint-md"),
     );
 
-    const handleResize = () => {
+    const getWindowSize = () => {
       const { innerWidth: width } = window;
-      const remWindowSize = width / remSize;
-
-      // Close menu when resizing small windows
-      if (remWindowSize <= remSmallWindowSize) {
-        setMenuOpen(false);
-      }
+      return width / remSize;
     };
+
+    const handleResize = () => {
+      setIsMd(getWindowSize() >= remMediumWindowSize);
+    };
+
+    handleResize();
 
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    setMenuOpen(isMd);
+  }, [isMd]);
 
   useEffect(() => {
     window.scroll({ top: 0, behavior: "instant" });
@@ -61,81 +82,96 @@ export const LayoutMain: React.FC = () => {
         />
       </header>
 
-      {/* The button is positioned as if it were part of both the header and sidebar */}
-      <div
-        className={`size-(--header-items-size) fixed z-300 left-(--layout-padding-x)
-          top-(--header-padding-y) md:hidden`}
-      >
-        <button
-          className={`group size-full cursor-pointer border-[1px] flex justify-center items-center
-            ${menuOpen ? "bg-primary border-primary-subtle" : "bg-foreground border-primary-foreground-subtle"}
-            hover:bg-primary hover:border-primary-subtle`}
-          onClick={toggleMenu}
+      <div ref={containerSidebarRef}>
+        {/* The button is positioned as if it were part of both the header and sidebar */}
+        <div
+          className={`size-(--header-items-size) fixed z-300 left-(--layout-padding-x)
+            top-(--header-padding-y) md:hidden`}
         >
-          <span
-            className={`size-[80%] block border-[2px] transition-colors
-              ${menuOpen ? "bg-foreground border-primary-foreground-subtle" : "bg-primary border-primary-subtle"}
-              group-hover:bg-foreground group-hover:border-primary-foreground-subtle`}
-          />
-        </button>
+          <button
+            className={`relative group size-full cursor-pointer border-[1px] flex justify-center
+              items-center
+              ${menuOpen ? "bg-primary border-primary-subtle" : "bg-foreground border-primary-foreground-subtle"}
+              hover:bg-primary hover:border-primary-subtle`}
+            onClick={toggleMenu}
+            aria-expanded={menuOpen}
+            aria-controls="sidebar"
+            ref={sidebarControllerRef}
+          >
+            <span className="sr-only">
+              {menuOpen ? "Close menu" : "Open menu"}
+            </span>
+
+            <span
+              className={`size-[80%] block border-[2px] transition-colors
+                ${menuOpen ? "bg-foreground border-primary-foreground-subtle" : "bg-primary border-primary-subtle"}
+                group-hover:bg-foreground group-hover:border-primary-foreground-subtle`}
+            />
+          </button>
+        </div>
+
+        <aside
+          aria-hidden={isMd ? false : !menuOpen}
+          inert={isMd ? false : !menuOpen}
+          id="sidebar"
+          className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
+            fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 transition-transform
+            overflow-hidden shadow-2xl z-250
+            ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
+            md:translate-x-0 md:p-5`}
+        >
+          <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
+            <span className="text-lg">Unit: 7V</span>
+            <span className="text-xs text-foreground-muted">
+              Victor Figueiredo Mendes
+            </span>
+          </div>
+
+          <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
+            <NavLink
+              onClick={handleClose}
+              className="button button-action"
+              to="/system-overview"
+            >
+              System Overview
+            </NavLink>
+            <NavLink
+              onClick={handleClose}
+              className="button button-action"
+              to="/mission-log"
+            >
+              Mission Log
+            </NavLink>
+            <NavLink
+              onClick={handleClose}
+              className="button button-action"
+              to="/training"
+            >
+              Training
+            </NavLink>
+            <NavLink
+              onClick={handleClose}
+              className="button button-action"
+              to="/skills"
+            >
+              Skills
+            </NavLink>
+          </nav>
+        </aside>
       </div>
 
       {/* Sidebar open content overlay */}
       <div
-        onClick={handleNavigation}
+        onClick={handleClose}
         className={`fixed inset-0 bg-transparent z-225 ${menuOpen ? "block" : "hidden"} md:hidden`}
       ></div>
 
-      <aside
-        className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
-          fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 transition-transform
-          overflow-hidden shadow-2xl z-250
-          ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
-          md:translate-x-0 md:p-5`}
-      >
-        <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
-          <span className="text-lg">Unit: 7V</span>
-          <span className="text-xs text-foreground-muted">
-            Victor Figueiredo Mendes
-          </span>
-        </div>
-
-        <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
-          <NavLink
-            onClick={handleNavigation}
-            className="button button-action"
-            to="/system-overview"
-          >
-            System Overview
-          </NavLink>
-          <NavLink
-            onClick={handleNavigation}
-            className="button button-action"
-            to="/mission-log"
-          >
-            Mission Log
-          </NavLink>
-          <NavLink
-            onClick={handleNavigation}
-            className="button button-action"
-            to="/training"
-          >
-            Training
-          </NavLink>
-          <NavLink
-            onClick={handleNavigation}
-            className="button button-action"
-            to="/skills"
-          >
-            Skills
-          </NavLink>
-        </nav>
-      </aside>
-
       <main
-        className={`flex flex-col grow p-3 transition-all w-full
-          ${menuOpen ? "blur-content backdrop-brightness-(--back-brightness)" : ""}
-          md:p-10`}
+        className={`flex flex-col grow p-3 transition-all w-full ${
+          menuOpen && !isMd
+            ? "blur-content backdrop-brightness-(--back-brightness)"
+            : ""
+          } md:p-10`}
       >
         <Outlet />
       </main>

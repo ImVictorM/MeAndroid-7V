@@ -49,7 +49,10 @@ export const Skills: React.FC = () => {
             xl:grid-cols-[minmax(0,var(--max-skill-width))_minmax(20rem,1fr)]
             [--max-skill-width:25rem]"
         >
-          <div className="max-w-(--max-skill-width) flex flex-col overflow-y-auto scrollbar-hidden gap-4">
+          <div
+            className="max-w-(--max-skill-width) flex flex-col overflow-y-auto scrollbar-hidden gap-4
+              focus:outline-focus"
+          >
             {skillCategories.map(({ category, skills, title }) => (
               <SkillMatrix
                 key={category}
@@ -72,7 +75,10 @@ export const Skills: React.FC = () => {
             onHide={() => setShowSkillMatrixChartModal(false)}
             title="Skill Matrix - Proficiency"
           >
-            <div className="relative h-[80vh] max-h-[700px] overflow-y-auto">
+            <div
+              className="relative h-[80vh] max-h-[700px] overflow-y-auto focus:outline-focus
+                focus:-outline-offset-4"
+            >
               <div className="absolute h-[700px] inset-0 flex flex-col p-4">
                 <SkillMatrixChart
                   showTitle={false}
@@ -90,7 +96,7 @@ export const Skills: React.FC = () => {
               type="button"
               onClick={() => setShowSkillMatrixChartModal(true)}
               className="transition-all px-2 py-1 opacity-15 size-full cursor-pointer border
-                border-primary-subtle shadow-md hover:opacity-100"
+                border-primary-subtle shadow-md hover:opacity-100 focus-visible:opacity-100"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
