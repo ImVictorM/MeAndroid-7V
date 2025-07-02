@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export type TypewriterOptions = {
   typingDelay?: number;
   changeLineDelay?: number;
   delayToComplete?: number;
+  forceComplete?: boolean;
 };
 
 const defaultOptions: TypewriterOptions = {
   typingDelay: 10,
   changeLineDelay: 5,
   delayToComplete: 0,
+  forceComplete: false,
 };
 
 export const useTypewriter = (
@@ -18,22 +20,58 @@ export const useTypewriter = (
     changeLineDelay = defaultOptions.changeLineDelay,
     delayToComplete = defaultOptions.delayToComplete,
     typingDelay = defaultOptions.typingDelay,
+    forceComplete = defaultOptions.forceComplete,
   }: TypewriterOptions = defaultOptions,
 ) => {
   const [displayLines, setDisplayLines] = useState<string[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState<number>(0);
   const [currentCharIndex, setCurrentCharIndex] = useState<number>(0);
   const [isTypingComplete, setIsTypingComplete] = useState<boolean>(false);
+  const nextLineTimeoutRef = useRef<NodeJS.Timeout>(null);
+  const nextCharIntervalRef = useRef<NodeJS.Timeout>(null);
+  const onCompleteTimeoutRef = useRef<NodeJS.Timeout>(null);
+  const completeHandledRef = useRef<boolean>(false);
 
   useEffect(() => {
+    // Handle force complete
+    if (forceComplete && !completeHandledRef.current) {
+      completeHandledRef.current = true;
+      setDisplayLines(lines);
+
+      onCompleteTimeoutRef.current = setTimeout(() => {
+        setIsTypingComplete(true);
+      }, delayToComplete);
+
+      return () => {
+        if (nextLineTimeoutRef.current)
+          clearTimeout(nextLineTimeoutRef.current);
+
+        if (nextCharIntervalRef.current)
+          clearInterval(nextCharIntervalRef.current);
+
+        if (onCompleteTimeoutRef.current)
+          clearTimeout(onCompleteTimeoutRef.current);
+      };
+    }
+
+    // Handle typing complete
     if (currentLineIndex >= lines.length) {
-      return;
+      onCompleteTimeoutRef.current = setTimeout(() => {
+        setIsTypingComplete(true);
+      }, delayToComplete);
+
+      return () => {
+        if (onCompleteTimeoutRef.current) {
+          clearTimeout(onCompleteTimeoutRef.current);
+        }
+      };
     }
 
     const currentLine = lines[currentLineIndex];
 
+    // Handle current character change
     if (currentCharIndex < currentLine.length) {
-      const typingTimeout = setInterval(() => {
+      nextCharIntervalRef.current = setInterval(() => {
         setDisplayLines((prev) => {
           const updatedDisplayLines = [...prev];
 
@@ -50,26 +88,33 @@ export const useTypewriter = (
         setCurrentCharIndex((prev) => prev + 1);
       }, typingDelay);
 
-      return () => clearInterval(typingTimeout);
+      return () => {
+        if (nextCharIntervalRef.current) {
+          clearInterval(nextCharIntervalRef.current);
+        }
+      };
     }
 
-    const nextLineTimeout = setTimeout(() => {
+    // Handle next line change
+    nextLineTimeoutRef.current = setTimeout(() => {
       setCurrentLineIndex((prev) => prev + 1);
       setCurrentCharIndex(0);
     }, changeLineDelay);
 
-    return () => clearTimeout(nextLineTimeout);
-  }, [currentCharIndex, currentLineIndex, lines, changeLineDelay, typingDelay]);
-
-  useEffect(() => {
-    if (!lines[currentLineIndex]) {
-      const onCompleteTimeout = setTimeout(() => {
-        setIsTypingComplete(true);
-      }, delayToComplete);
-
-      return () => clearTimeout(onCompleteTimeout);
-    }
-  }, [currentLineIndex, delayToComplete, lines]);
+    return () => {
+      if (nextLineTimeoutRef.current) {
+        clearTimeout(nextLineTimeoutRef.current);
+      }
+    };
+  }, [
+    changeLineDelay,
+    delayToComplete,
+    lines,
+    forceComplete,
+    typingDelay,
+    currentCharIndex,
+    currentLineIndex,
+  ]);
 
   return { displayLines, isTypingComplete };
 };

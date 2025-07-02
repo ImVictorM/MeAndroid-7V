@@ -1,6 +1,6 @@
 import { TypewriterOptions, useTypewriter } from "@/common/hooks/useTypewriter";
 import { normalizeWhitespaces } from "@/common/utils/normalization";
-import { useEffect, type JSX } from "react";
+import { useEffect, useMemo, type JSX } from "react";
 
 type TypewriterProps = {
   as?: keyof JSX.IntrinsicElements;
@@ -17,10 +17,14 @@ const Typewriter: React.FC<TypewriterProps> = ({
   onComplete,
   showCursor = true,
 }) => {
-  const { displayLines, isTypingComplete } = useTypewriter(
-    Array.isArray(content)
+  const normalizedLines = useMemo(() => {
+    return Array.isArray(content)
       ? content.map(normalizeWhitespaces)
-      : [normalizeWhitespaces(content)],
+      : [normalizeWhitespaces(content)];
+  }, [content]);
+
+  const { displayLines, isTypingComplete } = useTypewriter(
+    normalizedLines,
     options,
   );
 
