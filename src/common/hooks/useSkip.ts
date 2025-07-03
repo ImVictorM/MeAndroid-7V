@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { IS_TOUCH_DEVICE } from "../utils/device";
 
 export const useSkip = (defaultKey = "Space", touchSkip = true) => {
   const [shouldSkip, setShouldSkip] = useState<boolean>(false);
@@ -11,9 +12,7 @@ export const useSkip = (defaultKey = "Space", touchSkip = true) => {
     };
 
     const handleTouch = () => {
-      const isTouchDevice = navigator.maxTouchPoints > 0;
-
-      if (isTouchDevice && touchSkip) {
+      if (IS_TOUCH_DEVICE && touchSkip) {
         setShouldSkip(true);
       }
     };

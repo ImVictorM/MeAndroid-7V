@@ -1,8 +1,18 @@
-import React from "react";
-import { useLogo } from "@/common/hooks/useLogo";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+
+import { useLogo } from "@/common/hooks/useLogo";
 import { Typewriter } from "@/common/components/effects/Typewriter";
 import { LoadingSpinner } from "@/common/components/feedback/LoadingSpinner";
+import { useSkip } from "@/common/hooks/useSkip";
+import useAppSelector from "@/common/hooks/useAppSelector";
+import useAppDispatch from "@/common/hooks/useAppDispatch";
+import {
+  setLastVisit,
+  incrementVisitCount,
+} from "@/common/store/userActivity/userActivitySlice";
+import { dateDifferenceDays } from "@/common/utils/date";
+import { IS_TOUCH_DEVICE } from "@/common/utils/device";
 
 const bootSequence = [
   "Commencing System Check",
@@ -28,15 +38,45 @@ const bootSequence = [
 ];
 
 const Booting: React.FC = () => {
+  const { lastVisit, visitCount } = useAppSelector((s) => s.userActivity);
+  const [showSkipTip, setShowSkipTip] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logo = useLogo();
+  const shouldSkipBooting = useSkip();
+  const didRunOnce = useRef<boolean>(false);
+  const delayToCompleteBooting = useMemo(() => {
+    return shouldSkipBooting ? 1000 : 2000;
+  }, [shouldSkipBooting]);
 
   const handleTypingComplete = () => {
     navigate("/intro");
   };
 
+  useEffect(() => {
+    if (didRunOnce.current) return;
+    didRunOnce.current = true;
+
+    const now = new Date();
+    dispatch(incrementVisitCount());
+    dispatch(setLastVisit(now.toISOString()));
+  }, [dispatch]);
+
+  useEffect(() => {
+    const now = new Date();
+    const lastVisitDate = lastVisit ? new Date(lastVisit) : null;
+
+    const isMoreThanOneDay = lastVisitDate
+      ? dateDifferenceDays(lastVisitDate, now) > 0
+      : false;
+
+    const shouldShowSkip = visitCount > 1 || isMoreThanOneDay;
+
+    setShowSkipTip(shouldShowSkip);
+  }, [lastVisit, visitCount]);
+
   return (
-    <div className="max-w-content relative container mx-auto min-h-screen px-7 py-5">
+    <div className="flex max-w-content relative container mx-auto min-h-screen p-4 sm:px-7 sm:py-5">
       {logo && (
         <>
           <div className="absolute inset-0 -z-10 flex items-center justify-center">
@@ -47,28 +87,43 @@ const Booting: React.FC = () => {
             />
           </div>
 
-          <div className="w-full">
-            <div className="my-10 flex items-center justify-between">
-              <h1 className="text-4xl">
+          <div className="flex flex-col w-full grow relative">
+            <div className="my-5 flex items-center justify-between sm:my-10">
+              <h1 className="text-3xl sm:text-4xl">
                 LOADING{" "}
-                <span className="text-loading-ellipsis text-xl">
+                <span className="text-loading-ellipsis text-lg sm:text-xl">
                   - BOOTING SYSTEM
                 </span>
               </h1>
 
-              <div className="ml-3">
+              <div className="ml-3 self-baseline">
                 <LoadingSpinner className="hidden sm:block" />
               </div>
             </div>
 
-            <ul className="pl-2 text-base/relaxed whitespace-pre-wrap sm:pl-5">
-              <Typewriter
-                content={bootSequence}
-                onComplete={handleTypingComplete}
-                options={{ delayToComplete: 2000 }}
-                as="li"
-              />
-            </ul>
+            <div className="flex flex-row justify-between flex-wrap grow">
+              <ul className="pl-2 whitespace-pre-wrap text-base/normal sm:text-base/relaxed sm:pl-5">
+                <Typewriter
+                  content={bootSequence}
+                  onComplete={handleTypingComplete}
+                  options={{
+                    delayToComplete: delayToCompleteBooting,
+                    forceComplete: shouldSkipBooting,
+                  }}
+                  as="li"
+                />
+              </ul>
+
+              {showSkipTip && (
+                <div className="self-end ml-auto mt-2 opacity-0 animate-fade-in-subtle uppercase">
+                  <span>
+                    {IS_TOUCH_DEVICE
+                      ? "Press to skip"
+                      : 'Press "Space" to skip'}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}

@@ -2,9 +2,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import themeSlice from "./theme/themeSlice";
 import themeListener from "./theme/themeListener";
+import userActivitySlice from "./userActivity/userActivitySlice";
+import userActivityListener from "./userActivity/userActivityListener";
 
 const rootReducer = combineReducers({
   theme: themeSlice.reducer,
+  userActivity: userActivitySlice.reducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootReducerState>) => {
@@ -13,7 +16,9 @@ export const setupStore = (preloadedState?: Partial<RootReducerState>) => {
     devTools: import.meta.env.DEV,
     preloadedState,
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().prepend(themeListener.middleware),
+      getDefaultMiddleware()
+        .prepend(themeListener.middleware)
+        .prepend(userActivityListener.middleware),
   });
 };
 

@@ -26,6 +26,7 @@
   --animate-rotate: rotation 1s linear infinite;
   --animate-rotate-back-half: rotation-back 0.5s linear infinite;
   --animate-fade-in: fade-in 0.25s linear forwards;
+  --animate-fade-in-subtle: fade-in-subtle 0.25s linear forwards .5s;
   --animate-fade-out: fade-out 0.25s linear forwards;
 
   @keyframes ellipsis-dot {
@@ -78,6 +79,16 @@
 
     100% {
       opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-subtle {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0.65;
     }
   }
 
