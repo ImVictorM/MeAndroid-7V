@@ -33,6 +33,8 @@ export const useTypewriter = (
   const completeHandledRef = useRef<boolean>(false);
 
   useEffect(() => {
+    if (isTypingComplete) return;
+
     // Handle force complete
     if (forceComplete && !completeHandledRef.current) {
       completeHandledRef.current = true;
@@ -114,6 +116,7 @@ export const useTypewriter = (
     typingDelay,
     currentCharIndex,
     currentLineIndex,
+    isTypingComplete,
   ]);
 
   return { displayLines, isTypingComplete };
