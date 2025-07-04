@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { useLogo } from "@/common/hooks/useLogo";
@@ -6,11 +6,6 @@ import { Typewriter } from "@/common/components/effects/Typewriter";
 import { LoadingSpinner } from "@/common/components/feedback/LoadingSpinner";
 import { useSkip } from "@/common/hooks/useSkip";
 import useAppSelector from "@/common/hooks/useAppSelector";
-import useAppDispatch from "@/common/hooks/useAppDispatch";
-import {
-  setLastVisit,
-  incrementVisitCount,
-} from "@/common/store/userActivity/userActivitySlice";
 import { dateDifferenceDays } from "@/common/utils/date";
 import { IS_TOUCH_DEVICE } from "@/common/utils/device";
 
@@ -40,11 +35,10 @@ const bootSequence = [
 const Booting: React.FC = () => {
   const { lastVisit, visitCount } = useAppSelector((s) => s.userActivity);
   const [showSkipTip, setShowSkipTip] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const logo = useLogo();
   const shouldSkipBooting = useSkip();
-  const didRunOnce = useRef<boolean>(false);
+
   const delayToCompleteBooting = useMemo(() => {
     return shouldSkipBooting ? 1000 : 2000;
   }, [shouldSkipBooting]);
@@ -52,15 +46,6 @@ const Booting: React.FC = () => {
   const handleTypingComplete = () => {
     navigate("/intro");
   };
-
-  useEffect(() => {
-    if (didRunOnce.current) return;
-    didRunOnce.current = true;
-
-    const now = new Date();
-    dispatch(incrementVisitCount());
-    dispatch(setLastVisit(now.toISOString()));
-  }, [dispatch]);
 
   useEffect(() => {
     const now = new Date();
