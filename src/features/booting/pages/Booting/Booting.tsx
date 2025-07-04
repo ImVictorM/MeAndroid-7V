@@ -72,44 +72,50 @@ const Booting: React.FC = () => {
             />
           </div>
 
-          <div className="flex flex-col w-full grow relative">
-            <div className="my-5 flex items-center justify-between sm:my-10">
-              <h1 className="text-3xl sm:text-4xl">
-                LOADING{" "}
-                <span className="text-loading-ellipsis text-lg sm:text-xl">
-                  - BOOTING SYSTEM
-                </span>
-              </h1>
-
-              <div className="ml-3 self-baseline">
-                <LoadingSpinner className="hidden sm:block" />
-              </div>
-            </div>
-
-            <div className="flex flex-row justify-between flex-wrap grow">
-              <ul className="pl-2 whitespace-pre-wrap text-base/normal sm:text-base/relaxed sm:pl-5">
-                <Typewriter
-                  content={bootSequence}
-                  onComplete={handleTypingComplete}
-                  options={{
-                    delayToComplete: delayToCompleteBooting,
-                    forceComplete: shouldSkipBooting,
-                  }}
-                  as="li"
-                />
-              </ul>
-
-              {showSkipTip && (
-                <div className="self-end ml-auto mt-2 opacity-0 animate-fade-in-subtle uppercase">
-                  <span>
-                    {IS_TOUCH_DEVICE
-                      ? "Press to skip"
-                      : 'Press "Space" to skip'}
+          <main className="flex flex-col w-full grow">
+            <section className="flex flex-col w-full grow">
+              <div className="my-5 flex items-center justify-between sm:my-10">
+                <h1 className="text-3xl sm:text-4xl">
+                  LOADING{" "}
+                  <span className="text-loading-ellipsis text-lg sm:text-xl">
+                    - BOOTING SYSTEM
                   </span>
+                </h1>
+
+                <div className="ml-3 self-baseline">
+                  <LoadingSpinner className="hidden sm:block" />
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+
+              <div className="flex flex-row justify-between flex-wrap grow">
+                <ul className="pl-2 whitespace-pre-wrap text-base/normal sm:text-base/relaxed sm:pl-5">
+                  <Typewriter
+                    content={bootSequence}
+                    onComplete={handleTypingComplete}
+                    options={{
+                      delayToComplete: delayToCompleteBooting,
+                      forceComplete: shouldSkipBooting,
+                    }}
+                    as="li"
+                  />
+                </ul>
+
+                {showSkipTip && (
+                  <div
+                    role="note"
+                    aria-live="polite"
+                    className="self-end ml-auto mt-2 opacity-0 animate-fade-in-subtle uppercase"
+                  >
+                    <span>
+                      {IS_TOUCH_DEVICE
+                        ? "Touch to skip"
+                        : 'Press "Space" to skip'}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </section>
+          </main>
         </>
       )}
     </div>
