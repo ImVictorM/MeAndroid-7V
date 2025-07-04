@@ -104,7 +104,8 @@ const Booting: React.FC = () => {
                   <div
                     role="note"
                     aria-live="polite"
-                    className="self-end ml-auto mt-2 opacity-0 animate-fade-in-subtle uppercase"
+                    className="self-end ml-auto mt-2 uppercase opacity-100 motion-safe:opacity-0
+                      motion-safe:animate-fade-in-subtle"
                   >
                     <span>
                       {IS_TOUCH_DEVICE
