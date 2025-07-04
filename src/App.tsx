@@ -4,8 +4,7 @@ import { Route, Routes } from "react-router";
 import { LayoutMain } from "@/common/layouts/LayoutMain";
 import useAppDispatch from "@/common/hooks/useAppDispatch";
 import useAppSelector from "@/common/hooks/useAppSelector";
-import { getThemeSavedOrPreferred } from "@/common/store/theme/themeUtils";
-import { selectTheme, setTheme } from "@/common/store/theme/themeSlice";
+import { selectTheme } from "@/common/store/theme/themeSlice";
 import {
   incrementVisitCount,
   setLastVisit,
@@ -24,18 +23,13 @@ function App() {
   const didRunOnce = useRef<boolean>(false);
 
   useLayoutEffect(() => {
-    const initialTheme = getThemeSavedOrPreferred();
-
-    dispatch(setTheme(initialTheme));
-  }, [dispatch]);
-
-  useLayoutEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
   }, [theme]);
 
   useEffect(() => {
     if (didRunOnce.current) return;
+
     didRunOnce.current = true;
 
     const now = new Date();

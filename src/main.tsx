@@ -6,9 +6,13 @@ import { Provider } from "react-redux";
 import { setupStore } from "@/common/store";
 import { userActivityKey } from "@/common/store/userActivity/userActivitySlice";
 import { getFromLocalStorage } from "@/common/utils/localStorage";
+import { setTheme } from "@/common/store/theme/themeSlice";
+import { getThemeSavedOrPreferred } from "@/common/store/theme/themeUtils";
 
 import App from "@/App.tsx";
 import "@/index.css";
+
+const theme = getThemeSavedOrPreferred();
 
 const store = setupStore({
   userActivity: getFromLocalStorage(userActivityKey) || {
@@ -16,6 +20,8 @@ const store = setupStore({
     visitCount: 0,
   },
 });
+
+store.dispatch(setTheme(theme));
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
