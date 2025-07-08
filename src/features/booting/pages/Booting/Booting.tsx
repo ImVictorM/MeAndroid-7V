@@ -82,7 +82,7 @@ const Booting: React.FC = () => {
                   </span>
                 </h1>
 
-                <div className="ml-3 self-baseline">
+                <div className="ml-3 self-baseline motion-reduce:hidden">
                   <LoadingSpinner className="hidden sm:block" />
                 </div>
               </div>
