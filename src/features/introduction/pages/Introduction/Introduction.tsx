@@ -74,7 +74,7 @@ const Introduction: React.FC = () => {
 
   return (
     <div className="flex justify-center w-full min-h-screen bg-background">
-      <main className="min-h-screen max-w-content relative flex flex-col justify-end">
+      <main className="min-h-screen w-full max-w-content relative flex flex-col justify-end">
         <div className="flex flex-col gap-3">
           <div className="flex flex-col justify-between gap-10 sm:gap-0 sm:flex-row">
             <h1
