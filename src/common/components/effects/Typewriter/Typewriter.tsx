@@ -41,7 +41,7 @@ const Typewriter: React.FC<TypewriterProps> = ({
         showCursor
           ? `last:after:content-[''] last:after:bg-foreground last:after:w-[0.1em]
             last:after:h-[1lh] last:after:inline-block last:after:align-bottom
-            last:after:animate-cursor-blink`
+            motion-safe:last:after:animate-cursor-blink`
           : ""
       }
     >
