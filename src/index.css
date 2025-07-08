@@ -180,7 +180,7 @@
 
   /* Remove outline for mouse users */
   :is(a, button, input, textarea, summary, select, [tabindex]):focus:not(:focus-visible) {
-    outline: none;
+    @apply outline-none;
   }
 }
 
@@ -196,8 +196,11 @@
     @apply bg-linear-to-l from-primary from-50% to-primary-foreground to-50% bg-right bg-size-[200%];
     @apply text-primary-foreground px-3 py-1.5 text-start;
     @apply border-b-1 border-r-1 border-primary-subtle shadow-sm;
-    @apply transition-all duration-(--transition-duration);
-    @apply hover:bg-left hover:text-card hover:cursor-pointer hover:border-primary-foreground-subtle;
+    @apply transition-all duration-(--transition-duration) cursor-pointer;
+
+    &:hover, &:focus {
+      @apply bg-left text-card border-primary-foreground-subtle;
+    }
 
     &.button-action {
       @apply relative my-[calc(var(--button-action-outline-offset)+var(--button-action-outline-size))];
@@ -216,7 +219,11 @@
     }
 
     &.button-option {
-      @apply transition-transform duration-200 ease-in-out hover:-translate-x-3;
+      @apply transition-transform duration-200 ease-in-out;
+
+      &:hover, &:focus {
+        @apply -translate-x-3;
+      }
     }
   }
 
