@@ -1,5 +1,6 @@
 import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
+import { mainNavigation } from "@/common/routes/navigation";
 import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router";
 
@@ -15,7 +16,13 @@ export const LayoutMain: React.FC = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleClose = () => {
+  const handleSidebarOverlayClick = () => {
+    setMenuOpen(false);
+  };
+
+  const handleSidebarNavigationClick = () => {
+    if (isMd) return;
+
     setMenuOpen(false);
   };
 
@@ -73,7 +80,7 @@ export const LayoutMain: React.FC = () => {
         className={`sticky top-0 flex justify-end py-(--header-padding-y) px-(--layout-padding-x)
           bg-background border-b-primary border-b z-200 shadow-xs h-(--header-height)
           ${menuOpen ? "brightness-(--back-brightness)" : "brightness-100"} md:hidden
-          transition-all`}
+          motion-safe:transition-all`}
       >
         <img
           src={logo}
@@ -103,9 +110,10 @@ export const LayoutMain: React.FC = () => {
             </span>
 
             <span
-              className={`size-[80%] block border-[2px] transition-colors
+              className={`size-[80%] block border-[2px]
                 ${menuOpen ? "bg-foreground border-primary-foreground-subtle" : "bg-primary border-primary-subtle"}
-                group-hover:bg-foreground group-hover:border-primary-foreground-subtle`}
+                group-hover:bg-foreground group-hover:border-primary-foreground-subtle
+                motion-safe:transition-colors`}
             />
           </button>
         </div>
@@ -115,10 +123,9 @@ export const LayoutMain: React.FC = () => {
           inert={isMd ? false : !menuOpen}
           id="sidebar"
           className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
-            fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 transition-transform
-            overflow-hidden shadow-2xl z-250
-            ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
-            md:translate-x-0 md:p-5`}
+            fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 overflow-hidden shadow-2xl
+            z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky
+            md:shadow-none md:translate-x-0 md:p-5 motion-safe:transition-transform`}
         >
           <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
             <span className="text-lg">Unit: 7V</span>
@@ -127,51 +134,38 @@ export const LayoutMain: React.FC = () => {
             </span>
           </div>
 
-          <nav className="flex flex-col gap-2 border-l-double-15 border-l-double-color-primary pl-3">
-            <NavLink
-              onClick={handleClose}
-              className="button button-action"
-              to="/system-overview"
-            >
-              System Overview
-            </NavLink>
-            <NavLink
-              onClick={handleClose}
-              className="button button-action"
-              to="/mission-log"
-            >
-              Mission Log
-            </NavLink>
-            <NavLink
-              onClick={handleClose}
-              className="button button-action"
-              to="/training"
-            >
-              Training
-            </NavLink>
-            <NavLink
-              onClick={handleClose}
-              className="button button-action"
-              to="/skills"
-            >
-              Skills
-            </NavLink>
+          <nav className="flex border-l-double-15 border-l-double-color-primary pl-3">
+            <ul className="flex flex-col gap-2">
+              {mainNavigation.map(({ label, name, path }) => (
+                <li className="flex" key={path}>
+                  <NavLink
+                    onClick={handleSidebarNavigationClick}
+                    className="w-full button button-action"
+                    aria-label={label}
+                    title={label}
+                    to={path}
+                  >
+                    {name}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
           </nav>
         </aside>
       </div>
 
       {/* Sidebar open content overlay */}
       <div
-        onClick={handleClose}
+        onClick={handleSidebarOverlayClick}
         className={`fixed inset-0 bg-transparent z-225 ${menuOpen ? "block" : "hidden"} md:hidden`}
       ></div>
 
       <main
-        className={`flex flex-col grow p-3 transition-all w-full ${
+        className={`flex flex-col grow p-4 w-full ${
           menuOpen && !isMd
             ? "blur-content backdrop-brightness-(--back-brightness)"
             : ""
-          } md:p-10`}
+          } md:p-10 motion-safe:transition-all`}
       >
         <Outlet />
       </main>
