@@ -5,9 +5,9 @@ import { SectionContent } from "@/common/components/ui/SectionContent";
 export const SystemOverview: React.FC = () => {
   return (
     <SectionContent title="System Overview" subtitle="About">
-      <section className="grid grid-cols-[_1fr] gap-5 2xl:grid-cols-[4fr_minmax(300px,_1fr)]">
+      <div className="grid grid-cols-[_1fr] gap-5 2xl:grid-cols-[4fr_minmax(300px,_1fr)]">
         <section className="card order-1">
-          <h3 className="card-heading">Unit Identification</h3>
+          <h2 className="card-heading">Unit Identification</h2>
           <div className="card-content flex flex-col gap-10">
             <div className="flex flex-col sm:flex-row flex-wrap gap-5">
               <div
@@ -65,35 +65,8 @@ export const SystemOverview: React.FC = () => {
           </div>
         </section>
 
-        <section className="card order-3 2xl:order-2">
-          <h3 className="card-heading">External Network Links</h3>
-          <nav className="card-content flex flex-col gap-2">
-            <NavLink
-              className="link"
-              target="_blank"
-              to="https://www.linkedin.com/in/victor-figueiredo-mendes/"
-            >
-              LinkedIn Profile
-            </NavLink>
-            <NavLink
-              className="link"
-              target="_blank"
-              to="https://github.com/ImVictorM"
-            >
-              GitHub Repository Access
-            </NavLink>
-            <NavLink
-              className="link"
-              target="_blank"
-              to="mailto:victor.fmendes7@gmail.com"
-            >
-              Email
-            </NavLink>
-          </nav>
-        </section>
-
         <section className="card order-2 2xl:order-3 2xl:col-span-2">
-          <h3 className="card-heading">File</h3>
+          <h2 className="card-heading">File</h2>
           <p className="card-content">
             Unit 7V: Software Development model, operational since 2001.
             Optimized for collaborative environments and the creation of
@@ -109,7 +82,44 @@ export const SystemOverview: React.FC = () => {
             into functional, innovative system outputs.
           </p>
         </section>
-      </section>
+
+        <section className="card order-3 2xl:order-2">
+          <h2 className="card-heading">External Network Links</h2>
+          <nav className="card-content">
+            <ul className="flex flex-col gap-2">
+              <li>
+                <NavLink
+                  className="link"
+                  target="_blank"
+                  to="https://www.linkedin.com/in/victor-figueiredo-mendes/"
+                >
+                  LinkedIn Profile
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  className="link"
+                  target="_blank"
+                  to="https://github.com/ImVictorM"
+                >
+                  GitHub Repository Access
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  className="link"
+                  target="_blank"
+                  to="mailto:victor.fmendes7@gmail.com"
+                >
+                  Email
+                </NavLink>
+              </li>
+            </ul>
+          </nav>
+        </section>
+      </div>
     </SectionContent>
   );
 };
