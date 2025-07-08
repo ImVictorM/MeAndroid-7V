@@ -196,7 +196,7 @@
     @apply bg-linear-to-l from-primary from-50% to-primary-foreground to-50% bg-right bg-size-[200%];
     @apply text-primary-foreground px-3 py-1.5 text-start;
     @apply border-b-1 border-r-1 border-primary-subtle shadow-sm;
-    @apply transition-all duration-(--transition-duration) cursor-pointer;
+    @apply cursor-pointer motion-safe:transition-all motion-safe:duration-(--transition-duration);
 
     &:hover, &:focus {
       @apply bg-left text-card border-primary-foreground-subtle;
@@ -207,7 +207,6 @@
       @apply hover:before:scale-x-100;
       
       &::before {
-        @apply transition-transform duration-(--transition-duration);
         @apply absolute content-[""] bg-transparent;
         @apply top-(--button-action-outline-offset-negative);
         @apply right-(--button-border-size-negative);
@@ -215,11 +214,12 @@
         @apply left-0;
         @apply origin-left scale-x-0;
         @apply border-y-(length:--button-action-outline-size) border-primary-foreground;
+        @apply motion-safe:transition-transform motion-safe:duration-(--transition-duration);
       }
     }
 
     &.button-option {
-      @apply transition-transform duration-200 ease-in-out;
+      @apply motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out;
 
       &:hover, &:focus {
         @apply -translate-x-3;
@@ -245,8 +245,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-    animation: profile-glitch 3.5s infinite steps(1);
     isolation: isolate;
+    transform: scaleX(-1);
+    
+    @apply motion-safe:animate-[profile-glitch_3.5s_infinite_steps(1)];
 
     &::before,
     &::after {
@@ -278,7 +280,7 @@
 
   .link {
     @apply underline underline-offset-2 text-foreground-muted;
-    @apply transition-colors duration-100;
+    @apply motion-safe:transition-colors motion-safe:duration-100;
     @apply hover:text-foreground;
   }
 
@@ -327,10 +329,8 @@
   @apply whitespace-nowrap relative mr-9;
   
   &::after {
-    @apply overflow-hidden inline-block align-bottom absolute bottom-0;
-    content: "...";
-    animation: ellipsis-dot 1.5s infinite .5s;
-    animation-fill-mode: forwards;
+    @apply content-["..."] overflow-hidden inline-block align-bottom absolute bottom-0;
+    @apply motion-safe:animate-[ellipsis-dot_1.5s_infinite_0.5s_forwards];
   }
 }
 
