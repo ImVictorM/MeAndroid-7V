@@ -67,7 +67,7 @@ const Booting: React.FC = () => {
           <div className="absolute inset-0 -z-10 flex items-center justify-center">
             <img
               src={logo}
-              alt="unit 7V logo"
+              alt="unit 7V military organization brand"
               className="size-64 opacity-5 md:size-86"
             />
           </div>

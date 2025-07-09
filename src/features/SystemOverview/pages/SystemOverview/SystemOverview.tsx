@@ -59,6 +59,7 @@ export const SystemOverview: React.FC = () => {
               to={resume}
               target="_blank"
               className="button button-action mt-auto ml-auto"
+              rel="noopener noreferrer enclosure"
             >
               Download Resume Data File (PDF)
             </NavLink>
@@ -91,6 +92,7 @@ export const SystemOverview: React.FC = () => {
                 <NavLink
                   className="link"
                   target="_blank"
+                  rel="noopener noreferrer"
                   to="https://www.linkedin.com/in/victor-figueiredo-mendes/"
                 >
                   LinkedIn Profile
@@ -101,6 +103,7 @@ export const SystemOverview: React.FC = () => {
                 <NavLink
                   className="link"
                   target="_blank"
+                  rel="noopener noreferrer"
                   to="https://github.com/ImVictorM"
                 >
                   GitHub Repository Access
@@ -111,6 +114,7 @@ export const SystemOverview: React.FC = () => {
                 <NavLink
                   className="link"
                   target="_blank"
+                  rel="noopener noreferrer"
                   to="mailto:victor.fmendes7@gmail.com"
                 >
                   Email

@@ -85,7 +85,7 @@ export const LayoutMain: React.FC = () => {
         <img
           src={logo}
           className="size-(--header-items-size)"
-          alt="unit 7V logo"
+          alt="unit 7V military organization brand"
         />
       </header>
 
