@@ -16,20 +16,17 @@ export const LayoutMain: React.FC = () => {
     setMenuOpen((prev) => !prev);
   };
 
-  const handleSidebarOverlayClick = () => {
-    setMenuOpen(false);
-  };
-
-  const handleSidebarNavigationClick = () => {
+  const handleClose = () => {
     if (isMd) return;
 
     setMenuOpen(false);
+    sidebarControllerRef.current?.focus();
   };
 
   const handleEscape = (e: KeyboardEvent) => {
     e.preventDefault();
-    setMenuOpen(false);
-    sidebarControllerRef.current?.focus();
+
+    handleClose();
   };
 
   useFocusTrap({
@@ -51,7 +48,15 @@ export const LayoutMain: React.FC = () => {
     };
 
     const handleResize = () => {
-      setIsMd(getWindowSize() >= remMediumWindowSize);
+      const isScreenMd = getWindowSize() >= remMediumWindowSize;
+
+      // If the screen shrinks to mobile while focus is inside the sidebar,
+      // move focus to the menu toggle button to avoid warnings.
+      if (!isScreenMd && document.activeElement?.closest("#sidebar")) {
+        sidebarControllerRef.current?.focus();
+      }
+
+      setIsMd(isScreenMd);
     };
 
     handleResize();
@@ -64,14 +69,6 @@ export const LayoutMain: React.FC = () => {
   useEffect(() => {
     setMenuOpen(isMd);
   }, [isMd]);
-
-  useEffect(() => {
-    // If the screen shrinks to mobile while focus is inside the sidebar,
-    // move focus to the menu toggle button to avoid warnings.
-    if ((!isMd || !menuOpen) && document.activeElement?.closest("#sidebar")) {
-      sidebarControllerRef.current?.focus();
-    }
-  }, [isMd, menuOpen]);
 
   useEffect(() => {
     window.scroll({ top: 0, behavior: "instant" });
@@ -147,7 +144,7 @@ export const LayoutMain: React.FC = () => {
               {mainNavigation.map(({ label, name, path }) => (
                 <li className="flex" key={path}>
                   <NavLink
-                    onClick={handleSidebarNavigationClick}
+                    onClick={handleClose}
                     className="w-full button button-action"
                     aria-label={label}
                     title={label}
@@ -164,7 +161,7 @@ export const LayoutMain: React.FC = () => {
 
       {/* Sidebar open content overlay */}
       <div
-        onClick={handleSidebarOverlayClick}
+        onClick={handleClose}
         className={`fixed inset-0 bg-transparent z-225 ${menuOpen ? "block" : "hidden"} md:hidden`}
       ></div>
 
