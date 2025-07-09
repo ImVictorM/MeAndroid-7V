@@ -68,10 +68,10 @@ export const LayoutMain: React.FC = () => {
   useEffect(() => {
     // If the screen shrinks to mobile while focus is inside the sidebar,
     // move focus to the menu toggle button to avoid warnings.
-    if (!isMd && document.activeElement?.closest("#sidebar")) {
+    if ((!isMd || !menuOpen) && document.activeElement?.closest("#sidebar")) {
       sidebarControllerRef.current?.focus();
     }
-  }, [isMd]);
+  }, [isMd, menuOpen]);
 
   useEffect(() => {
     window.scroll({ top: 0, behavior: "instant" });
