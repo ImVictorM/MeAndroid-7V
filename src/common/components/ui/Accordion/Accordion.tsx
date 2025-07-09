@@ -13,7 +13,10 @@ type AccordionItemRef = {
   getHeaderHeight: () => number;
 };
 
+type AccordionId = string | number;
+
 type AccordionItemProps = PropsWithChildren<{
+  id: AccordionId;
   title: string;
   onToggle: () => void;
   isOpen: boolean;
@@ -22,10 +25,8 @@ type AccordionItemProps = PropsWithChildren<{
   headerRef?: React.Ref<HTMLButtonElement>;
 }>;
 
-type AccordionSectionId = string | number;
-
 type AccordionSection = {
-  id: AccordionSectionId;
+  id: AccordionId;
   title: string;
   content: React.ReactNode | React.ReactNode[];
   titleAs?: keyof JSX.IntrinsicElements;
@@ -37,7 +38,7 @@ export type AccordionRef = HTMLDivElement & {
 
 export type AccordionProps = {
   items: AccordionSection[];
-  defaultOpenId?: AccordionSectionId | null;
+  defaultOpenId?: AccordionId | null;
   minOpenHeight?: number;
   className?: string;
 };
@@ -45,6 +46,7 @@ export type AccordionProps = {
 const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
   (
     {
+      id,
       title,
       children,
       isOpen,
@@ -58,6 +60,7 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
     const [minContentHeight, setMinContentHeight] = useState<number>(0);
     const contentRef = useRef<HTMLDivElement>(null);
     const headerRef = useRef<HTMLButtonElement>(null);
+    const accordionContentContainerId = `accordion-item-${id}`;
 
     useEffect(() => {
       if (!contentRef.current) return;
@@ -94,11 +97,11 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
     );
 
     return (
-      <div
-        className="flex flex-col overflow-y-hidden -mt-[1px] first:mt-0 [--padding-y:--spacing(4)]
+      <section
+        className="flex flex-col -mt-[1px] first:mt-0 [--padding-y:--spacing(4)]
           [--padding-x:--spacing(5)]"
       >
-        <TitleTag>
+        <TitleTag className="relative z-10 focus-within:z-20">
           <button
             ref={headerRef}
             className={`bg-card w-full flex items-center justify-start gap-2 border-[1px]
@@ -107,6 +110,7 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
             type="button"
             onClick={onToggle}
             aria-expanded={isOpen}
+            aria-controls={accordionContentContainerId}
           >
             <span
               className={`flex items-center justify-center size-5 border-(length:--border-size)
@@ -125,32 +129,31 @@ const AccordionItem = forwardRef<AccordionItemRef, AccordionItemProps>(
         </TitleTag>
 
         <div
-          className={`flex flex-col transition-all duration-300 ease-in-out bg-card
-            text-card-foreground border-x border-b border-primary-subtle`}
+          id={accordionContentContainerId}
+          className={`flex flex-col overflow-y-hidden ease-in-out bg-card z-10 text-card-foreground
+            border-x border-b border-primary-subtle motion-safe:transition-all
+            motion-safe:duration-300`}
           style={{
             minHeight: isOpen ? `${minContentHeight}px` : "0px",
             height: isOpen ? `${contentHeight}px` : "0px",
           }}
           aria-hidden={!isOpen}
+          inert={!isOpen}
         >
           <div className="py-(--padding-y) px-(--padding-x)" ref={contentRef}>
             {children}
           </div>
         </div>
-      </div>
+      </section>
     );
   },
 );
 
 const Accordion = forwardRef<AccordionRef, AccordionProps>(
-  ({ defaultOpenId = null, items, minOpenHeight, className = "" }, ref) => {
-    const [openId, setOpenId] = useState<AccordionSectionId | null>(
-      defaultOpenId,
-    );
+  ({ defaultOpenId = null, items, minOpenHeight }, ref) => {
+    const [openId, setOpenId] = useState<AccordionId | null>(defaultOpenId);
     const containerRef = useRef<HTMLDivElement>(null);
-    const itemRefs = useRef<Map<AccordionSectionId, AccordionItemRef>>(
-      new Map(),
-    );
+    const itemRefs = useRef<Map<AccordionId, AccordionItemRef>>(new Map());
 
     useImperativeHandle(ref, () => {
       return Object.assign(containerRef.current ?? ({} as HTMLDivElement), {
@@ -164,15 +167,16 @@ const Accordion = forwardRef<AccordionRef, AccordionProps>(
       });
     }, []);
 
-    const handleToggle = (id: AccordionSectionId) => {
+    const handleToggle = (id: AccordionId) => {
       setOpenId((prev) => (prev === id ? null : id));
     };
 
     return (
-      <div ref={containerRef} className={`${className}`}>
+      <div ref={containerRef}>
         {items.map(({ id, title, content, titleAs }) => (
           <AccordionItem
             key={id}
+            id={id}
             title={title}
             titleAs={titleAs}
             isOpen={openId === id}

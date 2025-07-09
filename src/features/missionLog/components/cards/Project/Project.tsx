@@ -18,7 +18,7 @@ export const Project: React.FC<ProjectProps> = ({
   deploymentUrl,
 }) => {
   return (
-    <div className="flex flex-col gap-2 border p-3">
+    <article className="flex flex-col gap-2 border p-3">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <h3
@@ -27,7 +27,11 @@ export const Project: React.FC<ProjectProps> = ({
               before:h-full before:border-b before:scale-x-0 before:pointer-events-none
               hover:before:scale-x-100"
           >
-            <NavLink target="_blank" to={repositoryUrl}>
+            <NavLink
+              rel="noopener noreferrer"
+              target="_blank"
+              to={repositoryUrl}
+            >
               {title}
             </NavLink>
           </h3>
@@ -35,7 +39,12 @@ export const Project: React.FC<ProjectProps> = ({
         </div>
 
         <div className="flex flex-row gap-4 self-baseline">
-          <NavLink target="_blank" className="link" to={repositoryUrl}>
+          <NavLink
+            rel="noopener noreferrer"
+            target="_blank"
+            className="link"
+            to={repositoryUrl}
+          >
             Source
           </NavLink>
           {deploymentUrl && (
@@ -55,7 +64,7 @@ export const Project: React.FC<ProjectProps> = ({
           </li>
         ))}
       </ul>
-    </div>
+    </article>
   );
 };
 

@@ -1,7 +1,7 @@
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { Accordion, AccordionRef } from "@/common/components/ui/Accordion";
 import { workingExperienceData } from "../../data/workingExperience";
 import { useLogo } from "@/common/hooks/useLogo";
-import React, { useLayoutEffect, useRef, useState } from "react";
 import { WorkingExperience } from "../../components/cards/WorkingExperience";
 import { projects } from "../../data/projects";
 import { Project } from "../../components/cards/Project";
@@ -29,7 +29,6 @@ export const MissionLog: React.FC = () => {
       <div ref={cardRef} className="flex flex-col grow-1 card relative">
         <Accordion
           ref={accordionRef}
-          className="[&_*]:z-10"
           minOpenHeight={minOpenHeight}
           defaultOpenId={2}
           items={[
@@ -37,29 +36,33 @@ export const MissionLog: React.FC = () => {
               id: 1,
               title: "Projects",
               content: (
-                <section className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-4">
                   {projects.map((project) => (
-                    <Project key={project.id} {...project} />
+                    <li key={project.id}>
+                      <Project {...project} />
+                    </li>
                   ))}
-                </section>
+                </ul>
               ),
             },
             {
               id: 2,
               title: "Working Experience",
               content: (
-                <section className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-4">
                   {workingExperienceData.map((xp) => (
-                    <WorkingExperience key={xp.id} {...xp} />
+                    <li key={xp.id}>
+                      <WorkingExperience {...xp} />
+                    </li>
                   ))}
-                </section>
+                </ul>
               ),
             },
           ]}
         />
 
         <img
-          alt="unit 7V logo"
+          alt="unit 7V military organization brand"
           style={{ top: `${logoTop}px` }}
           src={logo}
           className="size-60 2xl:size-70 absolute left-1/2 -translate-x-1/2 -translate-y-1/2
