@@ -53,16 +53,19 @@ export const Training: React.FC = () => {
         <header className="flex flex-row justify-between pb-6 border-b border-primary-subtle gap-4">
           <div>
             <h2 className="text-lg font-bold mb-2">
-              [Classified] Unit 7V Training Records
+              <span className="uppercase">[Classified]</span> Unit 7V Training
+              Records
             </h2>
-            <span className="text-foreground-muted">
-              Access Level: Authorized
-            </span>
+            <dl className="flex flex-row gap-2 uppercase text-foreground-muted">
+              <dt>Access Level:</dt>
+              <dd>Authorized</dd>
+            </dl>
           </div>
 
           <div
             className="items-center justify-center border-2 border-foreground-muted py-3 px-4 -rotate-5
               opacity-50 relative size-fit hidden md:flex"
+            aria-label="approved seal"
           >
             <span className="text-2xl uppercase text-foreground-muted font-bold">
               Approved
@@ -70,22 +73,24 @@ export const Training: React.FC = () => {
 
             <img
               className="absolute-center size-20 opacity-15 -rotate-5"
-              alt="unit 7V logo"
+              alt="unit 7V military organization brand"
               src={logo}
             />
           </div>
         </header>
 
-        <section
+        <ul
           className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))]
             grid-rows-[repeat(auto-fit,minmax(16rem,1fr))] auto-rows-fr gap-2"
         >
           {Object.values(educationData)
             .flat()
             .map((ed) => (
-              <EducationFolder key={ed.id} file={toEducationFile(ed)} />
+              <li key={ed.id}>
+                <EducationFolder file={toEducationFile(ed)} />
+              </li>
             ))}
-        </section>
+        </ul>
       </div>
     </SectionContent>
   );
