@@ -62,8 +62,8 @@ const EducationFile: React.FC<EducationFileProps> = ({
       <div
         tabIndex={0}
         className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1 h-[80vh]
-          focus:outline-focus focus:-outline-offset-4 [--padding-x:--spacing(5)]
-          [--padding-y:--spacing(4)]"
+          focus-visible:outline-focus focus-visible:-outline-offset-4
+          [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
       >
         <dl className="flex flex-col gap-4">
           <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
