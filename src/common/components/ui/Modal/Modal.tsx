@@ -1,10 +1,17 @@
+import usePrefersReducedMotion from "@/common/hooks/usePrefersReducedMotion";
 import { useScrollLock } from "@/common/hooks/useScrollLock";
-import { PropsWithChildren, useLayoutEffect, useRef, useState } from "react";
+import {
+  PropsWithChildren,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 export type ModalAnimation = "fade" | "slide";
 
 export type ModalProps = PropsWithChildren & {
-  show: boolean;
+  show: boolean | null;
   onHide: () => void;
   title?: string;
   subtitle?: string;
@@ -42,11 +49,61 @@ export const Modal: React.FC<ModalProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null);
-  const [backdropAnimation, setBackdropAnimation] = useState<string>("");
-  const [dialogAnimation, setDialogAnimation] = useState<string>("");
-  useScrollLock(show);
+  const [animation, setAnimation] = useState({
+    backdrop: "",
+    dialog: "",
+  });
+  const durationOut = useRef<number>(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  useScrollLock(show || false);
 
   useLayoutEffect(() => {
+    if (prefersReducedMotion || show === null) return;
+
+    const dialogAnimation = animationMap[animationType];
+    const backdropAnimation = animationMap[animationBackdropType];
+
+    if (show) {
+      setAnimation({
+        dialog: dialogAnimation.in,
+        backdrop: backdropAnimation.backdropIn,
+      });
+    } else {
+      durationOut.current = Math.max(
+        dialogAnimation.durationOut,
+        backdropAnimation.durationOut,
+      );
+
+      setAnimation({
+        dialog: dialogAnimation.out,
+        backdrop: backdropAnimation.backdropOut,
+      });
+    }
+  }, [animationBackdropType, animationType, prefersReducedMotion, show]);
+
+  useEffect(() => {
+    const { current } = dialogRef;
+
+    if (!current || show === null) return;
+
+    if (show) {
+      current.showModal();
+    } else {
+      hideTimeoutRef.current = setTimeout(() => {
+        if (!current.open) return;
+
+        current.close();
+      }, durationOut.current);
+    }
+
+    return () => {
+      if (!hideTimeoutRef.current) return;
+
+      clearTimeout(hideTimeoutRef.current);
+    };
+  }, [show, animationType, animationBackdropType]);
+
+  useEffect(() => {
     const { current } = dialogRef;
     if (!current) return;
 
@@ -62,41 +119,6 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [onHide]);
 
-  useLayoutEffect(() => {
-    const { current } = dialogRef;
-    if (!current) return;
-
-    const dialogAnimation = animationMap[animationType];
-    const backdropAnimation = animationMap[animationBackdropType];
-
-    if (show) {
-      setDialogAnimation(dialogAnimation.in);
-      setBackdropAnimation(backdropAnimation.backdropIn);
-
-      current.showModal();
-    } else {
-      setDialogAnimation(dialogAnimation.out);
-      setBackdropAnimation(backdropAnimation.backdropOut);
-
-      const duration = Math.max(
-        dialogAnimation.durationOut,
-        backdropAnimation.durationOut,
-      );
-
-      hideTimeoutRef.current = setTimeout(() => {
-        if (!current.open) return;
-
-        current.close();
-      }, duration);
-    }
-
-    return () => {
-      if (!hideTimeoutRef.current) return;
-
-      clearTimeout(hideTimeoutRef.current);
-    };
-  }, [show, animationType, animationBackdropType]);
-
   const handleHide = () => {
     onHide();
   };
@@ -106,10 +128,10 @@ export const Modal: React.FC<ModalProps> = ({
       ref={dialogRef}
       onClick={handleHide}
       className={`fixed-center w-[95%] max-w-[700px] border border-primary-subtle shadow-2xl
-        bg-card overflow-y-hidden backdrop:bg-black/70 ${dialogAnimation}
-        ${backdropAnimation} ${className}`}
+        bg-card overflow-y-hidden backdrop:bg-black/70 ${animation.dialog}
+        ${animation.backdrop} ${className}`}
     >
-      <div
+      <section
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col size-full"
       >
@@ -134,12 +156,13 @@ export const Modal: React.FC<ModalProps> = ({
             type="button"
             onClick={handleHide}
             className="ml-auto text-xl shrink-0 cursor-pointer px-2 self-baseline"
+            aria-label="close modal"
           >
             x
           </button>
         </header>
         <div className="flex flex-col grow">{children}</div>
-      </div>
+      </section>
     </dialog>
   );
 };
