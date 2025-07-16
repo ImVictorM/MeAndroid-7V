@@ -198,7 +198,7 @@
     @apply border-b-1 border-r-1 border-primary-subtle shadow-sm;
     @apply cursor-pointer motion-safe:transition-all motion-safe:duration-(--transition-duration);
 
-    &:hover, &:focus {
+    &:hover, &:focus-visible {
       @apply bg-left text-card border-primary-foreground-subtle;
     }
 
@@ -221,7 +221,7 @@
     &.button-option {
       @apply motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out;
 
-      &:hover, &:focus {
+      &:hover, &:focus-visible {
         @apply -translate-x-3;
       }
     }
