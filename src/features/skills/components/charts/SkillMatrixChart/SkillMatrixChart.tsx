@@ -37,12 +37,16 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
   }, [skillCategories]);
 
   return (
-    <div ref={ref} className="flex flex-col grow w-full gap-4 relative">
-      {showTitle && <h3 className="text-lg">Skill Matrix - Proficiency</h3>}
+    <section ref={ref} className="flex flex-col grow w-full gap-4 relative">
+      <h3 className={`text-lg ${showTitle ? "" : "hidden"}`}>
+        Skill Matrix - Proficiency
+      </h3>
 
       <div className="flex flex-col sm:flex-row h-full grow gap-4 justify-center items-center">
         {/* Chart */}
         <div
+          role="img"
+          aria-label="representation of technology proficiency by skill category"
           className="flex flex-col grow self-center border-2 p-1 max-w-[20rem] min-w-[16rem] w-full
             sm:self-stretch"
         >
@@ -61,17 +65,20 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
                     height: `${(categoryProficiencyTotal * 100) / proficiencyTotal}%`,
                   }}
                 >
-                  {skills.map(({ proficiencyLevel, name }, index) => {
+                  {skills.map(({ proficiencyLevel, name }) => {
+                    const skillWeight =
+                      (proficiencyLevel * 100) / categoryProficiencyTotal;
+
                     return (
-                      <span
+                      <div
                         style={{
                           backgroundColor: color,
-                          height: `${(proficiencyLevel * 100) / categoryProficiencyTotal}%`,
+                          height: `${skillWeight}%`,
                         }}
-                        key={index}
-                        className="border-b grow last:border-b-0"
+                        key={name}
+                        className="w-full border-b grow last:border-b-0"
                         title={name}
-                      ></span>
+                      ></div>
                     );
                   })}
                 </div>
@@ -81,24 +88,27 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
         </div>
 
         {/* Legends */}
-        <div className="text-sm text-foreground-muted self-start sm:self-end">
-          <dl className="flex flex-col gap-1">
+        <div
+          className="text-sm text-foreground-muted self-start sm:self-end"
+          aria-hidden="true"
+        >
+          <ul className="flex flex-col gap-1">
             {skillCategories.map(({ title, color }) => (
-              <div key={title} className="flex flex-row gap-2">
+              <li key={title} className="flex flex-row gap-2">
                 <div className="flex items-center h-[1lh]">
-                  <dt
+                  <span
                     className="size-4 shrink-0 border border-primary-subtle"
                     style={{ backgroundColor: color }}
-                  ></dt>
+                  ></span>
                 </div>
 
-                <dd>{title}</dd>
-              </div>
+                {title}
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

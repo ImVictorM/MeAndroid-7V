@@ -21,7 +21,7 @@ export const SkillMatrix: React.FC<SkillMatrixProps> = ({
   }, [levels]);
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <section className="flex flex-col gap-1 w-full">
       <h2 className="text-lg font-bold">{categoryTitle}</h2>
       <div>
         <ul className="flex flex-col pl-2 list-connected">
@@ -37,7 +37,10 @@ export const SkillMatrix: React.FC<SkillMatrixProps> = ({
                 {name}
               </span>
 
-              <div className="flex flex-row gap-1">
+              <div
+                aria-label={`proficiency level: ${proficiencyLevel} out of ${levels}`}
+                className="flex flex-row gap-1"
+              >
                 {levelsIterable.map((level) => (
                   <span
                     key={level}
@@ -50,7 +53,7 @@ export const SkillMatrix: React.FC<SkillMatrixProps> = ({
           ))}
         </ul>
       </div>
-    </div>
+    </section>
   );
 };
 

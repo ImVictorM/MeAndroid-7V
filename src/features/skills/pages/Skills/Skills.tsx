@@ -97,6 +97,7 @@ export const Skills: React.FC = () => {
               onClick={() => setShowSkillMatrixChartModal(true)}
               className="transition-all px-2 py-1 opacity-15 size-full cursor-pointer border
                 border-primary-subtle shadow-md hover:opacity-100 focus-visible:opacity-100"
+              aria-label="show skill matrix chart modal"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
