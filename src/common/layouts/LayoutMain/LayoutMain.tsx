@@ -1,3 +1,4 @@
+import { ResetButton } from "@/common/components/ui/ResetButton";
 import { ThemeSwitch } from "@/common/components/ui/ThemeSwitch";
 import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
@@ -159,8 +160,57 @@ export const LayoutMain: React.FC = () => {
             </ul>
           </nav>
 
-          <div className="mt-auto">
-            <ThemeSwitch />
+          <div className="flex flex-row justify-between mt-auto gap-7">
+            <div className="shrink-0 self-end">
+              <ResetButton />
+            </div>
+
+            <div
+              className="bg-black/7 flex p-1 w-full border border-primary-subtle min-h-50 inset-ring-5
+                inset-ring-black/4"
+            >
+              <div className="flex flex-col py-2 items-center relative w-full">
+                <div className="flex flex-row justify-between absolute top-0 inset-x-0">
+                  <div className="size-1 rounded bg-foreground"></div>
+                  <div className="size-1 rounded bg-foreground"></div>
+                </div>
+
+                <div className="flex flex-col grow justify-between gap-2">
+                  {/* Plate */}
+                  <div
+                    className="relative flex p-1.5 w-full h-full bg-card/50 shadow-md overflow-hidden
+                      [--corner-rotation:40deg] [--corner-size:2px]"
+                  >
+                    <div
+                      className="absolute top-0 left-0 rotate-(--corner-rotation) h-(--corner-size) bg-card
+                        w-full rounded-full origin-top-left z-5"
+                    ></div>
+                    <div
+                      className="absolute bottom-0 left-0 rotate-[calc(var(--corner-rotation)*-1)]
+                        h-(--corner-size) bg-card w-full rounded-full origin-bottom-left z-5"
+                    ></div>
+                    <div
+                      className="absolute top-0 right-0 rotate-[calc(var(--corner-rotation)*-1)]
+                        h-(--corner-size) bg-card w-full rounded-full origin-top-right z-5"
+                    ></div>
+                    <div
+                      className="absolute bottom-0 right-0 rotate-(--corner-rotation) h-(--corner-size) bg-card
+                        w-full rounded-full origin-bottom-right z-5"
+                    ></div>
+
+                    <div className="flex justify-center items-center w-full bg-card z-10">
+                      <img src={logo} className="size-15 opacity-40" />
+                    </div>
+                  </div>
+                  <ThemeSwitch />
+                </div>
+
+                <div className="flex flex-row justify-between absolute bottom-0 inset-x-0">
+                  <div className="size-1 rounded bg-foreground"></div>
+                  <div className="size-1 rounded bg-foreground"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </aside>
       </div>

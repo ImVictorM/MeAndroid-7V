@@ -12,8 +12,8 @@ export const ThemeSwitch: React.FC = () => {
 
   return (
     <button
-      className="cursor-pointer border-1 border-primary-subtle bg-primary p-(--switch-padding)
-        rounded inset-shadow-sm shadow-sm [--switch-padding:--spacing(0.8)]"
+      className="cursor-pointer border-1 bg-primary-foreground border-primary-foreground-subtle
+        p-(--switch-padding) shadow-sm [--switch-padding:--spacing(0.8)]"
       type="button"
       onClick={handleToggleTheme}
       aria-label="toggle theme"
@@ -24,14 +24,14 @@ export const ThemeSwitch: React.FC = () => {
           [--switch-inner-size:70px] [--switch-inner-slider-size:25px]"
       >
         <div
-          className={`absolute top-0 left-0 h-full w-(--switch-inner-slider-size) rounded
-            bg-primary-foreground border-2 border-primary-foreground-subtle
+          className={`absolute top-0 left-0 h-full w-(--switch-inner-slider-size) bg-primary border-2
+            border-primary-subtle
             ${theme === "dark" ? "translate-x-[calc(var(--switch-inner-size)-var(--switch-inner-slider-size))]" : "translate-x-0"}
             motion-safe:transition-transform`}
         ></div>
 
         <div
-          className={`w-full text-xs
+          className={`w-full text-xs text-primary
             ${theme === "dark" ? "mr-(--switch-inner-slider-size) pr-(--switch-padding)" : "ml-(--switch-inner-slider-size) pl-(--switch-padding)"}`}
         >
           <span className="uppercase text-bold">{theme}</span>
