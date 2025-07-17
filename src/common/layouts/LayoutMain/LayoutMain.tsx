@@ -1,3 +1,4 @@
+import { ThemeSwitch } from "@/common/components/ui/ThemeSwitch";
 import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
 import { mainNavigation } from "@/common/routes/navigation";
@@ -127,10 +128,11 @@ export const LayoutMain: React.FC = () => {
           aria-hidden={isMd ? false : !menuOpen}
           inert={isMd ? false : !menuOpen}
           id="sidebar"
-          className={`py-10 px-(--layout-padding-x) border-r border-primary h-screen bg-background
-            fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0 overflow-hidden shadow-2xl
-            z-250 ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky
-            md:shadow-none md:translate-x-0 md:p-5 motion-safe:transition-transform`}
+          className={`flex flex-col py-10 px-(--layout-padding-x) border-r border-primary h-screen
+            bg-background fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0
+            overflow-hidden shadow-2xl z-250
+            ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
+            md:translate-x-0 md:p-5 motion-safe:transition-transform`}
         >
           <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
             <span className="text-lg">Unit: 7V</span>
@@ -140,7 +142,7 @@ export const LayoutMain: React.FC = () => {
           </div>
 
           <nav className="flex border-l-double-15 border-l-double-color-primary pl-3">
-            <ul className="flex flex-col gap-2">
+            <ul className="flex w-full flex-col gap-2">
               {mainNavigation.map(({ label, name, path }) => (
                 <li className="flex" key={path}>
                   <NavLink
@@ -156,6 +158,10 @@ export const LayoutMain: React.FC = () => {
               ))}
             </ul>
           </nav>
+
+          <div className="mt-auto">
+            <ThemeSwitch />
+          </div>
         </aside>
       </div>
 
