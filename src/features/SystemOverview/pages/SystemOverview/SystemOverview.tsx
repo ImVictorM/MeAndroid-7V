@@ -69,18 +69,40 @@ export const SystemOverview: React.FC = () => {
         <section className="card order-2 2xl:order-3 2xl:col-span-2">
           <h2 className="card-heading">File</h2>
           <p className="card-content">
-            Unit 7V: Software Development model, operational since 2001.
-            Optimized for collaborative environments and the creation of
-            effective technological solutions. Core competencies include
-            full-stack development utilizing JavaScript/TypeScript (React,
-            Node.js) and C# (ASP.NET Core, EF Core), alongside database
-            proficiency (Postgres, MSSQL) and adherence to modern design
-            paradigms (Clean Architecture, DDD, SOLID). Knowledge acquisition
-            modules completed via Anhanguera (bachelor in Systems Analysis &
-            Development) and Trybe (1500+ hr Full Stack Development course).
-            Unit exhibits high motivation for continuous capability enhancement
-            and collaborative problem-solving to convert strategic objectives
-            into functional, innovative system outputs.
+            <strong>
+              Unit 7V: <em>Software Development model</em>
+            </strong>
+            , operational since 2001. Optimized for collaborative environments
+            and the creation of effective technological solutions. Core
+            competencies include full-stack development utilizing technologies
+            like{" "}
+            <strong>
+              JavaScript/TypeScript, React, Node.js, C#, ASP.NET Core, and{" "}
+              <abbr className="no-underline" title="Entity Framework Core">
+                EF Core
+              </abbr>
+            </strong>
+            , alongside proficiency in database management using{" "}
+            <strong>PostgreSQL and Microsoft SQL Server</strong>, and adherence
+            to modern design paradigms like{" "}
+            <strong>
+              Clean Architecture, Domain-Driven Design, and{" "}
+              <abbr
+                className="no-underline"
+                title="Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion"
+              >
+                SOLID
+              </abbr>
+            </strong>
+            . Knowledge acquisition modules completed via{" "}
+            <strong>
+              Anhanguera Bachelor's in Systems Analysis & Development and Trybe
+              Full Stack Development course
+            </strong>
+            . The unit demonstrates a high level of motivation for continuous
+            capability enhancement and collaborative problem-solving,
+            effectively converting strategic objectives into functional and
+            innovative system outputs.
           </p>
         </section>
 

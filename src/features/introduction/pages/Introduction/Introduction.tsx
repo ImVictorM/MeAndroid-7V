@@ -125,10 +125,9 @@ const Introduction: React.FC = () => {
             <Typewriter
               content={[
                 "Hello, and welcome! I'm Victor Figueiredo Mendes, and this is my portfolio.",
-                "I designed this portfolio as a way of introducing myself as an android whose codename is 7V.",
-                `You might face a different android-like vocabulary you might not be familiar with.
-              But don't worry.  If you feel lost, try hovering over things to receive more context.`,
-                "Please select an option to begin exploring.",
+                "I designed this portfolio as a way to introduce myself as an Android whose codename is 7V.",
+                `You may encounter unfamiliar Android-like terminology. But don't worry. 
+                If you feel lost, try hovering over things to receive more context. Please select an option to begin exploring.`,
               ]}
               showCursor={false}
               onComplete={handleTypingComplete}
