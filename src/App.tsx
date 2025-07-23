@@ -1,72 +1,54 @@
-import { useState } from "react";
-import { ThemeProvider } from "@/contexts/ThemeContext";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { Route, Routes } from "react-router";
 
-import LoadingScreen from "@/components/sections/LoadingScreen"; // Changed to default import
-import { SectionContainer } from "@/components/common/SectionContainer";
-import { BorderBox } from "@/components/common/BorderBox";
-// import SidebarNav from "@/components/layout/SidebarNav"; // SidebarNav is used within Layout
-import Layout from "@/components/layout/Layout"; // Changed to default import
-import { profile } from "@/data/profile";
-import { SkillsSection } from "@/components/sections/SkillsSection";
-import { MissionLogSection } from "@/components/sections/MissionLogSection";
-import { SystemSettingsSection } from "@/components/sections/SystemSettingsSection";
+import { LayoutMain } from "@/common/layouts/LayoutMain";
+import useAppDispatch from "@/common/hooks/useAppDispatch";
+import useAppSelector from "@/common/hooks/useAppSelector";
+import { selectTheme } from "@/common/store/theme/themeSlice";
+import {
+  incrementVisitCount,
+  setLastVisit,
+} from "@/common/store/userActivity/userActivitySlice";
 
-// Define navigation structure
-const navItems = [
-  { id: "dashboard", label: "Dashboard", tooltip: "System Overview" },
-  { id: "mission-log", label: "Mission Log", tooltip: "Work Experience & Projects" },
-  { id: "skills", label: "Skills Matrix", tooltip: "Technical Capabilities" },
-  { id: "system-settings", label: "System Settings", tooltip: "Unit Information & Links" },
-];
+import { Booting } from "@/features/booting/pages/Booting";
+import { Introduction } from "@/features/introduction/pages/Introduction";
+import { SystemOverview } from "@/features/systemOverview/pages/SystemOverview";
+import { MissionLog } from "@/features/missionLog/pages/MissionLog";
+import { Training } from "@/features/training/pages/Training";
+import { Skills } from "@/features/skills/pages/Skills";
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState<string>(navItems[0].id);
+  const dispatch = useAppDispatch();
+  const theme = useAppSelector(selectTheme);
+  const didRunOnce = useRef<boolean>(false);
 
-  const handleLoadingFinished = () => {
-    setIsLoading(false);
-  };
+  useLayoutEffect(() => {
+    document.documentElement.classList.remove("light", "dark");
+    document.documentElement.classList.add(theme);
+  }, [theme]);
 
-  const handleNavigate = (sectionId: string) => {
-    setActiveSection(sectionId);
-  };
+  useEffect(() => {
+    if (didRunOnce.current) return;
 
-  const renderSectionContent = () => {
-    switch (activeSection) {
-      case "dashboard":
-        return (
-          <SectionContainer title="System Dashboard">
-            <BorderBox>
-              <p className="mb-2">
-                Unit: {profile.unitId}. Designation: {profile.designation}.
-              </p>
-              <p className="mb-2">Operational Since: {profile.operationalSince}.</p>
-              <p>Primary Function: {profile.primaryFunction}.</p>
-            </BorderBox>
-          </SectionContainer>
-        );
-      case "mission-log":
-        return <MissionLogSection />;
-      case "skills":
-        return <SkillsSection />;
-      case "system-settings":
-        return <SystemSettingsSection />;
-      default:
-        return null;
-    }
-  };
+    didRunOnce.current = true;
+
+    const now = new Date();
+    dispatch(incrementVisitCount());
+    dispatch(setLastVisit(now.toISOString()));
+  }, [dispatch]);
 
   return (
-    <ThemeProvider>
-      {isLoading && <LoadingScreen onFinished={handleLoadingFinished} />}
-      {!isLoading && (
-        <Layout currentSection={activeSection} onNavigate={handleNavigate}>
-          {renderSectionContent()}
-        </Layout>
-      )}
-    </ThemeProvider>
+    <Routes>
+      <Route path="/" element={<Booting />} />
+      <Route path="/intro" element={<Introduction />} />
+      <Route element={<LayoutMain />}>
+        <Route path="/system-overview" element={<SystemOverview />} />
+        <Route path="/mission-log" element={<MissionLog />} />
+        <Route path="/training" element={<Training />} />
+        <Route path="/skills" element={<Skills />} />
+      </Route>
+    </Routes>
   );
 }
 
 export default App;
-

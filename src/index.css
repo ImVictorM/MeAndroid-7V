@@ -1,27 +1,398 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@layer base {
-  :root {
-    --radius: 0.5rem
-  ;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #afa88c;
+
+  --color-primary-subtle: #9D967A;
+  --color-primary-foreground: #46433a;
+  --color-primary-foreground-subtle: #605D54;
+  
+  --color-background: #c4c0a3;
+  --color-foreground: #46433a;
+  --color-foreground-muted: #79766D;
+  --color-foreground-shadow: #939087;
+
+  --color-folder: #DCD4B0;
+  
+  --color-card: #e9e1bd;
+  --color-card-subtle: #B6AE8A;
+  --color-card-foreground: #46433a;
+
+  --color-accent-focus: #d19847;
+
+  --font-mono: Roboto Mono, monospace;
+
+  --animate-cursor-blink: cursor-blink 1s steps(1) infinite .7s;
+  --animate-rotate: rotation 1s linear infinite;
+  --animate-rotate-back-half: rotation-back 0.5s linear infinite;
+  --animate-fade-in: fade-in 0.25s linear forwards;
+  --animate-fade-in-subtle: fade-in-subtle 0.25s linear forwards .5s;
+  --animate-fade-out: fade-out 0.25s linear forwards;
+
+  @keyframes ellipsis-dot {
+    25% {
+      content: "";
+    }
+    50% {
+      content: ".";
+    }
+    75% {
+      content: "..";
+    }
+    100% {
+      content: "...";
+    }
+  }
+  
+  @keyframes cursor-blink {
+    from, to {
+      background-color: transparent;
+    }
+
+    50% {
+      background-color: var(--color-foreground);
+    }
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
+    
+  @keyframes rotation-back {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0.25;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-in-subtle {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0.65;
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in-down {
+    from {
+      transform: translateY(-10vh);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out-up {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    to {
+      transform: translateY(-10vh);
+      opacity: 0;
+    }
+  }
+
+  @keyframes profile-glitch {
+    0%, 100% {
+      background-image: url("src/common/assets/images/profile.png");
+      transform: scaleX(-1);
+    }
+
+    92.5% {
+      background-image: url("src/common/assets/images/profile-glitch-1.png");
+    }
+
+    95% {
+      background-image: url("src/common/assets/images/profile-glitch-2.png");
+      transform: scaleX(-1);
+    }
+
+    97.5% {
+      background-image: url("src/common/assets/images/profile-glitch-3.png");
+    }
   }
 }
 
+@layer base {
+  @variant dark {
+    --color-primary: #46433a;
+    --color-primary-subtle: #58554C;
+    --color-primary-foreground: #dedabd;
+    --color-primary-foreground-subtle: #C5C1A4;
+    
+    --color-background: #1a1914;
+    --color-foreground: #dedabd;
+    --color-foreground-muted: #928E71;
+    --color-foreground-shadow: #5F5B3E;
+
+    --color-folder: #373632;
+    
+    --color-card: #2a2925;
+    --color-card-subtle: #44433F;
+    --color-card-foreground: #dedabd;
+
+    --color-accent-focus: #d19847;
+  }
+  
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply min-h-[100vh] font-mono bg-background text-foreground;
+  } 
+  
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus,
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus-visible {
+    @apply outline-focus;
+  }
+
+  /* Remove outline for mouse users */
+  :is(a, button, input, textarea, summary, select, [tabindex]):focus:not(:focus-visible) {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  .button {
+    --button-border-size: 1px;
+    --button-border-size-negative: calc(var(--button-border-size)*-1);
+    --button-action-outline-offset: 3px;
+    --button-action-outline-size: 1px;
+    --button-action-outline-offset-negative: calc(var(--button-action-outline-offset) * -1);
+    --transition-duration: 120ms;
+
+    @apply bg-linear-to-l from-primary from-50% to-primary-foreground to-50% bg-right bg-size-[200%];
+    @apply text-primary-foreground px-3 py-1.5 text-start;
+    @apply border-b-1 border-r-1 border-primary-subtle shadow-sm;
+    @apply cursor-pointer motion-safe:transition-all motion-safe:duration-(--transition-duration);
+
+    &:hover, &:focus-visible {
+      @apply bg-left text-card border-primary-foreground-subtle;
+    }
+
+    &.button-action {
+      @apply relative my-[calc(var(--button-action-outline-offset)+var(--button-action-outline-size))];
+      @apply hover:before:scale-x-100;
+      
+      &::before {
+        @apply absolute content-[""] bg-transparent;
+        @apply top-(--button-action-outline-offset-negative);
+        @apply right-(--button-border-size-negative);
+        @apply bottom-[calc(var(--button-action-outline-offset-negative)-var(--button-border-size))];
+        @apply left-0;
+        @apply origin-left scale-x-0;
+        @apply border-y-(length:--button-action-outline-size) border-primary-foreground;
+        @apply motion-safe:transition-transform motion-safe:duration-(--transition-duration);
+      }
+    }
+
+    &.button-option {
+      @apply motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out outline-none;
+
+      &:hover, &:focus-visible {
+        @apply -translate-x-3;
+      }
+    }
+  }
+
+  .card {
+    @apply bg-card shadow-md border-1 border-card-subtle;
+
+    & .card-heading {
+      @apply text-lg font-medium bg-primary px-5 py-2 border-1 border-card-subtle;
+    }
+
+    & .card-content {
+      @apply p-5 sm:px-7 sm:py-5;
+    }
+  }
+
+  .profile {
+   @apply w-[200px] h-[240px] relative flex-shrink-0;
+    background-image: url("src/common/assets/images/profile.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    isolation: isolate;
+    transform: scaleX(-1);
+    
+    @apply motion-safe:animate-[profile-glitch_3.5s_infinite_steps(1)];
+
+    &::before,
+    &::after {
+      @apply absolute inset-0 pointer-events-none z-0 content-[''];
+    }
+
+    &::before {
+      background-color: var(--color-card);
+      mix-blend-mode: multiply;
+      opacity: 0.5;
+    }
+
+    &::after {
+      background-color: var(--color-foreground);
+      mix-blend-mode: lighten;
+    }
+
+    @variant dark {
+      &::before {
+        background-color: var(--color-foreground);
+        opacity: 1;
+      }
+
+      &::after {
+        background-color: var(--color-card);
+      }
+    }
+  }
+
+  .link {
+    @apply underline underline-offset-2 text-foreground-muted;
+    @apply motion-safe:transition-colors motion-safe:duration-100;
+    @apply hover:text-foreground;
+  }
+
+  .badge {
+    @apply border border-primary-subtle px-2 py-1 text-xs whitespace-nowrap;
+  }
+}
+
+@utility border-l-double-* {
+  --border-size: --value(integer)px;
+  --border-outer-size: calc((4/7) * var(--border-size));
+  --border-space-between: calc((2/7) * var(--border-size));
+  --border-inner-size: calc((1/7) * var(--border-size));
+
+  border-left: var(--border-size) solid transparent;
+  position: relative;
+
+  &::before, &::after {
+    @apply bg-foreground absolute inline-block h-full content-[""] top-0;
+  }
+
+  &::before {
+    width: var(--border-outer-size);
+    left: calc(var(--border-size) * -1);
+  }
+
+  &::after {
+    width: var(--border-inner-size);
+    left: calc(var(--border-inner-size) * -1);
+  }
+}
+
+@utility blur-content {
+  @apply blur-xs pointer-events-none select-none;
+}
+
+@utility border-l-double-color-* {
+  --border-color: --value(--color-*);
+
+  &::before, &::after {
+    @apply bg-(--border-color);
+  }
+}
+
+@utility text-loading-ellipsis {
+  @apply whitespace-nowrap relative mr-9;
+  
+  &::after {
+    @apply content-["..."] overflow-hidden inline-block align-bottom absolute bottom-0;
+    @apply motion-safe:animate-[ellipsis-dot_1.5s_infinite_0.5s_forwards];
+  }
+}
+
+@utility max-w-content {
+  @apply max-w-7xl;
+}
+
+@utility text-shadow-heading {
+  @apply text-shadow-[2px_2px_var(--color-foreground-shadow)];
+}
+
+@utility absolute-center {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+}
+
+@utility fixed-center {
+  @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+}
+
+@utility scrollbar-hidden {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility outline-focus {
+  --outline-size: max(2px,0.08em);
+  --outline-style: solid; 
+  --outline-color: var(--color-accent-focus);
+
+  outline: var(--outline-size) var(--outline-style) var(--outline-color);
+  outline-offset: var(--outline-size);
+}
+
+@utility list-connected {
+  li {
+    @apply relative;
+
+    & > * {
+      @apply ml-5;
+    }
+
+    &::before, &::after {
+      @apply absolute content-[""] bg-foreground;
+    }
+
+    &::after {
+      @apply h-[2px] w-[12px];
+    }
+
+    &::before {
+      @apply w-[2px] inset-y-0;
+    }
+  }
+
+  li:last-child {
+    &::before {
+      @apply bottom-[50%];
+    }
+  }
+}
