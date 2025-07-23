@@ -1,4 +1,4 @@
-import { ResetButton } from "@/common/components/ui/ResetButton";
+import { RebootButton } from "@/common/components/ui/ResetButton";
 import { ThemeSwitch } from "@/common/components/ui/ThemeSwitch";
 import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
@@ -129,11 +129,11 @@ export const LayoutMain: React.FC = () => {
           aria-hidden={isMd ? false : !menuOpen}
           inert={isMd ? false : !menuOpen}
           id="sidebar"
-          className={`flex flex-col py-10 px-(--layout-padding-x) border-r border-primary h-screen
-            bg-background fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0
+          className={`flex flex-col pt-10 pb-4 px-(--layout-padding-x) border-r border-primary
+            h-screen bg-background fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0
             overflow-hidden shadow-2xl z-250
             ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
-            md:translate-x-0 md:p-5 motion-safe:transition-transform`}
+            md:translate-x-0 md:p-4 motion-safe:transition-transform`}
         >
           <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
             <span className="text-lg">Unit: 7V</span>
@@ -162,12 +162,12 @@ export const LayoutMain: React.FC = () => {
 
           <div className="flex flex-row justify-between mt-auto gap-7">
             <div className="shrink-0 self-end">
-              <ResetButton />
+              <RebootButton />
             </div>
 
             <div
-              className="bg-black/7 flex p-1 w-full border border-primary-subtle min-h-50 inset-ring-5
-                inset-ring-black/4"
+              className="bg-primary/10 flex p-1 w-full border border-primary-subtle min-h-50 inset-ring-5
+                inset-ring-primary/10"
             >
               <div className="flex flex-col py-2 items-center relative w-full">
                 <div className="flex flex-row justify-between absolute top-0 inset-x-0">
@@ -199,7 +199,7 @@ export const LayoutMain: React.FC = () => {
                     ></div>
 
                     <div className="flex justify-center items-center w-full bg-card z-10">
-                      <img src={logo} className="size-15 opacity-40" />
+                      <img src={logo} className="size-13 opacity-40" />
                     </div>
                   </div>
                   <ThemeSwitch />
