@@ -127,9 +127,9 @@ export const Modal: React.FC<ModalProps> = ({
     <dialog
       ref={dialogRef}
       onClick={handleHide}
-      className={`fixed-center w-[95%] max-w-[700px] border border-primary-subtle shadow-2xl
-        bg-card overflow-y-hidden backdrop:bg-black/70 ${animation.dialog}
-        ${animation.backdrop} ${className}`}
+      className={`fixed-center w-[95%] max-w-[700px] border border-card-subtle shadow-2xl bg-card
+        overflow-y-hidden backdrop:bg-black/70 ${animation.dialog} ${animation.backdrop}
+        ${className}`}
     >
       <section
         onClick={(e) => e.stopPropagation()}
@@ -143,19 +143,19 @@ export const Modal: React.FC<ModalProps> = ({
             <div className="flex flex-col overflow-hidden">
               <h1
                 title={title}
-                className="text-lg font-bold overflow-hidden text-nowrap text-ellipsis"
+                className="text-lg text-foreground font-bold overflow-hidden text-nowrap text-ellipsis"
               >
                 {title}
               </h1>
 
-              {subtitle && <h2>{subtitle}</h2>}
+              {subtitle && <h2 className="text-foreground">{subtitle}</h2>}
             </div>
           )}
 
           <button
             type="button"
             onClick={handleHide}
-            className="ml-auto text-xl shrink-0 cursor-pointer px-2 self-baseline"
+            className="ml-auto text-xl shrink-0 cursor-pointer px-2 self-baseline text-foreground"
             aria-label="close modal"
           >
             x

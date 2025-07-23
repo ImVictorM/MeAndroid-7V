@@ -61,21 +61,21 @@ const EducationFile: React.FC<EducationFileProps> = ({
     >
       <div
         tabIndex={0}
-        className="relative px-(--padding-x) py-(--padding-y) overflow-y-auto grow-1 h-[80vh]
-          focus-visible:outline-focus focus-visible:-outline-offset-4
+        className="relative px-(--padding-x) bg-card py-(--padding-y) overflow-y-auto grow-1
+          h-[80vh] focus-visible:outline-focus focus-visible:-outline-offset-4
           [--padding-x:--spacing(5)] [--padding-y:--spacing(4)]"
       >
         <dl className="flex flex-col gap-4">
           <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
             <dt className="text-foreground-muted text-sm font-bold">Title</dt>
-            <dd>{title}</dd>
+            <dd className="text-foreground">{title}</dd>
           </div>
 
           <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
             <dt className="text-foreground-muted text-sm font-bold">
               {toTitleCase(provider.type)}
             </dt>
-            <dd>{provider.name}</dd>
+            <dd className="text-foreground">{provider.name}</dd>
           </div>
 
           {fieldOfStudy && (
@@ -83,7 +83,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
               <dt className="text-foreground-muted text-sm font-bold">
                 Field of Study
               </dt>
-              <dd>{fieldOfStudy}</dd>
+              <dd className="text-foreground">{fieldOfStudy}</dd>
             </div>
           )}
 
@@ -91,12 +91,12 @@ const EducationFile: React.FC<EducationFileProps> = ({
             <dt className="text-foreground-muted text-sm font-bold">
               {toTitleCase(date.title)}
             </dt>
-            <dd>{date.value}</dd>
+            <dd className="text-foreground">{date.value}</dd>
           </div>
 
           <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
             <dt className="text-foreground-muted text-sm font-bold">Status</dt>
-            <dd>{toTitleCase(status)}</dd>
+            <dd className="text-foreground">{toTitleCase(status)}</dd>
           </div>
 
           {description && (
@@ -104,14 +104,14 @@ const EducationFile: React.FC<EducationFileProps> = ({
               <dt className="text-foreground-muted text-sm font-bold">
                 Description
               </dt>
-              <dd>{description}</dd>
+              <dd className="text-foreground">{description}</dd>
             </div>
           )}
 
           {note && (
             <div className="flex flex-col gap-1 flex-wrap pb-2 border-dotted border-b border-primary-subtle">
               <dt className="text-foreground-muted text-sm font-bold">Note</dt>
-              <dd>{note}</dd>
+              <dd className="text-foreground">{note}</dd>
             </div>
           )}
 
@@ -120,7 +120,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
               <dt className="text-foreground-muted text-sm font-bold">
                 Credential Code
               </dt>
-              <dd>{credentialCode}</dd>
+              <dd className="text-foreground">{credentialCode}</dd>
             </div>
           )}
 
@@ -129,12 +129,13 @@ const EducationFile: React.FC<EducationFileProps> = ({
               <dt className="text-foreground-muted text-sm font-bold">
                 Credential URL
               </dt>
-              <dd className="link">
+              <dd className="max-w-full overflow-hidden text-nowrap text-ellipsis">
                 <NavLink
                   rel="noopener noreferrer"
                   target="_blank"
                   to={credentialURL}
                   aria-label={`open diploma validation page for ${title}`}
+                  className="link"
                 >
                   {credentialURL}
                 </NavLink>
@@ -146,7 +147,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
             <dt className="text-foreground-muted text-sm font-bold">
               Skills Acquired
             </dt>
-            <dd className="flex flex-row flex-wrap gap-2">
+            <dd className="flex flex-row flex-wrap gap-2 text-foreground">
               {skills.map((skill) => (
                 <span key={skill} className="badge">
                   {skill}
@@ -157,7 +158,7 @@ const EducationFile: React.FC<EducationFileProps> = ({
         </dl>
 
         <img
-          className="absolute right-(--padding-x) top-(--padding-y) size-40 opacity-10"
+          className="absolute right-(--padding-x) top-(--padding-y) size-25 opacity-10 md:size-40"
           src={logo}
           alt="unit 7V military organization brand"
         />
@@ -258,7 +259,7 @@ export const EducationFolder: React.FC<EducationFolderProps> = ({ file }) => {
                 <span>{file.type}</span>
               </div>
 
-              <div className="flex flex-col gap-5 p-5 bg-card grow-1 justify-center text-center transform-3d">
+              <div className="flex flex-col gap-5 p-5 bg-folder grow-1 justify-center text-center transform-3d">
                 <div className="flex flex-col transform-3d">
                   <span className="font-bold text-lg">{file.title}</span>
                   <span className="text-sm mb-2">{file.provider.name}</span>

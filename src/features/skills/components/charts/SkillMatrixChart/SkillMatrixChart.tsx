@@ -47,10 +47,10 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
         <div
           role="img"
           aria-label="representation of technology proficiency by skill category"
-          className="flex flex-col grow self-center border-2 p-1 max-w-[20rem] min-w-[16rem] w-full
-            sm:self-stretch"
+          className="flex flex-col grow self-center border-2 border-foreground p-1 max-w-[20rem]
+            min-w-[16rem] w-full sm:self-stretch"
         >
-          <div className="flex flex-col grow justify-between border">
+          <div className="flex flex-col grow justify-between border border-stone-600">
             {skillCategories.map(({ category, color, skills }) => {
               const categoryProficiencyTotal = skills.reduce(
                 (acc, { proficiencyLevel }) => acc + proficiencyLevel,
@@ -59,7 +59,7 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
 
               return (
                 <div
-                  className="flex flex-col grow border-b last:border-b-0"
+                  className="flex flex-col grow border-b border-stone-600 last:border-b-0"
                   key={category}
                   style={{
                     height: `${(categoryProficiencyTotal * 100) / proficiencyTotal}%`,
@@ -76,7 +76,7 @@ export const SkillMatrixChart: React.FC<SkillMatrixChartProps> = ({
                           height: `${skillWeight}%`,
                         }}
                         key={name}
-                        className="w-full border-b grow last:border-b-0"
+                        className="w-full border-b border-stone-600 grow last:border-b-0"
                         title={name}
                       ></div>
                     );

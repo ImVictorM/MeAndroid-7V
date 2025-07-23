@@ -20,11 +20,11 @@ export const WorkingExperience: React.FC<WorkingExperienceProps> = ({
   techs,
 }) => {
   return (
-    <article className="flex flex-col gap-2 border p-3">
+    <article className="flex flex-col gap-2 border p-3 shadow-sm bg-folder">
       <div className="flex flex-row justify-between gap-4">
         <h3 className="text-lg font-bold">{position}</h3>
 
-        <div className="text-sm text-foreground-muted self-baseline">
+        <div className="text-sm text-foreground-muted self-baseline uppercase">
           <time dateTime={startDate}>{toShortDate(new Date(startDate))}</time> -{" "}
           {endDate ? (
             <time>{toShortDate(new Date(endDate))}</time>

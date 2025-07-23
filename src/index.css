@@ -6,7 +6,7 @@
 @theme {
   --color-primary: #afa88c;
 
-  --color-primary-subtle: #968F73;
+  --color-primary-subtle: #9D967A;
   --color-primary-foreground: #46433a;
   --color-primary-foreground-subtle: #605D54;
   
@@ -14,8 +14,11 @@
   --color-foreground: #46433a;
   --color-foreground-muted: #79766D;
   --color-foreground-shadow: #939087;
+
+  --color-folder: #DCD4B0;
   
   --color-card: #e9e1bd;
+  --color-card-subtle: #B6AE8A;
   --color-card-foreground: #46433a;
 
   --color-accent-focus: #d19847;
@@ -150,7 +153,7 @@
 @layer base {
   @variant dark {
     --color-primary: #46433a;
-    --color-primary-subtle: #605D54;
+    --color-primary-subtle: #58554C;
     --color-primary-foreground: #dedabd;
     --color-primary-foreground-subtle: #C5C1A4;
     
@@ -158,8 +161,11 @@
     --color-foreground: #dedabd;
     --color-foreground-muted: #928E71;
     --color-foreground-shadow: #5F5B3E;
+
+    --color-folder: #373632;
     
     --color-card: #2a2925;
+    --color-card-subtle: #44433F;
     --color-card-foreground: #dedabd;
 
     --color-accent-focus: #d19847;
@@ -219,7 +225,7 @@
     }
 
     &.button-option {
-      @apply motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out;
+      @apply motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-in-out outline-none;
 
       &:hover, &:focus-visible {
         @apply -translate-x-3;
@@ -228,14 +234,14 @@
   }
 
   .card {
-    @apply bg-card shadow-sm;
+    @apply bg-card shadow-md border-1 border-card-subtle;
 
     & .card-heading {
-      @apply text-lg font-medium bg-primary px-5 py-2;
+      @apply text-lg font-medium bg-primary px-5 py-2 border-1 border-card-subtle;
     }
 
     & .card-content {
-      @apply  p-5 sm:px-7 sm:py-5;
+      @apply p-5 sm:px-7 sm:py-5;
     }
   }
 

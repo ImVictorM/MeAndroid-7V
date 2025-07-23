@@ -18,7 +18,7 @@ export const Project: React.FC<ProjectProps> = ({
   deploymentUrl,
 }) => {
   return (
-    <article className="flex flex-col gap-2 border p-3">
+    <article className="flex flex-col gap-2 border bg-folder shadow-sm p-3">
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <h3
@@ -38,7 +38,7 @@ export const Project: React.FC<ProjectProps> = ({
           <span className="text-foreground-muted text-sm">{category}</span>
         </div>
 
-        <div className="flex flex-row gap-4 self-baseline">
+        <div className="flex flex-row gap-4 self-baseline uppercase">
           <NavLink
             rel="noopener noreferrer"
             target="_blank"

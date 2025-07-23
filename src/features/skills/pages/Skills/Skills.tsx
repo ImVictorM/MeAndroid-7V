@@ -43,7 +43,7 @@ export const Skills: React.FC = () => {
 
   return (
     <SectionContent title="Skills" subtitle="Tech Knowledge & Proficiency">
-      <div className="relative flex flex-col border border-primary-subtle card grow xl:max-h-[900px]">
+      <div className="relative flex flex-col card grow xl:max-h-[900px]">
         <div
           className="grid grid-cols-1 p-5 xl:absolute xl:inset-0
             xl:grid-cols-[minmax(0,var(--max-skill-width))_minmax(20rem,1fr)]
@@ -90,13 +90,14 @@ export const Skills: React.FC = () => {
 
           <div
             className="flex items-center sticky bottom-2 ml-auto mt-4 sm:-mt-10 self-end w-fit
-              xl:hidden"
+              shadow-lg xl:hidden"
           >
             <button
               type="button"
               onClick={() => setShowSkillMatrixChartModal(true)}
-              className="transition-all px-2 py-1 opacity-15 size-full cursor-pointer border rounded
-                border-primary-subtle shadow-md hover:opacity-100 focus-visible:opacity-100"
+              className="transition-all bg-primary px-2 py-1 opacity-25 size-full cursor-pointer border
+                rounded border-primary-subtle hover:opacity-100 focus-visible:opacity-100
+                active:opacity-100"
               aria-label="show skill matrix chart modal"
             >
               <svg

@@ -49,7 +49,7 @@ export const Training: React.FC = () => {
 
   return (
     <SectionContent title="Training" subtitle="Education">
-      <div className="flex flex-col border border-primary-subtle grow-1 card p-5 gap-4">
+      <div className="flex flex-col grow-1 card p-5 gap-4">
         <header className="flex flex-row justify-between pb-6 border-b border-primary-subtle gap-4">
           <div>
             <h2 className="text-lg font-bold mb-2">
@@ -72,7 +72,7 @@ export const Training: React.FC = () => {
             </span>
 
             <img
-              className="absolute-center size-20 opacity-15 -rotate-5"
+              className="absolute-center size-20 opacity-25 -rotate-5"
               alt="unit 7V military organization brand"
               src={logo}
             />
