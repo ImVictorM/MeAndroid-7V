@@ -14,6 +14,10 @@ import "@/index.css";
 
 const theme = getThemeSavedOrPreferred();
 
+// Prevent flickering
+document.documentElement.classList.remove("light", "dark");
+document.documentElement.classList.add(theme);
+
 const store = setupStore({
   userActivity: getFromLocalStorage(userActivityKey) || {
     lastVisit: null,
@@ -21,6 +25,7 @@ const store = setupStore({
   },
 });
 
+// Run side-effects
 store.dispatch(setTheme(theme));
 
 createRoot(document.getElementById("root")!).render(
