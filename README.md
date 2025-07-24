@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Me Android
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview 💡
 
-Currently, two official plugins are available:
+Personal website inspired by the user interface design of <a rel="noopener noreferrer" target="_blank" href="https://store.steampowered.com/app/524220/NieRAutomata/">NieR:Automata™</a> where the <a rel="noopener noreferrer" target="_blank" href="https://www.linkedin.com/in/victor-figueiredo-mendes/">portfolio subject (me)</a> is introduced as the 7V android. The project simulates an android operating system, allowing users to explore portfolio content as if interacting with a machine interface. It also features an android-style dialect, so if something isn’t immediately clear, you can always try hovering over things to reveal tips in more familiar language.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Built With 🧰
 
-## Expanding the ESLint configuration
+<img 
+  src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" 
+  style="margin-bottom: 4px;" 
+  height="30px"
+  alt="typescript badge"
+/>
+<img 
+  src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" 
+  style="margin-bottom: 4px;" 
+  height="30px"
+  alt="react badge"
+/>
+<img 
+  alt="redux badge" 
+  src="https://img.shields.io/badge/Redux-%23764ABC?style=for-the-badge&logo=redux&logoColor=white"
+  style="margin-bottom: 4px;" 
+  height="30px"
+/>
+<img 
+  alt="tailwind badge" 
+  src="https://img.shields.io/badge/Tailwind-%2306B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"
+  style="margin-bottom: 4px;" 
+  height="30px"
+/>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Running the Application ⚙️
 
-- Configure the top-level `parserOptions` property like this:
+> Ensure you have Node.js and npm (or any other package manager) installed on your machine.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Clone and enter the repository
+
+```sh
+git clone git@github.com:ImVictorM/MeAndroid-7V.git && cd MeAndroid-7V
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install the dependencies
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+npm install
 ```
+
+3. Run the application with one of these commands:
+
+- For development
+
+  ```sh
+  npm run dev
+  ```
+
+- For production
+  ```sh
+  npm run build && npm run preview
+  ```
+
+## License 📝
+
+Distributed under the MIT License. See `LICENSE` for more information.
