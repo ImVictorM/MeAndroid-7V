@@ -131,21 +131,21 @@
 
   @keyframes profile-glitch {
     0%, 100% {
-      background-image: url("src/common/assets/images/profile.png");
+      background-image: url("/src/common/assets/images/profile.png");
       transform: scaleX(-1);
     }
 
     92.5% {
-      background-image: url("src/common/assets/images/profile-glitch-1.png");
+      background-image: url("/src/common/assets/images/profile-glitch-1.png");
     }
 
     95% {
-      background-image: url("src/common/assets/images/profile-glitch-2.png");
+      background-image: url("/src/common/assets/images/profile-glitch-2.png");
       transform: scaleX(-1);
     }
 
     97.5% {
-      background-image: url("src/common/assets/images/profile-glitch-3.png");
+      background-image: url("/src/common/assets/images/profile-glitch-3.png");
     }
   }
 }
@@ -247,7 +247,7 @@
 
   .profile {
    @apply w-[200px] h-[240px] relative flex-shrink-0;
-    background-image: url("src/common/assets/images/profile.png");
+    background-image: url("/src/common/assets/images/profile.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;

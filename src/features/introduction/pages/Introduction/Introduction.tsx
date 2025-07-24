@@ -79,7 +79,7 @@ const Introduction: React.FC = () => {
           <div className="flex flex-col justify-between gap-10 sm:gap-0 sm:flex-row">
             <h1
               className="bg-card border-l-double-20 order-2 w-fit py-3 ps-12 pe-10 text-xl font-bold
-                text-nowrap sm:order-1 sm:self-end motion-safe:animate-fade-in"
+                shadow-md text-nowrap sm:order-1 sm:self-end motion-safe:animate-fade-in"
             >
               Victor Mendes
             </h1>
@@ -119,14 +119,14 @@ const Introduction: React.FC = () => {
           </div>
 
           <div
-            className="bg-card p-4 min-h-[25vh] max-h-[48vh] overflow-y-auto sm:px-10 sm:pt-5 sm:pb-10
-              lg:px-40 lg:pt-10 lg:pb-15 motion-safe:animate-fade-in"
+            className="bg-card p-4 min-h-[25vh] max-h-[48vh] overflow-y-auto shadow-xl sm:px-10 sm:pt-5
+              sm:pb-10 lg:px-40 lg:pt-10 lg:pb-15 motion-safe:animate-fade-in"
           >
             <Typewriter
               content={[
                 "Hello, and welcome! I'm Victor Figueiredo Mendes, and this is my portfolio.",
-                "I designed this portfolio as a way to introduce myself as an Android whose codename is 7V.",
-                `You may encounter unfamiliar Android-like terminology. But don't worry. 
+                "I designed this portfolio as a way to introduce myself as an android whose codename is 7V.",
+                `You may encounter unfamiliar android-like terminology. But don't worry. 
                 If you feel lost, try hovering over things to receive more context. Please select an option to begin exploring.`,
               ]}
               showCursor={false}
