@@ -2,6 +2,7 @@ import { RebootButton } from "@/common/components/ui/ResetButton";
 import { ThemeSwitch } from "@/common/components/ui/ThemeSwitch";
 import { useFocusTrap } from "@/common/hooks/useFocusTrap";
 import { useLogo } from "@/common/hooks/useLogo";
+import { useScrollLock } from "@/common/hooks/useScrollLock";
 import { mainNavigation } from "@/common/routes/navigation";
 import { useEffect, useRef, useState } from "react";
 import { NavLink, Outlet, useLocation } from "react-router";
@@ -13,6 +14,7 @@ export const LayoutMain: React.FC = () => {
   const [isMd, setIsMd] = useState<boolean>(false);
   const logo = useLogo();
   const { pathname } = useLocation();
+  useScrollLock(!isMd && menuOpen);
 
   const toggleMenu = () => {
     setMenuOpen((prev) => !prev);
@@ -78,14 +80,14 @@ export const LayoutMain: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col min-h-screen relative md:flex-row [--header-items-size:35px]
+      className="flex flex-col min-h-[100dvh] relative md:flex-row [--header-items-size:35px]
         [--header-padding-y:--spacing(3)] [--layout-padding-x:--spacing(5)]
         [--header-height:calc(var(--header-items-size)+(var(--header-padding-y)*2))]
         [--back-brightness:90%]"
     >
       <header
         className={`sticky top-0 flex justify-end py-(--header-padding-y) px-(--layout-padding-x)
-          bg-background border-b-primary border-b z-200 shadow-xs h-(--header-height)
+          bg-background border-b-primary border-b z-200 shadow-sm h-(--header-height)
           ${menuOpen ? "brightness-(--back-brightness)" : "brightness-100"} md:hidden
           motion-safe:transition-all`}
       >
@@ -130,10 +132,10 @@ export const LayoutMain: React.FC = () => {
           inert={isMd ? false : !menuOpen}
           id="sidebar"
           className={`flex flex-col pt-10 pb-4 px-(--layout-padding-x) border-r border-primary
-            h-screen bg-background fixed min-w-[min(80vw,250px)] max-w-fit top-0 left-0
+            bg-background fixed min-w-[min(80vw,250px)] max-w-fit inset-y-0 left-0
             overflow-hidden shadow-2xl z-250
             ${menuOpen ? "translate-x-0" : "-translate-x-full"} md:sticky md:shadow-none
-            md:translate-x-0 md:p-4 motion-safe:transition-transform`}
+            md:min-h-screen md:translate-x-0 md:p-4 motion-safe:transition-transform`}
         >
           <div className={"flex flex-col p-4 mb-4 text-end md:text-start"}>
             <span className="text-lg">Unit: 7V</span>

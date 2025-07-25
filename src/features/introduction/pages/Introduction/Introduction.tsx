@@ -73,8 +73,8 @@ const Introduction: React.FC = () => {
   }, [showDialogueOptions]);
 
   return (
-    <div className="flex justify-center w-full min-h-screen bg-background">
-      <main className="min-h-screen w-full max-w-content relative flex flex-col justify-end">
+    <div className="flex justify-center w-full min-h-[100dvh] bg-background">
+      <main className="w-full grow max-w-content relative flex flex-col justify-end">
         <div className="flex flex-col gap-3">
           <div className="flex flex-col justify-between gap-10 sm:gap-0 sm:flex-row">
             <h1

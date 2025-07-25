@@ -61,7 +61,7 @@ const Booting: React.FC = () => {
   }, [lastVisit, visitCount]);
 
   return (
-    <div className="flex max-w-content relative container mx-auto min-h-screen p-4 sm:px-7 sm:py-5">
+    <div className="flex max-w-content relative container mx-auto min-h-[100dvh] p-4 sm:px-7 sm:py-5">
       {logo && (
         <>
           <div className="absolute inset-0 -z-10 flex items-center justify-center">

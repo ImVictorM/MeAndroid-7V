@@ -176,7 +176,7 @@
   }
 
   body {
-    @apply min-h-[100vh] font-mono bg-background text-foreground;
+    @apply min-h-[100dvh] font-mono bg-background text-foreground;
   } 
   
   :is(a, button, input, textarea, summary, select, [tabindex]):focus,
