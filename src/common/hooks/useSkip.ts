@@ -17,11 +17,11 @@ export const useSkip = (defaultKey = "Space", touchSkip = true) => {
       }
     };
 
-    window.addEventListener("touchstart", handleTouch);
+    window.addEventListener("click", handleTouch);
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener("touchstart", handleTouch);
+      window.removeEventListener("click", handleTouch);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [defaultKey, touchSkip]);
